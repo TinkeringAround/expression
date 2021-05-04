@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "<description>",
   "author": "<author>",
+  "repository": "https://github.com/TinkeringAround/kadenz",
   "build": {
     "appId": "<com.electronapp>",
     "productName": "<productName>"
   },
   "main": "./public/electron.js",
-  "homepage": "./",
+  "homepage": "https://github.com/TinkeringAround/kadenz",
   "private": true,
   "dependencies": {
     "electron-is-dev": "2.0.0",
@@ -34,7 +35,7 @@
     "electron": "12.0.6",
     "electron-builder": "22.10.5",
     "jest": "26.6.0",
-    "prettier": "^2.2.1",
+    "prettier": "2.2.1",
     "react-scripts": "4.0.3",
     "typescript": "4.2.4",
     "wait-on": "5.3.0"
@@ -45,8 +46,7 @@
     "electron:package": "cpx src/store/action-types.js ./public/src && yarn react:build && yarn electron:build",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
-    "test": "jest",
-    "release": "yarn react:build && electron-builder --publish=never"
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
