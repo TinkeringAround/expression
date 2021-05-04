@@ -1,4 +1,4 @@
-****# Kadenz ❤️
+# Kadenz ❤️
 
 Music Effects Desktop App.
 
@@ -9,11 +9,11 @@ Yarn is strongly recommended.
 #### Development
 
 ```
-yarn start
+yarn dev
 ```
 
 #### Building
 
 ```
-yarn build
+yarn electron:package
 ```
