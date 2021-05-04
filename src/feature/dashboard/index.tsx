@@ -1,11 +1,7 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
 const Dashboard: FC = () => {
-  return (
-    <div>
-      Dashboard
-    </div>
-  )
-}
+  return <div>Dashboard</div>;
+};
 
-export default Dashboard
+export default Dashboard;
