@@ -1,6 +1,6 @@
-# Electron + React + Typescript ❤️
+****# Kadenz ❤️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Music Effects Desktop App.
 
 ## Scripts
 
