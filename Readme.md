@@ -1,4 +1,5 @@
-# Kadenz ❤️
+# Kadenz️
+[![Build Status](https://travis-ci.com/TinkeringAround/kadenz.svg?branch=master)](https://travis-ci.com/TinkeringAround/kadenz)
 
 Music Effects Desktop App.
 
