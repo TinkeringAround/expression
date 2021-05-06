@@ -51,7 +51,7 @@
     "electron:package": "cpx src/store/action-types.js ./public/src && yarn react:build && yarn electron:build",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
-    "test": "jest"
+    "test": "jest --collect-coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,5 +63,22 @@
     "development": [
       "last 1 chrome version"
     ]
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/index.tsx",
+      "src/routes.ts",
+      "src/theme.ts",
+      "src/serviceWorker.ts",
+      "mock/*"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   }
 }
