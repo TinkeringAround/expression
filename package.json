@@ -70,7 +70,8 @@
       "src/routes.ts",
       "src/theme.ts",
       "src/serviceWorker.ts",
-      "mock/*"
+      "mock/*",
+      "^(?!.*\\..js$).*\\.js$"
     ],
     "coverageThreshold": {
       "global": {
