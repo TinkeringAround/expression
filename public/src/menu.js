@@ -36,7 +36,12 @@ const template = [
     ? [
         {
           label: 'View',
-          submenu: [{ role: 'toggledevtools' }, { type: 'separator' }]
+          submenu: [
+            { role: 'reload' },
+            { role: 'forceReload' },
+            { type: 'separator' },
+            { role: 'toggledevtools' }
+          ]
         }
       ]
     : []),
