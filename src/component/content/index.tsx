@@ -13,6 +13,11 @@ const SContent = styled.main`
   background: ${props => props.theme.light};
 
   & > * {
+    display: flex;
+
+    width: inherit;
+    height: inherit;
+
     animation: fadeIn 1s ease-in-out;
   }
 
