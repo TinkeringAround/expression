@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { mockLocation } from '../../mock/router';
 
 import Header from './index';
-import { Routes } from '../../routes';
+import { Features } from '../../features';
 
 describe('Dashboard', () => {
   const headerWithRouter = (
@@ -32,14 +32,14 @@ describe('Dashboard', () => {
   });
 
   test('should display "FX" as current selected feature when on /fx', () => {
-    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Routes.FX));
+    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Features.FX));
     const { getByText } = render(headerWithRouter);
 
     expect(getByText('FX')).toBeTruthy();
   });
 
   test('should display "Slicer" as current selected feature when on /slicer', () => {
-    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Routes.SLICER));
+    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Features.SLICER));
     const { getByText } = render(headerWithRouter);
 
     expect(getByText('Slicer')).toBeTruthy();

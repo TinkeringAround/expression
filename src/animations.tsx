@@ -9,9 +9,3 @@ export const fromTop = (start: string, end: string) => `
   0% {top: ${start};}
   100% {top: ${end};}
 }`;
-
-export const fromLeft = (start: string, end: string) => `
-@keyframes fromLeft {
-  0% {left: ${start};}
-  100% {left: ${end};}
-}`;

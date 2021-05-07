@@ -67,7 +67,7 @@
   "jest": {
     "coveragePathIgnorePatterns": [
       "src/index.tsx",
-      "src/routes.ts",
+      "src/features.ts",
       "src/theme.ts",
       "src/serviceWorker.ts",
       "mock/*",

@@ -1,6 +1,6 @@
-import { Routes } from '../routes';
+import { Features } from '../features';
 
-export const mockLocation = (route: Routes = Routes.DASHBOARD) => ({
+export const mockLocation = (route: Features = Features.DASHBOARD) => ({
   pathname: route,
   search: '',
   hash: '',
