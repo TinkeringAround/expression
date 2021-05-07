@@ -1,3 +1,15 @@
+body {
+  margin: 0;
+  font-family: 'Roboto-Light', sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  cursor: default;
+  background: #2F4858;
+}
+
+// Fonts
 @font-face {
   font-family: "Mono";
   src: url("asset/Monoton-Regular.ttf") format("truetype");
@@ -28,15 +40,4 @@
   font-weight: 100;
   font-style: normal;
   font-display: block;
-}
-
-body {
-  margin: 0;
-  font-family: 'Roboto-Light', sans-serif;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  cursor: default;
-  background: #F5F5F5;
 }
