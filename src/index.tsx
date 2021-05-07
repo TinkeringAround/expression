@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
-import { Routes } from './routes';
+import { Features } from './features';
 import './index.scss';
 import { theme } from './theme';
 
@@ -19,10 +19,10 @@ ReactDOM.render(
       <Header />
       <Content>
         <Switch>
-          <Route path={Routes.DASHBOARD}>
+          <Route path={Features.DASHBOARD}>
             <Dashboard />
           </Route>
-          <Redirect to={Routes.DASHBOARD} />
+          <Redirect to={Features.DASHBOARD} />
         </Switch>
       </Content>
     </ThemeProvider>

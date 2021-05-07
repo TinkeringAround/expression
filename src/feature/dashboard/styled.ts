@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { fromLeft } from '../../animations';
 
 export const SDashboard = styled.div`
   display: flex;
@@ -15,6 +14,7 @@ export const SDashboard = styled.div`
 
   a {
     position: relative;
+    left: 0;
 
     display: flex;
     align-items: center;
@@ -33,18 +33,15 @@ export const SDashboard = styled.div`
 
     box-sizing: border-box;
     text-decoration: none;
-    transition: background 0.15s ease-in-out;
-
-    animation: fromLeft 1s ease-in-out;
+    transition: background 0.15s ease-in-out, left 0.1s ease-in-out;
 
     &:not(:last-child) {
       margin-bottom: 2rem;
     }
 
     &:hover {
+      left: 1rem;
       background: ${props => props.theme.orange50};
     }
-
-    ${fromLeft('-5rem', '0')}
   }
 `;

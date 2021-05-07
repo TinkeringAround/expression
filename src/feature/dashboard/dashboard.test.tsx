@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
+import { Features } from '../../features';
 
 import Dashboard from '.';
-import { Routes } from '../../routes';
 
 describe('Dashboard', () => {
   const dashBoardWithRouter = (
@@ -13,7 +13,7 @@ describe('Dashboard', () => {
     </BrowserRouter>
   );
 
-  test('loads and displays all Routes but "DASHBOARD"', async () => {
+  test('loads and displays all Features but "DASHBOARD"', async () => {
     const { getByText } = render(dashBoardWithRouter);
 
     expect(screen.queryByText('Dashboard')).not.toBeInTheDocument();
@@ -21,10 +21,10 @@ describe('Dashboard', () => {
     expect(getByText('FX')).toBeInTheDocument();
   });
 
-  test('renders enabled features as links with correctl href', async () => {
+  test('renders enabled features as links with correct href', async () => {
     const { getByText } = render(dashBoardWithRouter);
 
-    Object.keys(Routes)
+    Object.keys(Features)
       .filter(route => route !== 'DASHBOARD')
       .forEach(route => {
         const link = getByText(route) as HTMLLinkElement;

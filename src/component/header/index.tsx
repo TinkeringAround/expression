@@ -2,25 +2,25 @@ import React, { FC, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { SHeader } from './styled';
-import { Routes } from '../../routes';
+import { Features } from '../../features';
 
 const Header: FC = () => {
   const { pathname } = useLocation();
 
   const getFeatureName = useCallback(() => {
     switch (pathname) {
-      case Routes.DASHBOARD:
+      case Features.DASHBOARD:
         return 'Dashboard';
-      case Routes.FX:
+      case Features.FX:
         return 'FX';
-      case Routes.SLICER:
+      case Features.SLICER:
         return 'Slicer';
     }
   }, [pathname]);
 
   return (
     <SHeader>
-      <Link to={Routes.DASHBOARD}>
+      <Link to={Features.DASHBOARD}>
         <div className="logo">K</div>
       </Link>
       <div className="controls" />
