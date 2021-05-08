@@ -5,11 +5,13 @@ export const theme = {
   white: '#FFFFFF',
   black: '#152128',
   yellow: '#F9C22E',
+  yellowLight: '#ffcb7a',
   orange: '#F9A42E',
-  orange50: 'rgba(249,164,46,0.5)',
   green: '#8DB38B',
   red: '#B24C63',
   light: '#F5F5F5',
+  light10: 'rgba(245,245,245,0.1)',
 
-  blue: '#2F4858'
+  blue: '#2F4858',
+  blue80: 'rgba(47,72,88,0.8)'
 };

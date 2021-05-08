@@ -21,7 +21,7 @@ const Header: FC = () => {
   return (
     <SHeader>
       <Link to={Features.DASHBOARD}>
-        <div className="logo">K</div>
+        <div className="logo">KADENZ</div>
       </Link>
       <div className="controls" />
       <div className="settings">

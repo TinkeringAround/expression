@@ -3,7 +3,9 @@ const ACTION = Object.freeze({
 
   configLoaded: '[CONFIG] Loaded',
   loadConfig: '[CONFIG] Load',
-  updateConfig: '[CONFIG] Update'
+  updateConfig: '[CONFIG] Update',
+
+  addSlicerFiles: '[SLICER] Add Files'
 });
 
 const STATUS = Object.freeze({

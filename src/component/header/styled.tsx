@@ -13,7 +13,7 @@ export const SHeader = styled.header`
   height: 70px;
   width: 100vw;
 
-  background: ${props => props.theme.blue};
+  background: ${props => props.theme.light};
 
   animation: fromTop 0.5s ease-in-out;
 
@@ -25,20 +25,20 @@ export const SHeader = styled.header`
     text-decoration: none;
     outline: none;
 
-    height: inherit;
-    width: 70px;
+    height: 100%;
 
     .logo {
       display: flex;
       align-items: center;
-      justify-content: center;
 
       height: inherit;
       width: inherit;
 
+      padding: 0 1rem;
+
       font-family: 'Mono', sans-serif;
-      font-size: 3.5rem;
-      color: ${props => props.theme.yellow};
+      font-size: 3rem;
+      color: ${props => props.theme.second};
 
       background: transparent;
       transition: background 0.15s ease-in-out;
@@ -46,13 +46,13 @@ export const SHeader = styled.header`
       cursor: pointer;
 
       &:hover {
-        background: ${props => props.theme.white};
+        background: ${props => props.theme.yellow};
       }
     }
   }
 
   .controls {
-    height: inherit;
+    height: 100%;
     flex: 11;
   }
 
@@ -62,7 +62,7 @@ export const SHeader = styled.header`
     align-items: center;
     flex: 1;
 
-    height: inherit;
+    height: 100%;
 
     padding-right: 1rem;
 
@@ -70,7 +70,7 @@ export const SHeader = styled.header`
       margin: 0;
 
       font-size: 2rem;
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.second};
     }
   }
 `;

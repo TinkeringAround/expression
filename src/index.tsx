@@ -11,6 +11,11 @@ import { theme } from './theme';
 import Dashboard from './feature/dashboard';
 import Header from './component/header';
 import Content from './component/content';
+import Slicer from './feature/slicer';
+
+// Store
+import './store';
+import './store/reducer';
 
 // ==========================================================
 ReactDOM.render(
@@ -21,6 +26,9 @@ ReactDOM.render(
         <Switch>
           <Route path={Features.DASHBOARD}>
             <Dashboard />
+          </Route>
+          <Route path={Features.SLICER}>
+            <Slicer />
           </Route>
           <Redirect to={Features.DASHBOARD} />
         </Switch>
