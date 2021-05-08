@@ -20,9 +20,9 @@ const FileDropZone: FC = () => {
     isSelected
   ]);
 
-  const onDrop = useCallback((files: File[]) => {
+  const onDrop = useCallback(files => {
     addSlicerScripts(
-      files.map(file => ({
+      files.map((file: File) => ({
         name: file.name,
         type: file.type,
         size: file.size,

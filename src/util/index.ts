@@ -1,4 +1,9 @@
+import { getElectronMock } from '../mock/electron';
 import { TElectron } from '../react-app-env';
+
+if (!window.electron) {
+  window.electron = getElectronMock();
+}
 
 export const bytesToMegaBytes: (bytes: number) => string = bytes =>
   `${(bytes / (1024 * 1024)).toFixed(2)} MB`;

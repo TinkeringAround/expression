@@ -1,4 +1,4 @@
-import { bytesToMegaBytes } from '.';
+import { bytesToMegaBytes, getElectron } from '.';
 
 describe('Utils', () => {
   test('formatBytes', () => {
@@ -8,5 +8,14 @@ describe('Utils', () => {
     fileSizes.forEach((fileSize, index) => {
       expect(bytesToMegaBytes(fileSize)).toEqual(expectedMegaBytes[index]);
     });
+  });
+
+  test('getElectron', () => {
+    const { trigger, dispatch, on, isDev } = getElectron();
+
+    expect(dispatch).not.toBeNull();
+    expect(trigger).not.toBeNull();
+    expect(on).not.toBeNull();
+    expect(isDev).toBeTruthy();
   });
 });

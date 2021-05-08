@@ -19,6 +19,7 @@ describe('Dashboard', () => {
     expect(screen.queryByText('Dashboard')).not.toBeInTheDocument();
     expect(getByText('SLICER')).toBeInTheDocument();
     expect(getByText('FX')).toBeInTheDocument();
+    expect(getByText('PHRASER')).toBeInTheDocument();
   });
 
   test('renders enabled features as links with correct href', async () => {

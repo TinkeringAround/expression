@@ -79,6 +79,7 @@
       "store/index.ts",
       "store/actions.ts",
       "store/types.ts",
+      "react-app-env.d.ts",
       "^(?!.*\\..js$).*\\.js$"
     ],
     "coverageThreshold": {
