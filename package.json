@@ -55,7 +55,8 @@
     "electron:package": "cpx src/store/action-types.js ./public/src && yarn react:build && yarn electron:build",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
-    "test": "jest --collect-coverage"
+    "test:ci": "jest --collect-coverage",
+    "test:dev": "jest --watch --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"

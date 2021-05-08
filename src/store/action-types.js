@@ -5,7 +5,8 @@ const ACTION = Object.freeze({
   loadConfig: '[CONFIG] Load',
   updateConfig: '[CONFIG] Update',
 
-  addSlicerFiles: '[SLICER] Add Files'
+  addSlicerFiles: '[SLICER] Add Files',
+  selectSlicerFile: '[SLICER] Select File'
 });
 
 const STATUS = Object.freeze({

@@ -3,6 +3,7 @@ import { File } from './types';
 
 export interface SlicerState {
   files: File[];
+  selectedFile: File | null;
 }
 
 export interface AppState extends State {
@@ -12,7 +13,8 @@ export interface AppState extends State {
 
 export const useStore = create<AppState>(set => ({
   slicer: {
-    files: []
+    files: [],
+    selectedFile: null
   },
   //@ts-ignore
   update: (partial: Partial<AppState>) => set(partial)

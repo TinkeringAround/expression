@@ -65,12 +65,5 @@ export const SHeader = styled.header`
     height: 100%;
 
     padding-right: 1rem;
-
-    h1 {
-      margin: 0;
-
-      font-size: 2rem;
-      color: ${props => props.theme.second};
-    }
   }
 `;

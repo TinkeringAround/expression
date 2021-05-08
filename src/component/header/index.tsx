@@ -10,23 +10,23 @@ const Header: FC = () => {
   const getFeatureName = useCallback(() => {
     switch (pathname) {
       case Features.DASHBOARD:
-        return 'Dashboard';
+        return 'Kadenz';
       case Features.FX:
         return 'FX';
       case Features.SLICER:
         return 'Slicer';
+      case Features.PHRASER:
+        return 'Phraser';
     }
   }, [pathname]);
 
   return (
     <SHeader>
       <Link to={Features.DASHBOARD}>
-        <div className="logo">KADENZ</div>
+        <div className="logo">{getFeatureName()}</div>
       </Link>
       <div className="controls" />
-      <div className="settings">
-        <h1>{getFeatureName()}</h1>
-      </div>
+      <div className="settings" />
     </SHeader>
   );
 };

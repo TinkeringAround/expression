@@ -3,13 +3,22 @@ import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
 import { SDropzone } from './styled';
-import { addSlicerScripts } from '../../store/actions';
+import { addSlicerScripts, selectSlicerFile } from '../../store/actions';
 import { useStore } from '../../store';
+import { bytesToMegaBytes } from '../../util';
+import { File } from '../../store/types';
+
+const MIN_WIDTH = 0,
+  MAX_WIDTH = 350;
 
 const FileDropZone: FC = () => {
-  const MIN_WIDTH = 250,
-    MAX_WIDTH = 350;
-  const { files } = useStore().slicer;
+  const { files, selectedFile } = useStore().slicer;
+
+  const isSelected = useCallback((file: File) => file.name === selectedFile?.name, [selectedFile]);
+
+  const selectFile = useCallback(file => selectSlicerFile(isSelected(file) ? null : file), [
+    isSelected
+  ]);
 
   const onDrop = useCallback((files: File[]) => {
     addSlicerScripts(
@@ -33,16 +42,15 @@ const FileDropZone: FC = () => {
     []
   );
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, isDragReject, open } = useDropzone({
     onDrop,
     noClick: true,
     validator: fileIsValid
   });
 
   return (
-    <SDropzone className={isDragActive ? 'isDragging' : ''}>
+    <SDropzone {...getRootProps()}>
       <Resizable
-        {...getRootProps()}
         className="resizable"
         defaultSize={{
           width: 300,
@@ -54,9 +62,17 @@ const FileDropZone: FC = () => {
         maxHeight="100%"
         enable={{ right: true }}
       >
+        {isDragActive && !isDragReject && <div className="overlay" />}
         <div className="audioFiles">
-          {files.map(file => (
-            <div key={file.name}>{file.name}</div>
+          {files.map((file: File) => (
+            <div
+              key={file.name}
+              className={`file ${isSelected(file) ? 'selected' : ''}`}
+              onClick={() => selectFile(file)}
+            >
+              <span className="name">{file.name}</span>
+              <span className="size">{bytesToMegaBytes(file.size)}</span>
+            </div>
           ))}
         </div>
         <footer className="audioInput" onClick={open}>

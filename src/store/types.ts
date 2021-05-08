@@ -8,3 +8,7 @@ export type File = {
 export type AddSlicerFilesPayload = {
   files: File[];
 };
+
+export type SelectSlicerFilePayload = {
+  file: File | null;
+};

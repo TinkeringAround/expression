@@ -12,49 +12,113 @@ export const SDropzone = styled.aside`
   border-right: 3px solid transparent;
   box-sizing: border-box;
 
-  &.isDragging {
-    background: ${props => props.theme.light10};
-  }
+  outline: none;
 
   &:hover {
-    background: ${props => props.theme.light10};
     border-right: 3px solid ${props => props.theme.light};
   }
 
   .resizable {
     display: flex;
     flex-direction: column;
-
-    padding: 1rem;
-    box-sizing: border-box;
-
-    outline: none;
-  }
-
-  .audioFiles {
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden auto;
-  }
-
-  .audioInput {
-    display: flex;
-    justify-content: center;
     align-items: center;
 
-    height: 80px;
-    width: 100%;
+    box-sizing: border-box;
 
-    border-radius: 0.25rem;
+    & > * {
+      box-sizing: border-box;
+    }
 
-    background: ${props => props.theme.main};
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
 
-    transition: background 0.15s ease-in-out;
-    cursor: pointer;
+      background: ${props => props.theme.light10};
+    }
 
-    &:hover {
-      background: ${props => props.theme.yellowLight};
+    .audioFiles {
+      width: 90%;
+      height: 100%;
+
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+
+      overflow: hidden auto;
+      cursor: pointer;
+
+      .file {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        width: 100%;
+        height: 50px;
+
+        padding: 0.5rem;
+
+        background: ${props => props.theme.light};
+
+        border-radius: 0.25rem;
+
+        box-sizing: border-box;
+        transition: background 0.15s ease-in-out;
+
+        &:hover {
+          background: ${props => props.theme.yellowLight};
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 1rem;
+        }
+
+        &.selected {
+          background: ${props => props.theme.yellow};
+        }
+
+        .name {
+          display: flex;
+
+          width: 100%;
+          margin: 0;
+
+          font-size: 0.8rem;
+          font-weight: bold;
+
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .size {
+          display: flex;
+          width: 80%;
+
+          font-size: 0.7rem;
+        }
+      }
+    }
+
+    .audioInput {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 60px;
+      width: 80%;
+
+      margin-bottom: 2rem;
+      border-radius: 0.25rem;
+
+      background: ${props => props.theme.main};
+
+      box-sizing: border-box;
+      transition: background 0.15s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background: ${props => props.theme.yellowLight};
+      }
     }
   }
 `;
