@@ -24,6 +24,11 @@ export const SDropzone = styled.aside`
     align-items: center;
 
     box-sizing: border-box;
+    transition: background 0.15s ease-in-out;
+
+    &.isResizing {
+      background: ${props => props.theme.light10};
+    }
 
     & > * {
       box-sizing: border-box;

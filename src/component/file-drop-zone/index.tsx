@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
@@ -12,7 +12,16 @@ const MIN_WIDTH = 0,
   MAX_WIDTH = 350;
 
 const FileDropZone: FC = () => {
+  const [isResizing, setIsResizing] = useState<boolean>(false);
   const { files, selectedFile } = useStore().slicer;
+
+  const onResizeStart = useCallback(() => {
+    if (!isResizing) setIsResizing(true);
+  }, [isResizing, setIsResizing]);
+
+  const onResizeStop = useCallback(() => {
+    if (isResizing) setIsResizing(false);
+  }, [isResizing, setIsResizing]);
 
   const isSelected = useCallback((file: File) => file.name === selectedFile?.name, [selectedFile]);
 
@@ -51,7 +60,7 @@ const FileDropZone: FC = () => {
   return (
     <SDropzone {...getRootProps()}>
       <Resizable
-        className="resizable"
+        className={`resizable ${isResizing ? 'isResizing' : ''}`}
         defaultSize={{
           width: 300,
           height: '100%'
@@ -61,6 +70,8 @@ const FileDropZone: FC = () => {
         minHeight="100%"
         maxHeight="100%"
         enable={{ right: true }}
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
       >
         {isDragActive && !isDragReject && <div className="overlay" />}
         <div className="audioFiles">

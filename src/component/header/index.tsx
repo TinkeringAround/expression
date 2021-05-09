@@ -3,21 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { SHeader } from './styled';
 import { Features } from '../../features';
+import { featurePathToName } from '../../util';
 
 const Header: FC = () => {
   const { pathname } = useLocation();
 
   const getFeatureName = useCallback(() => {
-    switch (pathname) {
-      case Features.DASHBOARD:
-        return 'Kadenz';
-      case Features.FX:
-        return 'FX';
-      case Features.SLICER:
-        return 'Slicer';
-      case Features.PHRASER:
-        return 'Phraser';
-    }
+    if (pathname === Features.DASHBOARD) return 'Kadenz';
+    return featurePathToName(pathname);
   }, [pathname]);
 
   return (

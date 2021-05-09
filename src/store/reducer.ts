@@ -1,9 +1,8 @@
 import { ACTION } from './action-types';
 import { AddSlicerFilesPayload, SelectSlicerFilePayload } from './types';
 import { useStore } from './index';
-import { getElectron } from '../util';
 
-const { on, isDev } = getElectron();
+const { on, isDev } = window.electron;
 
 if (isDev) {
   useStore.subscribe(state => console.log('[STATE] Update', state));
