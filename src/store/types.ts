@@ -1,4 +1,4 @@
-export type File = {
+export type AudioFile = {
   name: string;
   path: string;
   size: number;
@@ -6,9 +6,9 @@ export type File = {
 };
 
 export type AddSlicerFilesPayload = {
-  files: File[];
+  files: AudioFile[];
 };
 
 export type SelectSlicerFilePayload = {
-  file: File | null;
+  file: AudioFile | null;
 };

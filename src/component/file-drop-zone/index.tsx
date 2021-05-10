@@ -6,7 +6,7 @@ import { SDropzone } from './styled';
 import { addSlicerScripts, selectSlicerFile } from '../../store/actions';
 import { useStore } from '../../store';
 import { bytesToMegaBytes } from '../../util';
-import { File } from '../../store/types';
+import { AudioFile } from '../../store/types';
 
 const MIN_WIDTH = 0,
   MAX_WIDTH = 350;
@@ -23,7 +23,9 @@ const FileDropZone: FC = () => {
     if (isResizing) setIsResizing(false);
   }, [isResizing, setIsResizing]);
 
-  const isSelected = useCallback((file: File) => file.name === selectedFile?.name, [selectedFile]);
+  const isSelected = useCallback((file: AudioFile) => file.name === selectedFile?.name, [
+    selectedFile
+  ]);
 
   const selectFile = useCallback(file => selectSlicerFile(isSelected(file) ? null : file), [
     isSelected
@@ -31,7 +33,7 @@ const FileDropZone: FC = () => {
 
   const onDrop = useCallback(files => {
     addSlicerScripts(
-      files.map((file: File) => ({
+      files.map((file: any) => ({
         name: file.name,
         type: file.type,
         size: file.size,
@@ -58,7 +60,7 @@ const FileDropZone: FC = () => {
   });
 
   return (
-    <SDropzone {...getRootProps()}>
+    <SDropzone {...getRootProps()} data-testid="dropzone">
       <Resizable
         className={`resizable ${isResizing ? 'isResizing' : ''}`}
         defaultSize={{
@@ -75,7 +77,7 @@ const FileDropZone: FC = () => {
       >
         {isDragActive && !isDragReject && <div className="overlay" />}
         <div className="audioFiles">
-          {files.map((file: File) => (
+          {files.map((file: AudioFile) => (
             <div
               key={file.name}
               className={`file ${isSelected(file) ? 'selected' : ''}`}

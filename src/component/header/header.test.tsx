@@ -25,11 +25,11 @@ describe('Dashboard', () => {
     expect(getByText('Kadenz')).toBeTruthy();
   });
 
-  test('should display "FX" as logo when on /fx', () => {
+  test('should display "Fx" as logo when on /fx', () => {
     jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Features.FX));
     const { getByText } = render(headerWithRouter);
 
-    expect(getByText('FX')).toBeTruthy();
+    expect(getByText('Fx')).toBeTruthy();
   });
 
   test('should display "Slicer" as logo when on /slicer', () => {

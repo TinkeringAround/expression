@@ -3,5 +3,5 @@ window.electron = {
   trigger: jest.fn(),
   dispatch: jest.fn(),
   on: () => {},
-  isDev: true
+  isDev: false
 };

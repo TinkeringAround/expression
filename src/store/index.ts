@@ -1,14 +1,14 @@
-import create, { State } from 'zustand';
-import { File } from './types';
+import create, { SetState, State } from 'zustand';
+import { AudioFile } from './types';
 
 export interface SlicerState {
-  files: File[];
-  selectedFile: File | null;
+  files: AudioFile[];
+  selectedFile: AudioFile | null;
 }
 
 export interface AppState extends State {
   slicer: SlicerState;
-  update: (partial: Partial<AppState>) => void;
+  readonly update: (partial: Partial<AppState>) => void;
 }
 
 export const useStore = create<AppState>(set => ({

@@ -9,9 +9,8 @@ if (isDev) {
 }
 
 // ==============================================================
-const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) => {
+export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) => {
   const { update, slicer } = useStore.getState();
-
   const currentFileNames = slicer.files.map(file => file.name);
   const newFiles = files.filter(file => !currentFileNames.includes(file.name));
 
@@ -23,7 +22,7 @@ const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) => {
   });
 };
 
-const selectSlicerFileRecipe = (_: any, { file }: SelectSlicerFilePayload) => {
+export const selectSlicerFileRecipe = (_: any, { file }: SelectSlicerFilePayload) => {
   const { update, slicer } = useStore.getState();
 
   update({

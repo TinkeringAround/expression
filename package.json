@@ -70,9 +70,6 @@
     ]
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/setupTests.js"
-    ],
     "coveragePathIgnorePatterns": [
       "src/index.tsx",
       "src/features.ts",
