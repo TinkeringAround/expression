@@ -1,10 +1,7 @@
 import { bytesToMegaBytes, getFeatureNameByPath } from '.';
 import { Features } from '../features';
-import { useStore } from '../store';
 
 describe('Utils', () => {
-  console.log('store', useStore.getState());
-
   test('formatBytes', () => {
     const fileSizes = [3426256, 16338736, 9282076];
     const expectedMegaBytes = ['3.27 MB', '15.58 MB', '8.85 MB'];

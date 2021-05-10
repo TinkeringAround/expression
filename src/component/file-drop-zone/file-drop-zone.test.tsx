@@ -2,7 +2,7 @@ import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import FileDropZone from './index';
+import FileDropZone, { FileDropZoneTestId } from './index';
 import { useStore } from '../../store';
 import { getMockStore } from '../../mock/store';
 import { bytesToMegaBytes } from '../../util';
@@ -30,7 +30,7 @@ describe('FileDropZone', () => {
     });
 
     const { getByTestId, getByText } = render(<FileDropZone />);
-    const fileDropZone = getByTestId('dropzone');
+    const fileDropZone = getByTestId(FileDropZoneTestId);
     Object.defineProperty(fileDropZone, 'files', {
       value: [file]
     });
@@ -60,8 +60,8 @@ describe('FileDropZone', () => {
     const triggerSpy = mockElectronTrigger(selectSlicerFileRecipe);
     const audioFile = useStore.getState().slicer.files[0];
 
-    const { getByText } = render(<FileDropZone />);
-    const audioFileNode = getByText(audioFile.name);
+    const { getByTestId } = render(<FileDropZone />);
+    const audioFileNode = getByTestId(audioFile.name);
 
     act(() => {
       fireEvent.click(audioFileNode);
@@ -73,8 +73,14 @@ describe('FileDropZone', () => {
       })
     );
 
-    // TODO: Test if background has changed
+    expect(audioFileNode.classList.contains('selected')).toBeTruthy();
 
     await act(() => Promise.resolve());
+  });
+
+  test('should adjust width on width resize of file drop zone', () => {
+    render(<FileDropZone />);
+
+    // TODO
   });
 });

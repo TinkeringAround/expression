@@ -11,11 +11,14 @@ import { AudioFile } from '../../store/types';
 const MIN_WIDTH = 0,
   MAX_WIDTH = 350;
 
+export const FileDropZoneTestId = 'dropzone';
+
 const FileDropZone: FC = () => {
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const { files, selectedFile } = useStore().slicer;
 
   const onResizeStart = useCallback(() => {
+    console.log('Resize start');
     if (!isResizing) setIsResizing(true);
   }, [isResizing, setIsResizing]);
 
@@ -60,7 +63,7 @@ const FileDropZone: FC = () => {
   });
 
   return (
-    <SDropzone {...getRootProps()} data-testid="dropzone">
+    <SDropzone {...getRootProps()} data-testid={FileDropZoneTestId}>
       <Resizable
         className={`resizable ${isResizing ? 'isResizing' : ''}`}
         defaultSize={{
@@ -80,6 +83,7 @@ const FileDropZone: FC = () => {
           {files.map((file: AudioFile) => (
             <div
               key={file.name}
+              data-testid={file.name}
               className={`file ${isSelected(file) ? 'selected' : ''}`}
               onClick={() => selectFile(file)}
             >
