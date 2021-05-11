@@ -1,4 +1,4 @@
-import create, { SetState, State } from 'zustand';
+import create, { State } from 'zustand';
 import { AudioFile } from './types';
 
 export interface SlicerState {

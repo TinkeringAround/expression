@@ -55,8 +55,8 @@
     "electron:package": "cpx src/store/action-types.js ./public/src && yarn react:build && yarn electron:build",
     "react:start": "react-scripts start",
     "react:build": "react-scripts build",
-    "test:ci": "jest --collect-coverage",
-    "test:dev": "jest --watch --coverage"
+    "test:ci": "jest --collect-coverage --setupFilesAfterEnv='./src/setupTests.js'",
+    "test:dev": "jest --watch --coverage --setupFilesAfterEnv='./src/setupTests.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -84,7 +84,6 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
         "functions": 80,
         "lines": 80,
         "statements": 80

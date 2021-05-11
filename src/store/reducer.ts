@@ -2,11 +2,7 @@ import { ACTION } from './action-types';
 import { AddSlicerFilesPayload, SelectSlicerFilePayload } from './types';
 import { useStore } from './index';
 
-const { on, isDev } = window.electron;
-
-if (isDev) {
-  useStore.subscribe(state => console.log('[STATE] Update', state));
-}
+const { on } = window.electron;
 
 // ==============================================================
 export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) => {
