@@ -6,6 +6,7 @@ const { app } = require('electron');
 process.env['ENV'] = require('electron-is-dev') ? 'development' : 'production';
 process.env['DATA_PATH'] = `${app.getPath('userData')}`;
 require('./src/consts');
+require('./src/audio');
 
 // ==============================================================
 const { logError } = require('./src/logger');

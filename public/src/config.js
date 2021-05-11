@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // ==============================================================
 const { isDev, CONFIG_PATH } = require('./consts');
-const { ACTION, STATUS } = require(isDev ? '../../src/store/action-types' : './action-types');
+const { ACTION } = require(isDev ? '../../src/store/action-types' : './action-types');
 const { logError, logInfo } = require('./logger');
 
 // ==============================================================
@@ -14,15 +14,15 @@ function loadConfig(event) {
     if (fs.existsSync(CONFIG_PATH)) {
       const configRaw = fs.readFileSync(CONFIG_PATH);
       const config = JSON.parse(configRaw);
-      event.reply(ACTION.configLoaded, { status: STATUS.SUCCESS, config });
+      event.reply(ACTION.configLoaded, { config });
     } else {
       logInfo(`${ACTION.loadConfig}, no config file found`);
-      event.reply(ACTION.configLoaded, { status: STATUS.SUCCESS, config: {} });
+      event.reply(ACTION.configLoaded, { config: {} });
     }
   } catch (error) {
     const errorMsg = `${ACTION.loadConfig}, raising ${error}`;
     logError(errorMsg);
-    event.reply(ACTION.configLoaded, { status: STATUS.ERROR, config: {}, error: errorMsg });
+    event.reply(ACTION.configLoaded, { config: {}, error: errorMsg });
   }
 }
 

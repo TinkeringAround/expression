@@ -6,7 +6,7 @@ import FileDropZone from './index';
 import { useStore } from '../../store';
 import { getMockStore } from '../../mock/store';
 import { bytesToMegaBytes } from '../../util';
-import { addSlicerFilesRecipe, selectSlicerFileRecipe } from '../../store/reducer';
+import { addSlicerFilesRecipe } from '../../store/reducer';
 import { mockElectronTrigger } from '../../mock/electron';
 
 describe('FileDropZone', () => {
@@ -38,19 +38,5 @@ describe('FileDropZone', () => {
     fireEvent.drop(fileDropZone);
 
     await waitFor(() => expect(getByText('test2.wav')).toBeInTheDocument());
-  });
-
-  test('should update selected audio file on click on audio file in file drop zone', async () => {
-    mockElectronTrigger(selectSlicerFileRecipe);
-    const audioFile = useStore.getState().slicer.files[0];
-    const { getByText } = render(<FileDropZone />);
-
-    const audioFileNode = getByText(audioFile.name);
-
-    fireEvent.click(audioFileNode);
-
-    await waitFor(() =>
-      expect(audioFileNode.parentElement?.classList.contains('selected')).toBeTruthy()
-    );
   });
 });

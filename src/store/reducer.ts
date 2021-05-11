@@ -1,5 +1,5 @@
 import { ACTION } from './action-types';
-import { AddSlicerFilesPayload, SelectSlicerFilePayload } from './types';
+import { AddSlicerFilesPayload, SlicerAudioFileLoadedPayload } from './types';
 import { useStore } from './index';
 
 const { on } = window.electron;
@@ -18,8 +18,12 @@ export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) =
   });
 };
 
-export const selectSlicerFileRecipe = (_: any, { file }: SelectSlicerFilePayload) => {
+export const slicerFileLoadedRecipe = (_: any, { file, error }: SlicerAudioFileLoadedPayload) => {
   const { update, slicer } = useStore.getState();
+
+  // TODO: Use Tone to handle Audio Data
+
+  if (error) console.error(error);
 
   update({
     slicer: {
@@ -31,4 +35,4 @@ export const selectSlicerFileRecipe = (_: any, { file }: SelectSlicerFilePayload
 
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
-on(ACTION.selectSlicerFile, selectSlicerFileRecipe);
+on(ACTION.slicerFileLoaded, slicerFileLoadedRecipe);

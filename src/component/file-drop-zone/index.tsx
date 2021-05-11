@@ -3,7 +3,7 @@ import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
 import { SDropzone } from './styled';
-import { addSlicerScripts, selectSlicerFile } from '../../store/actions';
+import { addSlicerScripts, loadSlicerFile } from '../../store/actions';
 import { useStore } from '../../store';
 import { bytesToMegaBytes } from '../../util';
 import { AudioFile } from '../../store/types';
@@ -27,9 +27,7 @@ const FileDropZone: FC = () => {
     selectedFile
   ]);
 
-  const selectFile = useCallback(file => selectSlicerFile(isSelected(file) ? null : file), [
-    isSelected
-  ]);
+  const loadFile = useCallback(file => !isSelected(file) && loadSlicerFile(file), [isSelected]);
 
   const onDrop = useCallback(files => {
     addSlicerScripts(
@@ -81,7 +79,7 @@ const FileDropZone: FC = () => {
             <div
               key={file.name}
               className={`file ${isSelected(file) ? 'selected' : ''}`}
-              onClick={() => selectFile(file)}
+              onClick={() => loadFile(file)}
             >
               <span className="name">{file.name}</span>
               <span className="size">{bytesToMegaBytes(file.size)}</span>

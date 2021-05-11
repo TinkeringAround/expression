@@ -6,17 +6,10 @@ const ACTION = Object.freeze({
   updateConfig: '[CONFIG] Update',
 
   addSlicerFiles: '[SLICER] Add Files',
-  selectSlicerFile: '[SLICER] Select File'
-});
-
-const STATUS = Object.freeze({
-  SUCCESS: 'success',
-  ERROR: 'error',
-  RUNNING: 'running',
-  INACTIVE: 'inactive'
+  loadSlicerFile: '[SLICER] Load File',
+  slicerFileLoaded: '[SLICER] File loaded'
 });
 
 module.exports = {
-  ACTION,
-  STATUS
+  ACTION
 };
