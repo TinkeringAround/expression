@@ -1,33 +1,37 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
-import { SDropzone } from './styled';
+import { SAudioFiles, SAudioInput, SDropzone, SOverlay } from './styled';
 import { addSlicerScripts, loadSlicerFile } from '../../store/actions';
 import { useStore } from '../../store';
-import { bytesToMegaBytes } from '../../util';
+import Icon from '../icon';
+import AudioFilePartial from './audioFilePartial';
 import { AudioFile } from '../../store/types';
+import { isAudio } from '../../audio';
 
-const MIN_WIDTH = 0,
-  MAX_WIDTH = 350;
+const MIN_WIDTH = 250;
+const MAX_WIDTH = 400;
+const DEFAULT_SIZE = {
+  width: 300,
+  height: '100%'
+};
+const ERROR_MESSAGE = {
+  message: 'Not supported file type',
+  code: 'file-invalid-type'
+};
 
 const FileDropZone: FC = () => {
-  const [isResizing, setIsResizing] = useState<boolean>(false);
+  const audioFiles = useRef<HTMLDivElement>(null);
   const { files, selectedFile } = useStore().slicer;
 
-  const onResizeStart = useCallback(() => {
-    !isResizing && setIsResizing(true);
-  }, [isResizing, setIsResizing]);
-
-  const onResizeStop = useCallback(() => {
-    isResizing && setIsResizing(false);
-  }, [isResizing, setIsResizing]);
-
-  const isSelected = useCallback((file: AudioFile) => file.name === selectedFile?.name, [
+  const isSelected = useCallback((fileName: string) => fileName === selectedFile?.name, [
     selectedFile
   ]);
 
-  const loadFile = useCallback(file => !isSelected(file) && loadSlicerFile(file), [isSelected]);
+  const loadFile = useCallback(file => !isSelected(file) && !file.audio && loadSlicerFile(file), [
+    isSelected
+  ]);
 
   const onDrop = useCallback(files => {
     addSlicerScripts(
@@ -40,56 +44,47 @@ const FileDropZone: FC = () => {
     );
   }, []);
 
-  const fileIsValid = useCallback(
-    file =>
-      file.type.includes('audio')
-        ? null
-        : {
-            message: 'Not supported file type',
-            code: 'file-invalid-type'
-          },
-    []
-  );
+  const FileValidator = useCallback(file => (!isAudio(file.type) ? ERROR_MESSAGE : null), []);
 
-  const { getRootProps, getInputProps, isDragActive, isDragReject, open } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     noClick: true,
-    validator: fileIsValid
+    validator: FileValidator
   });
 
   return (
     <SDropzone role="dropzone" {...getRootProps()}>
+      {/* Resizable Wrapper */}
       <Resizable
-        className={`resizable ${isResizing ? 'isResizing' : ''}`}
-        defaultSize={{
-          width: 300,
-          height: '100%'
-        }}
+        className="resizable"
+        defaultSize={DEFAULT_SIZE}
         minWidth={MIN_WIDTH}
         maxWidth={MAX_WIDTH}
         minHeight="100%"
         maxHeight="100%"
         enable={{ right: true }}
-        onResizeStart={onResizeStart}
-        onResizeStop={onResizeStop}
       >
-        {isDragActive && !isDragReject && <div className="overlay" />}
-        <div className="audioFiles">
+        {/* White Overlay when dragged */}
+        {isDragActive && <SOverlay role="overlay" />}
+
+        {/* Audio Files */}
+        <SAudioFiles ref={audioFiles}>
           {files.map((file: AudioFile) => (
-            <div
+            <AudioFilePartial
               key={file.name}
-              className={`file ${isSelected(file) ? 'selected' : ''}`}
-              onClick={() => loadFile(file)}
-            >
-              <span className="name">{file.name}</span>
-              <span className="size">{bytesToMegaBytes(file.size)}</span>
-            </div>
+              file={file}
+              isSelected={isSelected(file.name)}
+              onClick={loadFile}
+            />
           ))}
-        </div>
-        <footer className="audioInput" onClick={open}>
+        </SAudioFiles>
+
+        {/* Audio Input Footer */}
+        <SAudioInput onClick={open}>
           <input {...getInputProps()} />
+          <Icon iconType="file-add" />
           Import Audio File
-        </footer>
+        </SAudioInput>
       </Resizable>
     </SDropzone>
   );
