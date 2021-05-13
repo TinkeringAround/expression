@@ -13,7 +13,8 @@ export const SHeader = styled.header`
   height: 70px;
   width: 100vw;
 
-  background: ${props => props.theme.light};
+  background: ${props => props.theme.second};
+  box-shadow: 0 6px 10px 0 #0000003d;
 
   animation: fromTop 0.5s ease-in-out;
 
@@ -38,14 +39,15 @@ export const SHeader = styled.header`
 
       font-family: 'Mono', sans-serif;
       font-size: 3rem;
-      color: ${props => props.theme.second};
+      color: ${props => props.theme.light};
 
       background: transparent;
-      transition: background 0.15s ease-in-out;
+      transition: all 0.15s ease-in-out;
 
       cursor: pointer;
 
       &:hover {
+        color: ${props => props.theme.second};
         background: ${props => props.theme.yellow};
       }
     }
