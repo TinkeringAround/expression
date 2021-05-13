@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
+
+import * as serviceWorker from './serviceWorker';
 import { Features } from './features';
-import './index.scss';
 import { theme } from './theme';
+import './index.scss';
 
 // Features
 import Dashboard from './feature/dashboard';
