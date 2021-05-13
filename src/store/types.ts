@@ -4,7 +4,7 @@ export type AudioFile = {
   size: number;
   type: string;
   audio?: {
-    channelData: Float32Array;
+    channelData: Array<number[]>;
     sampleRate: number;
   };
 };
@@ -18,5 +18,5 @@ export type AddSlicerFilesPayload = {
 };
 
 export type SlicerAudioFileLoadedPayload = {
-  file: AudioFile | null;
+  file: AudioFile;
 } & HasError;
