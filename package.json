@@ -71,21 +71,23 @@
     ]
   },
   "jest": {
+    "clearMocks": true,
     "coveragePathIgnorePatterns": [
       "src/index.tsx",
-      "src/features.ts",
-      "src/theme.ts",
-      "src/serviceWorker.ts",
+      "features.ts",
+      "theme.ts",
+      "serviceWorker.ts",
       "mock/*",
       "store/index.ts",
-      "store/actions.ts",
-      "store/types.ts",
+      "actions.ts",
       "react-app-env.d.ts",
+      "types.ts",
       "^(?!.*\\..js$).*\\.js$"
     ],
     "coverageThreshold": {
       "global": {
         "functions": 80,
+        "branches": 80,
         "lines": 80,
         "statements": 80
       }
