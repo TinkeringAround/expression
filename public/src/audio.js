@@ -14,12 +14,10 @@ function loadAudioFile(event, { file }) {
 
     if (fs.existsSync(file.path)) {
       const buffer = fs.readFileSync(file.path);
-      const audio = wav.decode(buffer);
+      const { channelData } = wav.decode(buffer);
       event.reply(ACTION.slicerFileLoaded, {
-        file: {
-          ...file,
-          audio
-        }
+        file,
+        channelData
       });
     } else {
       logInfo(`${ACTION.loadSlicerFile}, no audio file found`);

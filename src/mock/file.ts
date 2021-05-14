@@ -12,12 +12,5 @@ export const getAudioFileMock: () => AudioFile = () => ({
   name: 'Test.wav',
   type: 'audio/wav',
   path: 'path/to/file',
-  size: 1000,
-  audio: {
-    channelData: [
-      [0, 1, 1, 1, 0],
-      [0, 1, 1, 1, 0]
-    ],
-    sampleRate: 1
-  }
+  size: 1000
 });

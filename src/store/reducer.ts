@@ -1,3 +1,5 @@
+import { ToneAudioBuffer } from 'tone';
+
 import { ACTION } from './action-types';
 import { AddSlicerFilesPayload, SlicerAudioFileLoadedPayload } from './types';
 import { useStore } from './index';
@@ -18,17 +20,29 @@ export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) =
   });
 };
 
-export const slicerFileLoadedRecipe = (_: any, { file, error }: SlicerAudioFileLoadedPayload) => {
+export const slicerFileLoadedRecipe = (
+  _: any,
+  { file, error, channelData }: SlicerAudioFileLoadedPayload
+) => {
   const { update, slicer } = useStore.getState();
-
-  // TODO: Use Tone to handle Audio Data
+  let newFile = file;
 
   if (error) console.error(error);
+
+  if (channelData) {
+    newFile = {
+      ...file,
+      audio: {
+        channelData,
+        buffer: ToneAudioBuffer.fromArray(channelData)
+      }
+    };
+  }
 
   update({
     slicer: {
       ...slicer,
-      selectedFile: file
+      selectedFile: newFile
     }
   });
 };

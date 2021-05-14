@@ -1,4 +1,4 @@
-import { theme } from '../theme';
+import { theme } from '../../../theme';
 
 /**
  * Draws an buffer to an canvas
@@ -9,7 +9,7 @@ export const drawAudio = (canvas: HTMLCanvasElement, buffer: number[]) => {
   const { offsetWidth, offsetHeight } = canvas;
 
   const dpr = window.devicePixelRatio || 1;
-  const padding = 20;
+  const padding = 50;
   canvas.width = offsetWidth * dpr;
   canvas.height = (offsetHeight + padding * 2) * dpr;
   const canvas2dContext = canvas.getContext('2d');
@@ -18,6 +18,7 @@ export const drawAudio = (canvas: HTMLCanvasElement, buffer: number[]) => {
     canvas2dContext.scale(dpr, dpr);
     // set Y = 0 to be in the middle of the canvas
     canvas2dContext.translate(0, offsetHeight / 2 + padding);
+    canvas2dContext.imageSmoothingQuality = 'high';
 
     // draw the line segments
     const width = offsetWidth / buffer.length;
@@ -48,7 +49,7 @@ const drawLineSegment = (
   isEven: boolean
 ) => {
   ctx.lineWidth = 3;
-  ctx.strokeStyle = theme.main;
+  ctx.strokeStyle = theme.yellowLight;
   ctx.beginPath();
 
   // Draw Line

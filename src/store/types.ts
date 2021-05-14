@@ -1,12 +1,16 @@
+import { ToneAudioBuffer } from 'tone';
+
 export type AudioFile = {
   name: string;
   path: string;
   size: number;
   type: string;
-  audio?: {
-    channelData: Array<number[]>;
-    sampleRate: number;
-  };
+  audio?: Audio;
+};
+
+export type Audio = {
+  buffer: ToneAudioBuffer;
+  channelData: Float32Array[];
 };
 
 export type HasError = {
@@ -19,4 +23,5 @@ export type AddSlicerFilesPayload = {
 
 export type SlicerAudioFileLoadedPayload = {
   file: AudioFile;
+  channelData?: Float32Array[];
 } & HasError;
