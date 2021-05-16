@@ -1,5 +1,11 @@
 import { AudioType } from './types';
 
+export const removeAudioFileTypeFromName: (audioName: string) => string = audioName => {
+  if (audioName.includes('.wav')) return audioName.replace('.wav', '');
+  if (audioName.includes('.mp3')) return audioName.replace('.mp3', '');
+  return audioName;
+};
+
 /**
  * Translates audio type of 'audio/wav' or 'audio/mp3' to AudioType
  * @param {string} audioType the combined audioType of a file

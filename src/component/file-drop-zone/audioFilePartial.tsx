@@ -5,7 +5,7 @@ import { SAudioFile } from './styled';
 import Icon from '../icon';
 import { AudioFile } from '../../store/types';
 import { AudioType } from '../../audio/types';
-import { getAudioType } from '../../audio';
+import { getAudioType, removeAudioFileTypeFromName } from '../../audio';
 
 interface Props {
   file: AudioFile;
@@ -22,7 +22,7 @@ const AudioFilePartial: FC<Props> = ({ file, onClick, isSelected }) => {
     <SAudioFile className={`${isSelected && 'selected'}`} onClick={onFileClick}>
       {audioType && <Icon iconType={audioType} />}
       <div className="info">
-        <span className="name">{file.name}</span>
+        <span className="name">{removeAudioFileTypeFromName(file.name)}</span>
         <span className="size">{bytesToMegaBytes(file.size)}</span>
       </div>
     </SAudioFile>
