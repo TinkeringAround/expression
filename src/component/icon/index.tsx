@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { AudioType } from '../../audio/types';
+
 const SIcon = styled.span`
   display: flex;
   justify-content: center;
@@ -8,7 +10,7 @@ const SIcon = styled.span`
 `;
 
 interface Props {
-  iconType: 'mp3' | 'wav' | 'file-add';
+  iconType: AudioType | 'file-add' | null;
 }
 
 const Icon: FC<Props> = ({ iconType }) => <SIcon className={`icon icon-${iconType}`} />;
