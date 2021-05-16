@@ -8,7 +8,8 @@ export const SAudioVisualizer = styled.canvas`
 
   background: ${props => props.theme.light10};
 
-  border-right: solid 5px ${props => props.theme.yellowLight};
-  border-left: solid 5px ${props => props.theme.yellowLight};
-  border-bottom: solid 5px ${props => props.theme.yellowLight};
+  border-right: solid 5px ${props => props.theme.yellow};
+  border-left: solid 5px ${props => props.theme.yellow};
+
+  box-sizing: border-box;
 `;

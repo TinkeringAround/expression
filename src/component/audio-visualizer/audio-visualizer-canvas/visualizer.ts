@@ -49,7 +49,7 @@ const drawLineSegment = (
   isEven: boolean
 ) => {
   ctx.lineWidth = 3;
-  ctx.strokeStyle = theme.yellowLight;
+  ctx.strokeStyle = theme.yellow;
   ctx.beginPath();
 
   // Draw Line

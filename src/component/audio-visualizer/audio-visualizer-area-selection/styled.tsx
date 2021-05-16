@@ -30,7 +30,7 @@ export const SSelector = styled.div`
   height: 100%;
 
   border-radius: 2px;
-  background: ${props => props.theme.yellow};
+  background: ${props => props.theme.light};
 
   z-index: 6;
 
