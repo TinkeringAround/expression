@@ -7,45 +7,71 @@ export const SSlicer = styled.div`
     position: relative;
 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     flex-grow: 1;
-  }
 
-  .visualizer {
-    position: relative;
+    header {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
 
-    height: 50%;
-    width: 90%;
+      width: 90%;
 
-    box-sizing: content-box;
+      padding: 2rem 0 3rem;
 
-    span {
-      color: ${props => props.theme.light};
+      color: ${props => props.theme.yellowLight};
+
+      box-sizing: border-box;
+
+      text-align: end;
+
+      div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        width: 100%;
+
+        margin-bottom: 0.5rem;
+
+        h1 {
+          margin: 0;
+          font-size: 2.5rem;
+        }
+
+        span {
+          margin-left: 1rem;
+
+          font-size: 3rem;
+        }
+      }
     }
 
-    //.resizable {
-    //  position: absolute !important;
-    //  top: 5px;
-    //
-    //  border-radius: 0.75rem;
-    //
-    //  z-index: 5;
-    //
-    //  background: rgba(255, 255, 255, 0.1);
-    //}
+    .visualizer {
+      position: relative;
 
-    canvas {
-      height: 100%;
-      width: 100%;
+      height: 50%;
+      width: 90%;
 
-      border-radius: 0.25rem;
+      box-sizing: content-box;
 
-      background: ${props => props.theme.light10};
-
-      border-right: solid 5px ${props => props.theme.yellowLight};
-      border-left: solid 5px ${props => props.theme.yellowLight};
-      border-bottom: solid 5px ${props => props.theme.yellowLight};
+      span {
+        color: ${props => props.theme.light};
+      }
     }
+
+    // canvas {
+    //   height: 100%;
+    //   width: 100%;
+    //
+    //   border-radius: 0.25rem;
+    //
+    //   background: ${props => props.theme.light10};
+    //
+    //   border-right: solid 5px ${props => props.theme.yellowLight};
+    //   border-left: solid 5px ${props => props.theme.yellowLight};
+    //   border-bottom: solid 5px ${props => props.theme.yellowLight};
+    // }
   }
 `;

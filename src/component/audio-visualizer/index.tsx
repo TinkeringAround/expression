@@ -6,10 +6,10 @@ import AudioVisualizerCanvas from './audio-visualizer-canvas';
 
 interface Props {
   file: AudioFile;
-  areaSelection: boolean;
+  areaSelection?: boolean;
 }
 
-const AudioVisualizer: FC<Props> = ({ file, areaSelection }) => {
+const AudioVisualizer: FC<Props> = ({ file, areaSelection = true }) => {
   return (
     <Fragment>
       {areaSelection && file.audio && <AudioVisualizerAreaSelection />}

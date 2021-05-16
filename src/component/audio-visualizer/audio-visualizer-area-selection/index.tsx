@@ -100,8 +100,9 @@ const AudioVisualizerAreaSelection: FC = () => {
 
   useEffect(() => {
     if (draggable.current && right === UNDEFINED) {
-      setRight(draggable.current.clientWidth - WIDTH);
-      setMaxWidth(draggable.current.clientWidth);
+      const { width } = draggable.current.getBoundingClientRect();
+      setRight(width - 2 * WIDTH);
+      setMaxWidth(width - 2 * WIDTH);
     }
   }, [draggable, right, setRight, setMaxWidth]);
 
