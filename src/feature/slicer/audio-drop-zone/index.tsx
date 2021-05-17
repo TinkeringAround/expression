@@ -2,13 +2,14 @@ import React, { FC, useCallback, useRef } from 'react';
 import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
-import { SAudioFiles, SAudioInput, SDropzone, SOverlay } from './styled';
-import { addSlicerScripts, loadSlicerFile } from '../../store/actions';
-import { useStore } from '../../store';
-import Icon from '../icon';
+import { addSlicerScripts, loadSlicerFile } from '../../../store/actions';
+import { useStore } from '../../../store';
+import { AudioFile } from '../../../store/types';
+import { isAudio } from '../../../audio';
+
+import Icon from '../../../component/icon';
 import AudioFilePartial from './audioFilePartial';
-import { AudioFile } from '../../store/types';
-import { isAudio } from '../../audio';
+import { SAudioFiles, SAudioInput, SAudioDropZone, SResizableOverlay } from './styled';
 
 const MIN_WIDTH = 250;
 const MAX_WIDTH = 400;
@@ -21,7 +22,7 @@ const ERROR_MESSAGE = {
   code: 'file-invalid-type'
 };
 
-const FileDropZone: FC = () => {
+const AudioDropZone: FC = () => {
   const audioFiles = useRef<HTMLDivElement>(null);
   const { files, selectedFile } = useStore().slicer;
 
@@ -53,7 +54,7 @@ const FileDropZone: FC = () => {
   });
 
   return (
-    <SDropzone role="dropzone" {...getRootProps()}>
+    <SAudioDropZone role="dropzone" {...getRootProps()}>
       {/* Resizable Wrapper */}
       <Resizable
         className="resizable"
@@ -65,7 +66,7 @@ const FileDropZone: FC = () => {
         enable={{ right: true }}
       >
         {/* White Overlay when dragged */}
-        {isDragActive && <SOverlay role="overlay" />}
+        {isDragActive && <SResizableOverlay role="overlay" />}
 
         {/* Audio Files */}
         <SAudioFiles ref={audioFiles}>
@@ -86,8 +87,8 @@ const FileDropZone: FC = () => {
           Import Audio File
         </SAudioInput>
       </Resizable>
-    </SDropzone>
+    </SAudioDropZone>
   );
 };
 
-export default FileDropZone;
+export default AudioDropZone;

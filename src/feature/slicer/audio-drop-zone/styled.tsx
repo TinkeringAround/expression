@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 
-export const SDropzone = styled.aside`
+export const SAudioDropZone = styled.aside`
   display: flex;
 
   height: 100%;
 
-  background: ${props => props.theme.blue};
+  background: ${props => props.theme.white};
 
   transition: all 0.1s ease-in-out;
 
-  border-right: 3px solid transparent;
+  border-right: 3px solid ${props => props.theme.light};
   box-sizing: border-box;
 
   outline: none;
 
   &:hover {
-    border-right: 3px solid ${props => props.theme.light};
+    border-right: 3px solid ${props => props.theme.yellow};
   }
 
   .resizable {
@@ -27,7 +27,7 @@ export const SDropzone = styled.aside`
     transition: background 0.15s ease-in-out 0.1s;
 
     &:active {
-      background: ${props => props.theme.light10};
+      background: ${props => props.theme.hexToRgbA(props.theme.light, '0.25')};
     }
 
     & > * {
@@ -36,12 +36,12 @@ export const SDropzone = styled.aside`
   }
 `;
 
-export const SOverlay = styled.div`
+export const SResizableOverlay = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
 
-  background: ${props => props.theme.light10};
+  background: ${props => props.theme.hexToRgbA(props.theme.yellow, '0.5')};
   z-index: 5;
 `;
 
@@ -75,8 +75,6 @@ export const SAudioFile = styled.div`
 
   padding: 0.5rem 1rem 0.5rem 0;
 
-  color: ${props => props.theme.light};
-
   border-left: solid 5px transparent;
   box-sizing: border-box;
   transition: all 0.15s ease-in-out;
@@ -84,13 +82,12 @@ export const SAudioFile = styled.div`
 
   &:hover {
     color: ${props => props.theme.second};
-    background: ${props => props.theme.yellowLight};
+    background: ${props => props.theme.yellow};
   }
 
   &.selected {
-    border-left: solid 5px ${props => props.theme.yellow};
-    color: ${props => props.theme.blue};
-    background: ${props => props.theme.yellowLight};
+    border-left: solid 15px ${props => props.theme.yellow};
+    background: ${props => props.theme.light};
   }
 
   .icon {
@@ -140,14 +137,14 @@ export const SAudioInput = styled.footer`
   border-radius: 2px;
 
   font-family: 'Roboto-Bold', sans-serif;
-  background: ${props => props.theme.main};
+  background: ${props => props.theme.yellow};
 
   box-sizing: border-box;
   transition: background 0.15s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.theme.yellowLight};
+    background: ${props => props.theme.hexToRgbA(props.theme.yellow, '0.7')};
   }
 
   .icon {

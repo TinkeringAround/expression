@@ -1,14 +1,15 @@
 import React, { FC, useEffect } from 'react';
 import { Gain, ToneBufferSource } from 'tone';
 
-import FileDropZone from '../../component/file-drop-zone';
-import AudioVisualizer from '../../component/audio-visualizer';
-import Icon from '../../component/icon';
-
-import { SSlicer } from './styled';
 import { useStore } from '../../store';
-import { bytesToMegaBytes } from '../../util';
 import { getAudioType, removeAudioFileTypeFromName } from '../../audio';
+import { AudioFile } from '../../store/types';
+
+import AudioDropZone from './audio-drop-zone';
+import AudioVisualizer from './audio-visualizer';
+import Icon from '../../component/icon';
+import AudioComparison from './audio-comparison';
+import { SSlicer } from './styled';
 
 const Slicer: FC = () => {
   const file = useStore(state => state.slicer.selectedFile);
@@ -26,23 +27,37 @@ const Slicer: FC = () => {
     }
   }, [file]);
 
+  /**
+   * Display Information for an Audio File
+   */
+  const Info = (file: AudioFile) => (
+    <section className="slicer-info">
+      <div>
+        {<Icon iconType={getAudioType(file.type)} />}
+        <h1>{removeAudioFileTypeFromName(file.name)}</h1>
+      </div>
+
+      {/* Audio Comparison */}
+      <AudioComparison audioLeft={file} audioRight={file} />
+    </section>
+  );
+
+  /**
+   * Visualization of an Audio File
+   */
+  const Visualizer = (file: AudioFile) => (
+    <section className="slicer-visualizer">
+      <AudioVisualizer file={file} />
+    </section>
+  );
+
   return (
     <SSlicer>
-      <FileDropZone />
-      <div className="content">
-        {/* Header */}
-        {file && (
-          <header>
-            <div>
-              <h1>{removeAudioFileTypeFromName(file.name)}</h1>
-              {<Icon iconType={getAudioType(file.type)} />}
-            </div>
-            <span>{`Dateigröße: ${bytesToMegaBytes(file.size)}`}</span>
-          </header>
-        )}
+      <AudioDropZone />
 
-        {/* Visualizer */}
-        <div className="visualizer">{file && <AudioVisualizer file={file} />}</div>
+      <div className="content">
+        {file && Info(file)}
+        {file && Visualizer(file)}
       </div>
     </SSlicer>
   );

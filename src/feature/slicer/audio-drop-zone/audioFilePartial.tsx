@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useState } from 'react';
 
-import { bytesToMegaBytes } from '../../util';
+import { AudioFile } from '../../../store/types';
+import { AudioType } from '../../../audio/types';
+import { getAudioType, removeAudioFileTypeFromName } from '../../../audio';
+
 import { SAudioFile } from './styled';
-import Icon from '../icon';
-import { AudioFile } from '../../store/types';
-import { AudioType } from '../../audio/types';
-import { getAudioType, removeAudioFileTypeFromName } from '../../audio';
+import Icon from '../../../component/icon';
 
 interface Props {
   file: AudioFile;
@@ -23,7 +23,6 @@ const AudioFilePartial: FC<Props> = ({ file, onClick, isSelected }) => {
       {audioType && <Icon iconType={audioType} />}
       <div className="info">
         <span className="name">{removeAudioFileTypeFromName(file.name)}</span>
-        <span className="size">{bytesToMegaBytes(file.size)}</span>
       </div>
     </SAudioFile>
   );

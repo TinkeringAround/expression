@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const SAudioVisualizerAreaSelection = styled.div`
   position: absolute;
-  top: 0;
-  left: 5px;
+  top: 1rem;
+  left: 1rem;
 
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
 
   border-radius: 0.25rem;
 
@@ -25,12 +25,12 @@ export const SAudioVisualizerAreaSelection = styled.div`
 
 export const SSelector = styled.div`
   position: absolute;
-  top: 0;
+  top: -0.5rem;
 
-  height: 100%;
+  height: calc(100% + 1rem);
 
   border-radius: 2px;
-  background: ${props => props.theme.light};
+  background: ${props => props.theme.green};
 
   z-index: 6;
 
@@ -45,7 +45,7 @@ export const SSelectedArea = styled.div`
   height: 100%;
 
   border-radius: 2px;
-  background: ${props => props.theme.yellow20};
+  background: ${props => props.theme.hexToRgbA(props.theme.green, '0.3')};
 
   z-index: 5;
 `;

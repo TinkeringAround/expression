@@ -3,13 +3,13 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import * as hooks from 'react-dropzone';
 
-import FileDropZone from './index';
-import { useStore } from '../../store';
-import { getMockStore } from '../../mock/store';
-import { bytesToMegaBytes } from '../../util';
-import { addSlicerFilesRecipe } from '../../store/reducer';
-import { mockElectronDispatch, mockElectronTrigger } from '../../mock/electron';
-import { getFileMock } from '../../mock/file';
+import AudioDropZone from './index';
+import { useStore } from '../../../store';
+import { getMockStore } from '../../../mock/store';
+import { bytesToMegaBytes } from '../../../util';
+import { addSlicerFilesRecipe } from '../../../store/reducer';
+import { mockElectronDispatch, mockElectronTrigger } from '../../../mock/electron';
+import { getFileMock } from '../../../mock/file';
 
 describe('FileDropZone', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('FileDropZone', () => {
 
   test('should render loaded audio', () => {
     const { files } = useStore.getState().slicer;
-    const { getByText } = render(<FileDropZone />);
+    const { getByText } = render(<AudioDropZone />);
 
     expect(getByText(files[0].name)).toBeTruthy();
     expect(getByText(bytesToMegaBytes(files[0].size))).toBeTruthy();
@@ -26,7 +26,7 @@ describe('FileDropZone', () => {
 
   test('should update store and display new audio file on new audio file drop', async () => {
     mockElectronTrigger(addSlicerFilesRecipe);
-    const { getByText, getByRole } = render(<FileDropZone />);
+    const { getByText, getByRole } = render(<AudioDropZone />);
 
     const fileDropZone = getByRole('dropzone');
     Object.defineProperty(fileDropZone, 'files', {
@@ -39,7 +39,7 @@ describe('FileDropZone', () => {
   });
 
   test('should reject non audio file on file drop to drop zone', async () => {
-    const { getByRole, queryByText } = render(<FileDropZone />);
+    const { getByRole, queryByText } = render(<AudioDropZone />);
 
     const fileDropZone = getByRole('dropzone');
     Object.defineProperty(fileDropZone, 'files', {
@@ -54,7 +54,7 @@ describe('FileDropZone', () => {
   test('should dispatch loadSlicerFile on click non selected file', () => {
     const loadSlicerFileMock = jest.fn();
     mockElectronDispatch(loadSlicerFileMock);
-    const { getByText } = render(<FileDropZone />);
+    const { getByText } = render(<AudioDropZone />);
 
     fireEvent.click(getByText('react.wav'));
 
@@ -77,7 +77,7 @@ describe('FileDropZone', () => {
         open: jest.fn()
       }));
 
-      const { getByRole } = render(<FileDropZone />);
+      const { getByRole } = render(<AudioDropZone />);
 
       expect(getByRole('overlay')).toBeInTheDocument();
     });

@@ -1,19 +1,29 @@
 export const theme = {
-  main: '#F9C22E',
-  second: '#2F4858',
-
   white: '#FFFFFF',
-  black: '#152128',
-  yellow: '#F9C22E',
-  yellow20: 'rgba(249,194,46,0.2)',
-  yellowLight: 'antiquewhite',
-  yellowLight35: 'rgba(250,235,215,0.35)',
-  orange: '#F9A42E',
-  green: '#8DB38B',
-  red: '#B24C63',
-  light: '#F5F5F5',
-  light10: 'rgba(245,245,245,0.1)',
+  black: '#373737',
+  grey: '#C8C8C8',
+  light: '#F0F0F0',
 
-  blue: '#2F4858',
-  blue80: 'rgba(47,72,88,0.8)'
+  blue: '#3278E1',
+  darkBlue: '#264653',
+  green: '#59C9A5',
+  red: '#E63946',
+  yellow: '#ffd166',
+  orange: '#f4a261',
+
+  hexToRgbA(hex: string, alpha: string = '1') {
+    let c;
+
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+      c = hex.substring(1).split('');
+
+      if (c.length === 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+      c = '0x' + c.join('');
+
+      // @ts-ignore
+      return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + `,${alpha})`;
+    }
+
+    throw new Error('Bad Hex');
+  }
 };

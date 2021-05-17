@@ -7,7 +7,7 @@ const UNDEFINED = 100000;
 
 export type Direction = 'left' | 'right';
 
-const AudioVisualizerAreaSelection: FC = () => {
+const AreaSelection: FC = () => {
   const draggable = useRef<HTMLDivElement>(null);
   const leftBorder = useRef<HTMLDivElement>(null);
   const rightBorder = useRef<HTMLDivElement>(null);
@@ -17,7 +17,7 @@ const AudioVisualizerAreaSelection: FC = () => {
   const [dragging, setDragging] = useState<Direction | null>(null);
   const [rel, setRel] = useState<number>(0);
 
-  const [left, setLeft] = useState<number>(0);
+  const [left, setLeft] = useState<number>(WIDTH);
   const [right, setRight] = useState<number>(maxWidth);
 
   // // calculate relative position to the mouse
@@ -55,7 +55,7 @@ const AudioVisualizerAreaSelection: FC = () => {
         // prevent left border will be beyond right border
         if (x >= right - WIDTH) x = right - WIDTH;
         // prevent left border will be outside of parent
-        else if (x < 0) x = 0;
+        else if (x < WIDTH) x = WIDTH;
 
         setLeft(x);
       }
@@ -66,7 +66,7 @@ const AudioVisualizerAreaSelection: FC = () => {
         // prevent right border will be beyond left border
         if (x <= left + WIDTH) x = left + WIDTH;
         // prevent right border will be outside of parent
-        else if (x > maxWidth - WIDTH) x = maxWidth - WIDTH;
+        else if (x >= maxWidth) x = maxWidth;
 
         setRight(x);
       }
@@ -99,9 +99,9 @@ const AudioVisualizerAreaSelection: FC = () => {
   }, [left, right]);
 
   useEffect(() => {
-    if (draggable.current && right === UNDEFINED) {
+    if (draggable.current) {
       const { width } = draggable.current.getBoundingClientRect();
-      setRight(width - 2 * WIDTH);
+      if (right === UNDEFINED) setRight(width - 2 * WIDTH);
       setMaxWidth(width - 2 * WIDTH);
     }
   }, [draggable, right, setRight, setMaxWidth]);
@@ -149,4 +149,4 @@ const AudioVisualizerAreaSelection: FC = () => {
     </SAudioVisualizerAreaSelection>
   );
 };
-export default AudioVisualizerAreaSelection;
+export default AreaSelection;

@@ -6,8 +6,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   cursor: default;
-  color: #2F4858;
-  background: #2F4858;
+  color: #373737;
+  background: #F0F0F0;
 }
 
 // Fonts
@@ -67,14 +67,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-file-add:before {
+  content: "\e902";
+}
+.icon-comparison:before {
+  content: "\e903";
+}
 .icon-mp3:before {
   content: "\e900";
 }
-
 .icon-wav:before {
   content: "\e901";
 }
-
-.icon-file-add:before {
-  content: "\e902";
+.icon-save:before {
+  content: "\e9c7";
+}
+.icon-play:before {
+  content: "\ea1c";
+}
+.icon-pause:before {
+  content: "\ea1d";
+}
+.icon-stop:before {
+  content: "\ea1e";
+}
+.icon-first:before {
+  content: "\ea21";
+}
+.icon-last:before {
+  content: "\ea22";
 }

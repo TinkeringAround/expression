@@ -1,9 +1,10 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { SHeader } from './styled';
 import { Features } from '../../features';
 import { getFeatureNameByPath } from '../../util';
+
+import { SHeader } from './styled';
 
 const Header: FC = () => {
   const { pathname } = useLocation();

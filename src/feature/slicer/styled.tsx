@@ -11,67 +11,50 @@ export const SSlicer = styled.div`
     align-items: center;
     flex-grow: 1;
 
-    header {
+    .slicer-info {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
 
       width: 90%;
 
-      padding: 2rem 0 3rem;
-
-      color: ${props => props.theme.yellowLight};
+      margin: 1rem 0 2rem;
+      padding: 1rem;
+      background: ${props => props.theme.white};
+      border-radius: 2px;
 
       box-sizing: border-box;
 
-      text-align: end;
-
-      div {
+      > div {
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
 
         width: 100%;
-
-        margin-bottom: 0.5rem;
+        margin-bottom: 2rem;
 
         h1 {
-          margin: 0;
+          margin: 0 0 0 1rem;
           font-size: 2.5rem;
         }
 
         span {
-          margin-left: 1rem;
-
           font-size: 3rem;
         }
       }
     }
 
-    .visualizer {
+    .slicer-visualizer {
       position: relative;
 
       height: 50%;
       width: 90%;
 
-      box-sizing: content-box;
+      padding: 1rem;
 
-      span {
-        color: ${props => props.theme.light};
-      }
+      border-radius: 2px;
+      background: ${props => props.theme.white};
+
+      box-sizing: border-box;
     }
-
-    // canvas {
-    //   height: 100%;
-    //   width: 100%;
-    //
-    //   border-radius: 0.25rem;
-    //
-    //   background: ${props => props.theme.light10};
-    //
-    //   border-right: solid 5px ${props => props.theme.yellowLight};
-    //   border-left: solid 5px ${props => props.theme.yellowLight};
-    //   border-bottom: solid 5px ${props => props.theme.yellowLight};
-    // }
   }
 `;
