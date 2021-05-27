@@ -1,8 +1,11 @@
+import routeData from 'react-router';
+
 import { Features } from '../features';
 
-export const mockLocation = (route: Features = Features.DASHBOARD) => ({
-  pathname: route,
-  search: '',
-  hash: '',
-  state: undefined
-});
+export const mockRouterLocation = (route: Features = Features.DASHBOARD) =>
+  jest.spyOn(routeData, 'useLocation').mockReturnValue({
+    pathname: route,
+    search: '',
+    hash: '',
+    state: undefined
+  });

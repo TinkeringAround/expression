@@ -1,4 +1,4 @@
-// set mock eletron on jest test environment
+// set mock electron on jest test environment
 window.electron = {
   trigger: jest.fn(),
   dispatch: jest.fn(),
