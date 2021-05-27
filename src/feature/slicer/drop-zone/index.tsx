@@ -1,17 +1,17 @@
-import React, { FC, useCallback, useRef } from 'react';
+import React, { FC, useCallback } from 'react';
 import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
-import { addSlicerScripts, loadSlicerFile } from '../../../store/actions';
+import { addSlicerFiles, loadSlicerFile } from '../../../store/actions';
 import { useStore } from '../../../store';
 import { AudioFile } from '../../../store/types';
 import { isAudio } from '../../../audio';
 
 import Icon from '../../../component/icon';
-import AudioFilePartial from './audioFilePartial';
-import { SAudioFiles, SAudioInput, SAudioDropZone, SResizableOverlay } from './styled';
+import DropZoneFile from './drop-zone-file';
+import { SDropZoneFiles, SAudioInput, SDropZone, SResizableOverlay } from './styled';
 
-const MIN_WIDTH = 250;
+const MIN_WIDTH = 200;
 const MAX_WIDTH = 400;
 const DEFAULT_SIZE = {
   width: 300,
@@ -22,20 +22,17 @@ const ERROR_MESSAGE = {
   code: 'file-invalid-type'
 };
 
-const AudioDropZone: FC = () => {
-  const audioFiles = useRef<HTMLDivElement>(null);
-  const { files, selectedFile } = useStore().slicer;
+const DropZone: FC = () => {
+  const { files, file } = useStore(state => state.slicer);
 
-  const isSelected = useCallback((fileName: string) => fileName === selectedFile?.name, [
-    selectedFile
-  ]);
+  const isSelected = useCallback((fileName: string) => fileName === file?.name, [file]);
 
   const loadFile = useCallback(file => !isSelected(file) && !file.audio && loadSlicerFile(file), [
     isSelected
   ]);
 
   const onDrop = useCallback(files => {
-    addSlicerScripts(
+    addSlicerFiles(
       files.map((file: any) => ({
         name: file.name,
         type: file.type,
@@ -45,16 +42,16 @@ const AudioDropZone: FC = () => {
     );
   }, []);
 
-  const FileValidator = useCallback(file => (!isAudio(file.type) ? ERROR_MESSAGE : null), []);
+  const fileIsValid = useCallback(file => (!isAudio(file.type) ? ERROR_MESSAGE : null), []);
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     noClick: true,
-    validator: FileValidator
+    validator: fileIsValid
   });
 
   return (
-    <SAudioDropZone role="dropzone" {...getRootProps()}>
+    <SDropZone role="dropzone" {...getRootProps()}>
       {/* Resizable Wrapper */}
       <Resizable
         className="resizable"
@@ -69,16 +66,16 @@ const AudioDropZone: FC = () => {
         {isDragActive && <SResizableOverlay role="overlay" />}
 
         {/* Audio Files */}
-        <SAudioFiles ref={audioFiles}>
+        <SDropZoneFiles>
           {files.map((file: AudioFile) => (
-            <AudioFilePartial
+            <DropZoneFile
               key={file.name}
               file={file}
               isSelected={isSelected(file.name)}
               onClick={loadFile}
             />
           ))}
-        </SAudioFiles>
+        </SDropZoneFiles>
 
         {/* Audio Input Footer */}
         <SAudioInput onClick={open}>
@@ -87,8 +84,8 @@ const AudioDropZone: FC = () => {
           Import Audio File
         </SAudioInput>
       </Resizable>
-    </SAudioDropZone>
+    </SDropZone>
   );
 };
 
-export default AudioDropZone;
+export default DropZone;

@@ -1,63 +1,62 @@
-import React, { FC, useEffect } from 'react';
-import { Gain, ToneBufferSource } from 'tone';
+import React, { FC } from 'react';
 
 import { useStore } from '../../store';
 import { getAudioType, removeAudioFileTypeFromName } from '../../audio';
-import { AudioFile } from '../../store/types';
+import { SlicerAudioFile } from '../../store/types';
+import { bytesToMegaBytes } from '../../util';
 
-import AudioDropZone from './audio-drop-zone';
-import AudioVisualizer from './audio-visualizer';
+import DropZone from './drop-zone';
+import Visualizer from './visualizer';
 import Icon from '../../component/icon';
-import AudioComparison from './audio-comparison';
 import { SSlicer } from './styled';
+import { STag } from '../../component';
 
 const Slicer: FC = () => {
-  const file = useStore(state => state.slicer.selectedFile);
+  const file = useStore(state => state.slicer.file);
 
-  useEffect(() => {
-    if (file?.audio) {
-      const { buffer } = file.audio;
-
-      // TODO: Clean up
-      const toneBufferSource = new ToneBufferSource(buffer);
-      const gainNode = new Gain(1).toDestination();
-      toneBufferSource.connect(gainNode);
-      // toneBufferSource.start(0);
-      // gainNode.toDestination();
-    }
-  }, [file]);
-
-  /**
-   * Display Information for an Audio File
-   */
-  const Info = (file: AudioFile) => (
-    <section className="slicer-info">
-      <div>
+  // Display Information for an Audio File
+  const Info = (file: SlicerAudioFile) => (
+    <section className="info">
+      <div className="aboutFileName">
         {<Icon iconType={getAudioType(file.type)} />}
         <h1>{removeAudioFileTypeFromName(file.name)}</h1>
       </div>
-
-      {/* Audio Comparison */}
-      <AudioComparison audioLeft={file} audioRight={file} />
+      <div className="aboutFileSize">
+        <STag>{bytesToMegaBytes(file.size)}</STag>
+        <STag>{`~ ${file.buffer.duration.toFixed(0)}s`}</STag>
+      </div>
     </section>
   );
 
-  /**
-   * Visualization of an Audio File
-   */
-  const Visualizer = (file: AudioFile) => (
-    <section className="slicer-visualizer">
-      <AudioVisualizer file={file} />
+  // Visualization of an Audio File
+  const AudioVisualizer = () => (
+    <section className="visualizer">
+      <Visualizer />
     </section>
   );
+
+  // TODO: Clean up
+  // useEffect(() => {
+  //   if (file?.audio) {
+  //     const { buffer } = file.audio;
+  //
+  //     const toneBufferSource = new ToneBufferSource(buffer);
+  //     const gainNode = new Gain(1).toDestination();
+  //     toneBufferSource.connect(gainNode);
+  //     toneBufferSource.start(0);
+  //     gainNode.toDestination();
+  //   }
+  // }, [file]);
 
   return (
     <SSlicer>
-      <AudioDropZone />
+      <DropZone />
 
       <div className="content">
-        {file && Info(file)}
-        {file && Visualizer(file)}
+        <div className="editor">
+          {file && Info(file)}
+          {file && AudioVisualizer()}
+        </div>
       </div>
     </SSlicer>
   );
