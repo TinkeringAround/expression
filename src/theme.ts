@@ -11,8 +11,19 @@ export const theme = {
   yellow: '#ffd166',
   orange: '#f4a261',
 
+  hexToRgb(hex: string) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : null;
+  },
+
   hexToRgbA(hex: string, alpha: string = '1') {
-    let c;
+    let c: any;
 
     if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
       c = hex.substring(1).split('');
@@ -20,7 +31,6 @@ export const theme = {
       if (c.length === 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
       c = '0x' + c.join('');
 
-      // @ts-ignore
       return 'rgba(' + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',') + `,${alpha})`;
     }
 
