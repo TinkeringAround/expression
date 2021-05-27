@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { Features } from '../../features';
 
 import { SDashboard } from './styled';
 
 const Dashboard: FC = () => {
-  const [routeLinks] = useState([Features.SLICER, Features.FX, Features.PHASER]);
+  const [routeLinks] = useState([Features.SLICER, Features.FX, Features.PHRASER]);
 
   return (
     <SDashboard>

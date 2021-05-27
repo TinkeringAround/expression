@@ -1,3 +1,16 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  cursor: default;
+  color: #373737;
+  background: #F0F0F0;
+}
+
+// Fonts
 @font-face {
   font-family: "Mono";
   src: url("asset/Monoton-Regular.ttf") format("truetype");
@@ -30,13 +43,57 @@
   font-display: block;
 }
 
-body {
-  margin: 0;
-  font-family: 'Roboto-Light', sans-serif;
+// Icons
+@font-face {
+  font-family: 'icomoon';
+  src: url('asset/icomoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
 
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  cursor: default;
-  background: #F5F5F5;
+.icon-file-add:before {
+  content: "\e902";
+}
+.icon-comparison:before {
+  content: "\e903";
+}
+.icon-mp3:before {
+  content: "\e900";
+}
+.icon-wav:before {
+  content: "\e901";
+}
+.icon-save:before {
+  content: "\e9c7";
+}
+.icon-play:before {
+  content: "\ea1c";
+}
+.icon-pause:before {
+  content: "\ea1d";
+}
+.icon-stop:before {
+  content: "\ea1e";
+}
+.icon-first:before {
+  content: "\ea21";
+}
+.icon-last:before {
+  content: "\ea22";
 }

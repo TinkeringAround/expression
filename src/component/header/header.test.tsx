@@ -1,47 +1,36 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import routeData from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { mockLocation } from '../../mock/router';
+
+import { Features } from '../../features';
+import { getFeatureNameByPath } from '../../util';
 
 import Header from './index';
-import { Features } from '../../features';
+
+import { mockRouterLocation } from '../../mock/router';
+import { AppMock } from '../../mock/components';
 
 describe('Dashboard', () => {
   const headerWithRouter = (
-    <BrowserRouter>
+    <AppMock>
       <Header />
-    </BrowserRouter>
+    </AppMock>
   );
 
-  beforeEach(() => {
-    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation());
-  });
-
   test('should render logo', () => {
-    const { getByText } = render(headerWithRouter);
+    mockRouterLocation(Features.DASHBOARD);
+    render(headerWithRouter);
 
-    expect(getByText('Dashboard')).toBeTruthy();
+    expect(screen.getByText(getFeatureNameByPath(Features.DASHBOARD))).toBeTruthy();
   });
 
-  test('should render path as current selected feature', () => {
-    const { getByText } = render(headerWithRouter);
+  test('should display all features as converted names', () => {
+    const features = [Features.DASHBOARD, Features.FX, Features.SLICER, Features.PHRASER];
 
-    expect(getByText('Dashboard')).toBeTruthy();
-  });
-
-  test('should display "FX" as current selected feature when on /fx', () => {
-    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Features.FX));
-    const { getByText } = render(headerWithRouter);
-
-    expect(getByText('FX')).toBeTruthy();
-  });
-
-  test('should display "Slicer" as current selected feature when on /slicer', () => {
-    jest.spyOn(routeData, 'useLocation').mockReturnValue(mockLocation(Features.SLICER));
-    const { getByText } = render(headerWithRouter);
-
-    expect(getByText('Slicer')).toBeTruthy();
+    features.forEach(feature => {
+      mockRouterLocation(feature);
+      render(headerWithRouter);
+      expect(screen.getByText(getFeatureNameByPath(feature))).toBeInTheDocument();
+    });
   });
 });

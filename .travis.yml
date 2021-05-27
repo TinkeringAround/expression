@@ -10,5 +10,5 @@ branches:
 install:
   - yarn install
 script:
-  - yarn test
+  - yarn test:ci
   - yarn electron:package

@@ -10,9 +10,12 @@ const SContent = styled.main`
   height: calc(100vh - 70px);
   width: 100%;
 
-  background: ${props => props.theme.light};
-
   & > * {
+    display: flex;
+
+    width: inherit;
+    height: inherit;
+
     animation: fadeIn 1s ease-in-out;
   }
 
