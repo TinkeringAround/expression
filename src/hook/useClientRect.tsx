@@ -26,16 +26,19 @@ export function useClientRect() {
     [setRect]
   );
 
-  const ref = useCallback(node => {
-    if (node) {
-      updateRect(node);
-      setNode(node);
-    }
-  }, []);
+  const ref = useCallback(
+    node => {
+      if (node) {
+        updateRect(node);
+        setNode(node);
+      }
+    },
+    [updateRect, setNode]
+  );
 
   useEffect(() => {
     node && updateRect(node);
-  }, [node, windowSize, setRect]);
+  }, [node, windowSize, updateRect]);
 
   return { rect, ref };
 }
