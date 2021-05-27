@@ -1,13 +1,18 @@
 import { ToneAudioBuffer } from 'tone';
 
 import { ACTION } from './action-types';
-import { AddSlicerFilesPayload, SlicerAudioFileLoadedPayload } from './types';
+import {
+  AddSlicerFilesPayload,
+  SlicerAudioFile,
+  SlicerAudioFileLoadedPayload,
+  UpdateSlicerSelectionPayload
+} from './types';
 import { useStore } from './index';
 
 const { on } = window.electron;
 
 // ==============================================================
-export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) => {
+export const addSlicerFilesRecipe = (_: null, { files }: AddSlicerFilesPayload) => {
   const { update, slicer } = useStore.getState();
   const currentFileNames = slicer.files.map(file => file.name);
   const newFiles = files.filter(file => !currentFileNames.includes(file.name));
@@ -21,28 +26,36 @@ export const addSlicerFilesRecipe = (_: any, { files }: AddSlicerFilesPayload) =
 };
 
 export const slicerFileLoadedRecipe = (
-  _: any,
+  _: null,
   { file, error, channelData }: SlicerAudioFileLoadedPayload
 ) => {
   const { update, slicer } = useStore.getState();
-  let newFile = file;
+  const loadedSlicerAudioFile: SlicerAudioFile = {
+    ...file,
+    channelData: channelData,
+    buffer: ToneAudioBuffer.fromArray(channelData)
+  };
 
   if (error) console.error(error);
-
-  if (channelData) {
-    newFile = {
-      ...file,
-      audio: {
-        channelData,
-        buffer: ToneAudioBuffer.fromArray(channelData)
-      }
-    };
-  }
 
   update({
     slicer: {
       ...slicer,
-      selectedFile: newFile
+      file: loadedSlicerAudioFile
+    }
+  });
+};
+
+export const updateSlicerSelectionRecipe = (
+  _: null,
+  { selection }: UpdateSlicerSelectionPayload
+) => {
+  const { update, slicer } = useStore.getState();
+
+  update({
+    slicer: {
+      ...slicer,
+      selection
     }
   });
 };
@@ -50,3 +63,4 @@ export const slicerFileLoadedRecipe = (
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
 on(ACTION.slicerFileLoaded, slicerFileLoadedRecipe);
+on(ACTION.updateSlicerSelection, updateSlicerSelectionRecipe);

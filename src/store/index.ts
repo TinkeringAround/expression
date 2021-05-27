@@ -1,9 +1,10 @@
 import create, { State } from 'zustand';
-import { AudioFile } from './types';
+import { AudioFile, SlicerAudioFile, SlicerSelection } from './types';
 
 export interface SlicerState {
   files: AudioFile[];
-  selectedFile: AudioFile | null;
+  file: SlicerAudioFile | null;
+  selection: SlicerSelection;
 }
 
 export interface AppState extends State {
@@ -14,7 +15,13 @@ export interface AppState extends State {
 export const useStore = create<AppState>(set => ({
   slicer: {
     files: [],
-    selectedFile: null
+    file: null,
+    selection: {
+      start: 0,
+      end: 0,
+      zoom: 1,
+      offset: 0
+    }
   },
   //@ts-ignore
   update: (partial: Partial<AppState>) => set(partial)
