@@ -1,5 +1,10 @@
 import { AudioType } from './types';
 
+/**
+ * Removes audio type from audio name
+ * @param {string} audioName the audio name with audio type
+ * @returns {string} the audio name without audio type ending
+ */
 export const removeAudioFileTypeFromName: (audioName: string) => string = audioName => {
   if (audioName.includes('.wav')) return audioName.replace('.wav', '');
   if (audioName.includes('.mp3')) return audioName.replace('.mp3', '');
@@ -18,19 +23,19 @@ export const getAudioType: (audioType: string) => AudioType | null = audioType =
 };
 
 /**
- * Check an file type to be an audip
+ * Check an file type to be an audio
  * @param {string} fileType the the file type
  * @returns {boolean}
  */
 export const isAudio: (fileType: string) => boolean = fileType => fileType.includes('audio');
 
 /**
- * Filters the AudioBuffer retrieved from an external source
+ * Samples the AudioBuffer retrieved from an external source
  * @param {AudioBuffer} rawData the AudioBuffer from drawAudio()
  * @param {number} samples the count of samples in the final output
  * @returns {Array} an array of floating point numbers
  */
-const filterData = (rawData: Float32Array, samples: number) => {
+export const sampleChannelData = (rawData: Float32Array, samples: number) => {
   // the number of samples in each subdivision
   const blockSize = Math.floor(rawData.length / samples);
 
@@ -42,7 +47,7 @@ const filterData = (rawData: Float32Array, samples: number) => {
     let sum = 0;
     for (let j = 0; j < blockSize; j++) {
       // find the sum of all the samples in the block
-      sum = sum + Math.abs(rawData[blockStart + j]);
+      sum = sum + rawData[blockStart + j]; //Math.abs(rawData[blockStart + j]);
     }
 
     // divide the sum by the block size to get the average
@@ -53,11 +58,16 @@ const filterData = (rawData: Float32Array, samples: number) => {
 };
 
 /**
- * Normalizes the audio data to make a cleaner illustration
- * @returns {Array} an normalized array of floating point numbers
+ * Calculate wav to mp3 compression (relation wav to mp3 is 10.75:1)
+ * @param {number} wavSize file size
+ * @returns {number} estimated mp3 compressed size
  */
-export const normalizeData = (audioBuffer: Float32Array, samples: number = 70) => {
-  const filteredData = filterData(audioBuffer, samples);
-  const multiplier = Math.pow(Math.max(...filteredData), -1);
-  return filteredData.map(n => n * multiplier);
-};
+export const convertWavToMp3Size = (wavSize: number): number => Math.floor(wavSize / 10.75);
+
+/**
+ * Find the absolute maximum value of a number array
+ * @param {number[]} values the numbers array with negative and/or positive values
+ * @returns {number} the absolute maximum value
+ */
+export const findAbsoluteMax = (values: number[]): number =>
+  Math.max.apply(null, values.map(Math.abs));
