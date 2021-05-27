@@ -23,13 +23,14 @@ function loadAudioFile(event, { file }) {
       logInfo(`${ACTION.loadSlicerFile}, no audio file found`);
       event.reply(ACTION.slicerFileLoaded, {
         file,
-        error: 'No Audio file found.'
+        error: 'No Audio file found.',
+        channelData: [[], []]
       });
     }
   } catch (error) {
     const errorMsg = `${ACTION.loadSlicerFile}, raising ${error}`;
     logError(errorMsg);
-    event.reply(ACTION.slicerFileLoaded, { file, error: errorMsg });
+    event.reply(ACTION.slicerFileLoaded, { file, error: errorMsg, channelData: [[], []] });
   }
 }
 
