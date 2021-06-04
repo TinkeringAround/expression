@@ -4,7 +4,8 @@ import * as useDragHook from '../hook/useDrag';
 import { DragState } from '../hook/useDrag';
 
 import * as useClientRectHook from '../hook/useClientRect';
-import { Rect } from '../hook/useClientRect';
+
+import * as ReactDropZone from 'react-dropzone';
 
 export const mockUseDrag = (defaultValue: number = 500) =>
   jest.spyOn(useDragHook, 'useDrag').mockImplementation((minX: number) => {
@@ -18,13 +19,27 @@ export const mockUseDrag = (defaultValue: number = 500) =>
     });
   });
 
-export const mockUseClientRect = ({ width = 100, height = 100, x = 0, y = 0 }: Partial<Rect>) =>
+export const mockUseClientRect = ({
+  width = 100,
+  height = 100,
+  x = 0,
+  y = 0
+}: Partial<DOMRectReadOnly>) =>
   jest.spyOn(useClientRectHook, 'useClientRect').mockReturnValue({
-    rect: {
+    rect: mock<DOMRectReadOnly>({
       width,
       height,
       x,
       y
-    },
-    ref: jest.fn()
+    })
   });
+
+export const mockReactDropZone = () =>
+  jest.spyOn(ReactDropZone, 'useDropzone').mockReturnValueOnce(
+    mock<ReactDropZone.DropzoneState>({
+      getRootProps: jest.fn(),
+      getInputProps: jest.fn(),
+      open: jest.fn(),
+      isDragActive: true
+    })
+  );

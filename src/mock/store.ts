@@ -1,6 +1,6 @@
-import { AppState, useStore } from '../store';
-import { SlicerSelection } from '../store/types';
+import { SlicerSelection } from '../store/slicer/types';
 import { getAudioFileMock, getSlicerAudioFileMock } from './types';
+import { SlicerState, useSlicer } from '../store/slicer';
 
 export const getMockSelection = ({
   start = 0,
@@ -14,24 +14,25 @@ export const getMockSelection = ({
   offset
 });
 
-export const getMockStore: (statePartial?: Partial<AppState>) => AppState = (statePartial = {}) => {
-  const { update } = useStore.getState();
+export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => SlicerState = (
+  statePartial = {}
+) => {
+  const { update } = useSlicer.getState();
 
   return {
-    slicer: {
-      files: [
-        getAudioFileMock({ name: 'react.wav', size: 100000, type: 'audio/wav', path: 'reactPath' }),
-        getAudioFileMock({
-          name: 'angular.wav',
-          size: 50000,
-          type: 'audio/wav',
-          path: 'angularPath'
-        })
-      ],
-      file: getSlicerAudioFileMock({}),
-      selection: getMockSelection({})
-    },
+    files: [
+      getAudioFileMock({ name: 'react.wav', size: 100000, type: 'audio/wav', path: 'reactPath' }),
+      getAudioFileMock({
+        name: 'angular.wav',
+        size: 50000,
+        type: 'audio/wav',
+        path: 'angularPath'
+      })
+    ],
+    file: getSlicerAudioFileMock({}),
+    selection: getMockSelection({}),
+    samples: 100,
     ...statePartial,
     update
-  } as AppState;
+  } as SlicerState;
 };

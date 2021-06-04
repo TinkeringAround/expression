@@ -4,4 +4,4 @@
  * @returns {Float32Array} an array of floating point numbers
  */
 export const getChannelDataMock = (count: number): Float32Array =>
-  Float32Array.from(Array.from({ length: count }, () => Math.random() * 5));
+  Float32Array.from(Array.from({ length: count }, () => Math.random() * 10));
