@@ -27,7 +27,7 @@ export const getAudioType: (audioType: string) => AudioType | null = audioType =
  * @param {string} fileType the the file type
  * @returns {boolean}
  */
-export const isAudio: (fileType: string) => boolean = fileType => fileType.includes('audio');
+export const isAudio = (fileType: string): boolean => fileType.includes('audio');
 
 /**
  * Samples the AudioBuffer retrieved from an external source
@@ -35,7 +35,11 @@ export const isAudio: (fileType: string) => boolean = fileType => fileType.inclu
  * @param {number} samples the count of samples in the final output
  * @returns {Array} an array of floating point numbers
  */
-export const sampleChannelData = (rawData: Float32Array, samples: number) => {
+export const sampleChannelData = (rawData: Float32Array, samples: number): number[] => {
+  if (rawData.length < samples) {
+    return Array.from(rawData);
+  }
+
   // the number of samples in each subdivision
   const blockSize = Math.floor(rawData.length / samples);
 

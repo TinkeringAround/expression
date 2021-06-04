@@ -13,10 +13,10 @@ async function createWindow() {
   try {
     if (mainWindow == null) {
       mainWindow = new BrowserWindow({
-        width: isDev ? 1600 : 800,
-        height: isDev ? 1000 : 800,
-        minHeight: 800,
-        minWidth: 800,
+        width: isDev ? 1600 : 850,
+        height: isDev ? 1000 : 850,
+        minHeight: 850,
+        minWidth: 850,
         webPreferences: {
           nodeIntegration: false,
           preload: __dirname + '/preload.js'

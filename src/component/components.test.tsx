@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { theme } from '../theme';
 
-import { STag } from './index';
+import STag from './tag';
 
 describe('components', () => {
   describe('STag', () => {

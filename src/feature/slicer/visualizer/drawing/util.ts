@@ -23,10 +23,10 @@ export const calculateDrawingPoints: (
   for (let i = 0; i < samples.length; i++) {
     const x = stepWidth * i;
     // -1 because svg coordinate system starts with 0,0 in top left corner
-    const height = -1 * samples[i] * factor + maxY;
+    const y = -1 * samples[i] * factor + maxY;
 
     // Add next line point
-    points += ` ${x},${height}`;
+    points += ` ${x},${y}`;
   }
 
   return points;

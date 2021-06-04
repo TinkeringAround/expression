@@ -2,28 +2,28 @@ import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
 
 import { useDrag } from '../../../../hook/useDrag';
 import { useClientRect } from '../../../../hook/useClientRect';
-import { bytesToMegaBytes, mapValues, asSeconds } from '../../../../util';
+import { toMB, map, asSeconds } from '../../../../util';
+import { useSlicer } from '../../../../store/slicer';
+import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
+import { updateSlicerSelection } from '../../../../store/slicer/actions';
+import { useRefCallback } from '../../../../hook/useRefCallback';
 
 import { SAreaSelection, SSelector, SArea } from './styled';
 
-const WIDTH = 7;
-const UNDEFINED = 10000;
+export const BORDER_WIDTH = 7;
+const UNDEFINED = BORDER_WIDTH;
 const AREA_THRESHOLD = 70;
 
-interface Props {
-  duration: number;
-  size: number;
-  zoom: number;
-  offset: number;
-
-  updateSelection: (start: number, end: number) => void;
-}
-
-const AreaSelection: FC<Props> = ({ duration, size, zoom, offset, updateSelection }) => {
-  const { rect, ref } = useClientRect();
+const AreaSelection: FC = () => {
+  const { file } = useSlicer();
+  const { buffer, size } = useSlicer(selectSlicerFile);
+  const { zoom } = useSlicer(selectSlicerSelection);
+  const { ref, setRef } = useRefCallback();
+  const { rect } = useClientRect(ref, true);
 
   const [maxWidth, setMaxWidth] = useState<number>(UNDEFINED);
   const [maxXLeft, setMaxXLeft] = useState<number>(UNDEFINED);
+  const [areaWidth, setAreaWidth] = useState<number>(UNDEFINED);
 
   // left border
   const {
@@ -32,6 +32,7 @@ const AreaSelection: FC<Props> = ({ duration, size, zoom, offset, updateSelectio
     onDrag: onDragLeft,
     onDragStart: onDragStartLeft,
     onDragEnd: onDragEndLeft,
+    reset: resetLeftBorder,
     onDragPrevent
   } = useDrag(0, maxXLeft, 0);
 
@@ -41,92 +42,100 @@ const AreaSelection: FC<Props> = ({ duration, size, zoom, offset, updateSelectio
     draggable: rightBorder,
     onDrag: onDragRight,
     onDragStart: onDragStartRight,
-    onDragEnd: onDragEndRight
-  } = useDrag(left + WIDTH, maxWidth, maxWidth);
+    onDragEnd: onDragEndRight,
+    reset: resetRightBorder
+  } = useDrag(left + BORDER_WIDTH, maxWidth - BORDER_WIDTH, maxWidth - BORDER_WIDTH);
 
-  // helper to map selected width to duration slice
-  const mapToSeconds = useCallback(
-    (width: number) => mapValues(width, 0, maxWidth, 0, duration / zoom),
-    [maxWidth, duration, zoom]
+  const reset = () => {
+    resetLeftBorder();
+    resetRightBorder();
+  };
+
+  // helper to map a length/width/position to a duration in seconds
+  const toTime = useCallback(
+    (value: number) => map(value, 0, maxWidth - BORDER_WIDTH, 0, buffer.duration / zoom),
+    [maxWidth, buffer, zoom]
   );
 
-  // selected duration
   const DurationSlice = useCallback(() => {
-    const areaWidth = right - left - WIDTH;
-    const estimatedSize = bytesToMegaBytes((size * areaWidth) / maxWidth);
+    const show = areaWidth >= AREA_THRESHOLD;
+    const areaTimeSlice = toTime(areaWidth);
+    const displayDuration = show ? asSeconds(areaTimeSlice, 1) : '';
+    const estimatedSize = show ? `~${toMB((size * areaTimeSlice) / buffer.duration)}` : '';
 
-    if (areaWidth >= AREA_THRESHOLD) {
-      return (
-        <Fragment>
-          <span>{asSeconds(mapToSeconds(right - left - WIDTH))}</span>
-          <span>{`~${estimatedSize}`}</span>
-        </Fragment>
-      );
-    }
+    return (
+      <Fragment>
+        <span>{displayDuration}</span>
+        <span>{estimatedSize}</span>
+      </Fragment>
+    );
+  }, [areaWidth, buffer, size, toTime]);
 
-    return <Fragment />;
-  }, [right, size, left, maxWidth, mapToSeconds]);
-
-  // set initial max value
   useEffect(() => {
-    rect && setMaxWidth(rect.width - WIDTH);
+    // reset border when file changes
+    // dont use reset function of useDrag directly because
+    // it will re-trigger the reset on resize
+    file && reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file]);
+
+  useEffect(() => {
+    // update area width when border position changes
+    setAreaWidth(right - left);
+  }, [right, left, setAreaWidth]);
+
+  useEffect(() => {
+    // set initial max value
+    rect && setMaxWidth(rect.width);
   }, [rect, setMaxWidth]);
 
-  // update max left border value when right border position updates
   useEffect(() => {
-    maxXLeft !== right && setMaxXLeft(right - WIDTH);
+    // update max left border value when right border position updates
+    maxXLeft !== right && setMaxXLeft(right - BORDER_WIDTH);
   }, [maxXLeft, right, setMaxXLeft]);
 
-  // update Selection when border position changes
   useEffect(() => {
-    updateSelection(left, right);
-  }, [left, right, updateSelection]);
+    // update start in selection state when border left position changes
+    updateSlicerSelection({ start: left });
+  }, [left]);
+
+  useEffect(() => {
+    // update end in selection state when border right position changes
+    updateSlicerSelection({ end: right + BORDER_WIDTH });
+  }, [right]);
 
   return (
-    <SAreaSelection role="selection" ref={ref} onDragEnter={onDragPrevent}>
+    <SAreaSelection role="selection" ref={setRef} onDragEnter={onDragPrevent}>
       {/* Left Border */}
-      {rect && (
-        <SSelector
-          role="border-left"
-          ref={leftBorder}
-          onDragStart={onDragStartLeft}
-          onDragEnd={onDragEndLeft}
-          onDrag={onDragLeft}
-          draggable
-          style={{ left, width: WIDTH }}
-        >
-          <span>{asSeconds(mapToSeconds(left) + offset)}</span>
-        </SSelector>
-      )}
+      <SSelector
+        role="border-left"
+        ref={leftBorder}
+        onDragStart={onDragStartLeft}
+        onDragEnd={onDragEndLeft}
+        onDrag={onDragLeft}
+        draggable
+        style={{ left, width: BORDER_WIDTH }}
+      />
 
       {/* Highlighted Area */}
-      {rect && (
-        <SArea
-          role="area"
-          style={{
-            width: right - left - WIDTH,
-            left: left + WIDTH
-          }}
-          onDragEnter={onDragPrevent}
-        >
-          <DurationSlice />
-        </SArea>
-      )}
+      <SArea
+        role="area"
+        style={{ width: right - left - BORDER_WIDTH, left: left + BORDER_WIDTH }}
+        onDragEnter={onDragPrevent}
+      >
+        <DurationSlice />
+      </SArea>
 
       {/* Right Border */}
-      {rect && (
-        <SSelector
-          role="border-right"
-          ref={rightBorder}
-          onDragStart={onDragStartRight}
-          onDrag={onDragRight}
-          onDragEnd={onDragEndRight}
-          draggable
-          style={{ left: right, width: WIDTH }}
-        >
-          <span>{asSeconds(mapToSeconds(right) + offset)}</span>
-        </SSelector>
-      )}
+      <SSelector
+        role="border-right"
+        ref={rightBorder}
+        onDragStart={onDragStartRight}
+        onDrag={onDragRight}
+        onDragEnd={onDragEndRight}
+        draggable
+        style={{ left: right, width: BORDER_WIDTH }}
+      />
     </SAreaSelection>
   );
 };

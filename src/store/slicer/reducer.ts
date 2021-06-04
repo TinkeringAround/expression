@@ -1,27 +1,23 @@
 import { ToneAudioBuffer } from 'tone';
-
-import { ACTION } from './action-types';
+import { ACTION } from '../action-types';
+import { useSlicer } from './index';
 import {
   AddSlicerFilesPayload,
   SlicerAudioFile,
   SlicerAudioFileLoadedPayload,
   UpdateSlicerSelectionPayload
 } from './types';
-import { useStore } from './index';
 
 const { on } = window.electron;
 
 // ==============================================================
 export const addSlicerFilesRecipe = (_: null, { files }: AddSlicerFilesPayload) => {
-  const { update, slicer } = useStore.getState();
-  const currentFileNames = slicer.files.map(file => file.name);
+  const { update, files: slicerFiles } = useSlicer.getState();
+  const currentFileNames = slicerFiles.map(file => file.name);
   const newFiles = files.filter(file => !currentFileNames.includes(file.name));
 
   update({
-    slicer: {
-      ...slicer,
-      files: [...slicer.files, ...newFiles]
-    }
+    files: [...slicerFiles, ...newFiles]
   });
 };
 
@@ -29,7 +25,7 @@ export const slicerFileLoadedRecipe = (
   _: null,
   { file, error, channelData }: SlicerAudioFileLoadedPayload
 ) => {
-  const { update, slicer } = useStore.getState();
+  const { update } = useSlicer.getState();
   const loadedSlicerAudioFile: SlicerAudioFile = {
     ...file,
     channelData: channelData,
@@ -39,25 +35,37 @@ export const slicerFileLoadedRecipe = (
   if (error) console.error(error);
 
   update({
-    slicer: {
-      ...slicer,
-      file: loadedSlicerAudioFile
+    file: loadedSlicerAudioFile,
+    selection: {
+      start: 0,
+      end: 0,
+      offset: 0,
+      zoom: 1
     }
   });
 };
 
 export const updateSlicerSelectionRecipe = (
   _: null,
-  { selection }: UpdateSlicerSelectionPayload
+  { end, offset, zoom, start }: UpdateSlicerSelectionPayload
 ) => {
-  const { update, slicer } = useStore.getState();
+  const { update, selection } = useSlicer.getState();
+  const isDirty =
+    (end && end !== selection.end) ||
+    (offset && offset !== selection.offset) ||
+    (start && start !== selection.start) ||
+    (zoom && zoom !== selection.zoom);
 
-  update({
-    slicer: {
-      ...slicer,
-      selection
-    }
-  });
+  if (isDirty) {
+    update({
+      selection: {
+        start: start ?? selection.start,
+        end: end ?? selection.end,
+        offset: offset ?? selection.offset,
+        zoom: zoom ?? selection.zoom
+      }
+    });
+  }
 };
 
 // ==============================================================

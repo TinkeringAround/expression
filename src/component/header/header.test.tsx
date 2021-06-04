@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Features } from '../../features';
-import { getFeatureNameByPath } from '../../util';
+import { featureToNameByPath } from '../../util';
 
 import Header from './index';
 
@@ -21,7 +21,7 @@ describe('Dashboard', () => {
     mockRouterLocation(Features.DASHBOARD);
     render(headerWithRouter);
 
-    expect(screen.getByText(getFeatureNameByPath(Features.DASHBOARD))).toBeTruthy();
+    expect(screen.getByText(featureToNameByPath(Features.DASHBOARD))).toBeTruthy();
   });
 
   test('should display all features as converted names', () => {
@@ -30,7 +30,7 @@ describe('Dashboard', () => {
     features.forEach(feature => {
       mockRouterLocation(feature);
       render(headerWithRouter);
-      expect(screen.getByText(getFeatureNameByPath(feature))).toBeInTheDocument();
+      expect(screen.getByText(featureToNameByPath(feature))).toBeInTheDocument();
     });
   });
 });

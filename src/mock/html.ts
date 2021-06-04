@@ -46,3 +46,27 @@ export const unMockProperties = (type: PrototypeType) => {
       value && Object.defineProperty(prototype, property, value);
     });
 };
+
+export const mockResizeObserver = () => {
+  const observe = jest.fn(),
+    unobserve = jest.fn(),
+    disconnect = jest.fn();
+
+  class ResizeObserver {
+    observe() {
+      observe();
+    }
+
+    unobserve() {
+      unobserve();
+    }
+
+    disconnect() {
+      disconnect();
+    }
+  }
+
+  window.ResizeObserver = ResizeObserver;
+
+  return { observe, unobserve, disconnect };
+};

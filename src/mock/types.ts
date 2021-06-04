@@ -1,7 +1,7 @@
 import { ToneAudioBuffer } from 'tone';
 import { mock } from 'jest-mock-extended';
 
-import { AudioFile, SlicerAudioFile } from '../store/types';
+import { AudioFile, SlicerAudioFile } from '../store/slicer/types';
 
 import { getChannelDataMock } from './audio';
 

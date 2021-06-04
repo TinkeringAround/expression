@@ -2,16 +2,16 @@ import React, { FC, useCallback } from 'react';
 import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
-import { addSlicerFiles, loadSlicerFile } from '../../../store/actions';
-import { useStore } from '../../../store';
-import { AudioFile } from '../../../store/types';
+import { AudioFile } from '../../../store/slicer/types';
 import { isAudio } from '../../../audio';
 
 import Icon from '../../../component/icon';
 import DropZoneFile from './drop-zone-file';
 import { SDropZoneFiles, SAudioInput, SDropZone, SResizableOverlay } from './styled';
+import { addSlicerFiles, loadSlicerFile } from '../../../store/slicer/actions';
+import { useSlicer } from '../../../store/slicer';
 
-const MIN_WIDTH = 200;
+const MIN_WIDTH = 225;
 const MAX_WIDTH = 400;
 const DEFAULT_SIZE = {
   width: 300,
@@ -23,7 +23,7 @@ const ERROR_MESSAGE = {
 };
 
 const DropZone: FC = () => {
-  const { files, file } = useStore(state => state.slicer);
+  const { files, file } = useSlicer();
 
   const isSelected = useCallback((fileName: string) => fileName === file?.name, [file]);
 
@@ -80,8 +80,8 @@ const DropZone: FC = () => {
         {/* Audio Input Footer */}
         <SAudioInput onClick={open}>
           <input {...getInputProps()} />
-          <Icon iconType="file-add" />
-          Import Audio File
+          <Icon iconType="upload" />
+          Upload Audio Files
         </SAudioInput>
       </Resizable>
     </SDropZone>

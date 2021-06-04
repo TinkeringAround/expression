@@ -54,6 +54,15 @@ describe('audio', () => {
 
       expect(sampledData.length).toEqual(samples);
     });
+
+    test('should not sample audio data when samples are greater than data length', () => {
+      const samples = 20,
+        channelDataLength = 10;
+      const audioFile = getChannelDataMock(channelDataLength);
+      const sampledData = sampleChannelData(audioFile, samples);
+
+      expect(sampledData.length).toBe(channelDataLength);
+    });
   });
 
   describe('convertWavToMp3Size', () => {

@@ -11,7 +11,7 @@ describe('useDrag', () => {
     minX?: number;
     maxX?: number;
     startX?: number;
-    test?: 'onDragStart' | 'onDrag' | 'onDragEnd' | 'onDragPrevent';
+    test?: 'onDragStart' | 'onDrag' | 'onDragEnd' | 'onDragPrevent' | 'reset';
     useClick?: boolean;
     useRef?: boolean;
   };
@@ -24,16 +24,22 @@ describe('useDrag', () => {
     useClick = true,
     useRef = true
   }) => {
-    const { x, dragging, draggable, onDragStart, onDragEnd, onDrag, onDragPrevent } = useDrag(
-      minX,
-      maxX,
-      startX
-    );
+    const {
+      x,
+      dragging,
+      draggable,
+      onDragStart,
+      onDragEnd,
+      onDrag,
+      onDragPrevent,
+      reset
+    } = useDrag(minX, maxX, startX);
 
     const propagateEvent = (event: any) => {
       if (test === 'onDragStart') onDragStart(event);
       else if (test === 'onDrag') onDrag(event);
       else if (test === 'onDragEnd') onDragEnd(event);
+      else if (test === 'reset') reset();
       else onDragPrevent(event);
     };
 
@@ -65,7 +71,12 @@ describe('useDrag', () => {
   };
 
   const endDrag = () => {
-    // mock dragEnd  via click
+    // mock dragEnd via click
+    fireEvent.click(screen.getByRole('wrapper'));
+  };
+
+  const reset = () => {
+    // mock reset via click
     fireEvent.click(screen.getByRole('wrapper'));
   };
 
@@ -187,5 +198,17 @@ describe('useDrag', () => {
         dropEffect: 'none'
       }
     });
+  });
+
+  test('should reset on reset', () => {
+    const startX = 40;
+    const { rerender } = render(<UseDrag startX={startX} />);
+
+    startDrag();
+    rerender(<UseDrag test="reset" startX={startX} />);
+    reset();
+
+    expect(screen.queryByText('true')).not.toBeInTheDocument();
+    expect(screen.getByText(startX)).toBeInTheDocument();
   });
 });

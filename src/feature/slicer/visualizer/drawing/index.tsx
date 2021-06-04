@@ -1,85 +1,87 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { calculateDrawingPoints } from './util';
-import { findAbsoluteMax, sampleChannelData } from '../../../../audio';
+import { useSlicer } from '../../../../store/slicer';
 import { useClientRect } from '../../../../hook/useClientRect';
+import { findAbsoluteMax, sampleChannelData } from '../../../../audio';
+import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
+import { updateSlicerSelection } from '../../../../store/slicer/actions';
+import { useRefCallback } from '../../../../hook/useRefCallback';
+
+import Timeline from './timeline';
+import Audio from './audio';
 
 import { SDrawing } from './styled';
 
-type AudioData = {
-  sample: number[];
-  maxAmplitude: number;
-};
+const PADDING = 70;
+const UNDEFINED = 1;
 
-interface Props {
-  channelData: Float32Array[];
-  zoom: number;
-  samples: number;
+const Drawing: FC = () => {
+  const { samples } = useSlicer();
+  const { channelData, buffer } = useSlicer(selectSlicerFile);
+  const { zoom } = useSlicer(selectSlicerSelection);
+  const { ref, setRef } = useRefCallback();
+  const { rect } = useClientRect(ref, true);
 
-  updateOffset: (offsetX: number) => void;
-}
-
-const PADDING = 50;
-const UNDEFINED = -1;
-
-const Drawing: FC<Props> = ({ channelData, samples, zoom, updateOffset: updateOffsetX }) => {
-  const { rect, ref } = useClientRect();
-
+  const [baseHeight, setBaseHeight] = useState<number>(UNDEFINED);
   const [baseWidth, setBaseWidth] = useState<number>(UNDEFINED);
-  const [svgWidth, setSvgWidth] = useState<string>('100%');
-  const [data, setData] = useState<AudioData>();
+  const [sample, setSample] = useState<number[]>([]);
+  const [maxAmplitude, setMaxAmplitude] = useState<number>(UNDEFINED);
   const [points, setPoints] = useState<string>('');
 
-  // update scroll left as duration offset
   const updateOffset = useCallback(
     event => {
+      // update scroll left as duration offset
       // @ts-ignore
       const { scrollLeft } = event.target;
-      updateOffsetX(scrollLeft / (baseWidth * zoom));
+      const offset = (buffer.duration * scrollLeft) / (baseWidth * zoom);
+      updateSlicerSelection({ offset });
     },
-    [updateOffsetX, baseWidth, zoom]
+    [buffer, baseWidth, zoom]
   );
 
-  // calculate samples from channelData
   useEffect(() => {
-    const sample = sampleChannelData(channelData[0], samples);
-    setData({
-      sample,
-      // max absolute amplitude of data array
-      maxAmplitude: findAbsoluteMax(sample)
-    });
-  }, [channelData, samples]);
+    // calculate samples from channelData
+    setSample(sampleChannelData(channelData[0], samples));
+  }, [channelData, samples, setSample]);
 
-  // set initial base width for svg
   useEffect(() => {
+    // max absolute amplitude of data array
+    setMaxAmplitude(findAbsoluteMax(sample));
+  }, [sample, setMaxAmplitude]);
+
+  useEffect(() => {
+    // set initial base width for svg
     rect && setBaseWidth(rect.width);
   }, [rect, setBaseWidth]);
 
-  // update points and svg width on zoom change
   useEffect(() => {
-    if (rect && data && zoom && baseWidth !== UNDEFINED) {
-      const { sample, maxAmplitude } = data;
-      const { height } = rect;
+    // set initial base height for svg
+    rect && setBaseHeight(rect.height);
+  }, [rect, baseHeight, setBaseWidth]);
 
-      // max Height for value
-      const maxHeight = Math.floor(height / 2);
+  useEffect(() => {
+    // update points and svg width on zoom change
+    if (sample.length === 0 || maxAmplitude === UNDEFINED) {
+      return;
+    }
 
-      // step width
+    if (baseWidth !== UNDEFINED) {
+      const maxHeight = Math.floor(rect.height / 2);
       const stepWidth = (baseWidth * zoom) / samples;
-
-      // svg width according to zoom level
-      setSvgWidth(`${100 * zoom}%`);
-
-      // points to be drawn
       setPoints(calculateDrawingPoints(sample, maxAmplitude, stepWidth, maxHeight, PADDING));
     }
-  }, [rect, data, samples, zoom, baseWidth, setSvgWidth, setPoints]);
+  }, [rect, sample, maxAmplitude, samples, zoom, baseWidth, setPoints]);
 
   return (
-    <SDrawing role="drawing" ref={ref} onScroll={updateOffset}>
-      <svg style={{ width: svgWidth }}>
-        <polyline points={points} />
-      </svg>
+    <SDrawing role="drawing" ref={setRef} onScroll={updateOffset}>
+      <Audio points={points} zoom={zoom} height={baseHeight} />
+      <Timeline
+        duration={buffer.duration}
+        zoom={zoom}
+        height={baseHeight}
+        width={baseWidth} // Border width left and right
+      />
     </SDrawing>
   );
 };

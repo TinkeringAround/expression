@@ -34,6 +34,4 @@ export type SlicerAudioFileLoadedPayload = {
   channelData: Float32Array[];
 } & HasError;
 
-export type UpdateSlicerSelectionPayload = {
-  selection: SlicerSelection;
-};
+export type UpdateSlicerSelectionPayload = Partial<SlicerSelection>;

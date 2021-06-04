@@ -10,6 +10,7 @@ export interface DragState {
   onDragStart: anyFunction;
   onDrag: anyFunction;
   onDragEnd: anyFunction;
+  reset: anyFunction;
 }
 
 export function useDrag(minX: number, maxX: number, startX: number): DragState {
@@ -82,14 +83,16 @@ export function useDrag(minX: number, maxX: number, startX: number): DragState {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  const reset = useCallback(() => {
+    setState({ x: startX, rel: 0, dragging: false });
+  }, [setState, startX]);
+
   useEffect(() => {
-    const { x } = state;
-    if (x < minX) setState({ ...state, x: minX });
+    state.x < minX && setState({ ...state, x: minX });
   }, [state, minX, setState]);
 
   useEffect(() => {
-    const { x } = state;
-    if (x > maxX) setState({ ...state, x: maxX });
+    state.x > maxX && setState({ ...state, x: maxX });
   }, [state, maxX, setState]);
 
   return {
@@ -99,6 +102,7 @@ export function useDrag(minX: number, maxX: number, startX: number): DragState {
     onDragPrevent,
     onDragStart,
     onDrag,
-    onDragEnd
+    onDragEnd,
+    reset
   };
 }
