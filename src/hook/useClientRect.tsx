@@ -1,44 +1,49 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useWindowSize } from './useWindowResize';
-
-export type Rect = { width: number; height: number; x: number; y: number };
-
 const UNDEFINED = -1;
-const initialRect = {
+const INIT = {
   width: UNDEFINED,
   height: UNDEFINED,
   x: UNDEFINED,
-  y: UNDEFINED
+  y: UNDEFINED,
+  bottom: UNDEFINED,
+  top: UNDEFINED,
+  left: UNDEFINED,
+  right: UNDEFINED,
+  toJSON: () => {}
 };
 
-export function useClientRect() {
-  const { windowSize } = useWindowSize();
+export function useClientRect(ref: any, ignoreScroll: boolean = false) {
+  const [observer, setObserver] = useState<ResizeObserver>();
+  const [rect, setRect] = useState<DOMRectReadOnly>(INIT);
 
-  const [node, setNode] = useState<any>(null);
-  const [rect, setRect] = useState<Rect>(initialRect);
+  const onResize = useCallback(
+    (entries: ResizeObserverEntry[]) => {
+      const resizeEvent = [...entries].pop();
+      if (resizeEvent) {
+        const { width, height } = resizeEvent.contentRect;
+        const borderBoxSize = [...resizeEvent.borderBoxSize].pop();
 
-  const updateRect = useCallback(
-    (node: any) => {
-      const { width, height, x, y } = node.getBoundingClientRect();
-      setRect({ width, height, x, y });
-    },
-    [setRect]
-  );
-
-  const ref = useCallback(
-    node => {
-      if (node) {
-        updateRect(node);
-        setNode(node);
+        borderBoxSize &&
+          setRect({
+            ...resizeEvent.contentRect,
+            width: ignoreScroll ? borderBoxSize?.inlineSize : width,
+            height: ignoreScroll ? borderBoxSize.blockSize : height
+          });
       }
     },
-    [updateRect, setNode]
+    [setRect, ignoreScroll]
   );
 
   useEffect(() => {
-    node && updateRect(node);
-  }, [node, windowSize, updateRect]);
+    setObserver(new ResizeObserver(onResize));
 
-  return { rect, ref };
+    return () => observer?.disconnect();
+  }, []);
+
+  useEffect(() => {
+    observer && observer.observe(ref);
+  }, [observer, ref]);
+
+  return { rect };
 }

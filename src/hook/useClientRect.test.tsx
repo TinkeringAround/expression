@@ -1,51 +1,29 @@
 import React, { FC } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useClientRect } from './useClientRect';
+import { useRefCallback } from './useRefCallback';
 
-import { mockProperties, unMockProperties } from '../mock/html';
+import { mockResizeObserver } from '../mock/html';
 
 describe('useClientRect', () => {
   const UseClientRect: FC = () => {
-    const { rect, ref } = useClientRect();
+    const { ref, setRef } = useRefCallback();
+    const { rect } = useClientRect(ref);
 
     return (
-      <div ref={ref}>
+      <div ref={setRef}>
         <span>{rect?.width}</span>
         <span>{rect?.height}</span>
       </div>
     );
   };
 
-  beforeEach(() => {
-    mockProperties(
-      'HTML',
-      ['getBoundingClientRect'],
-      [
-        jest.fn(() => ({
-          width: 1000,
-          height: 500,
-          x: 10,
-          y: 10
-        }))
-      ]
-    );
-  });
-
-  afterAll(() => {
-    unMockProperties('HTML');
-  });
-
-  test('should extract correct width and height from referenced html element', async () => {
+  test('should set up resize observer correctly', async () => {
+    const { observe } = mockResizeObserver();
     render(<UseClientRect />);
 
-    const divElement = document.querySelector('div');
-    expect(divElement).toBeInTheDocument();
-
-    if (divElement) {
-      expect(screen.getByText('1000')).toBeInTheDocument();
-      expect(screen.getByText('500')).toBeInTheDocument();
-    }
+    expect(observe).toHaveBeenCalled();
   });
 });

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const MAX_ZOOM_LEVEL = 15;
+export const MAX_ZOOM_LEVEL = 15;
 
-export function useZoom() {
+export function useZoom(ref: any) {
   const [zoom, setZoom] = useState<number>(1);
 
   const handleWheel = useCallback(
@@ -15,12 +15,14 @@ export function useZoom() {
   );
 
   useEffect(() => {
-    document.addEventListener('wheel', handleWheel);
+    if (ref) {
+      ref.addEventListener('wheel', handleWheel);
 
-    return () => {
-      document.removeEventListener('wheel', handleWheel);
-    };
-  }, [zoom, handleWheel]);
+      return () => {
+        ref.removeEventListener('wheel', handleWheel);
+      };
+    }
+  }, [ref, zoom, handleWheel]);
 
-  return zoom;
+  return { zoom, setZoom };
 }
