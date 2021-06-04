@@ -13,7 +13,7 @@ import Dashboard from './feature/dashboard';
 import Header from './component/header';
 import Content from './component/content';
 import Slicer from './feature/slicer';
-import Notifications from './component/notification';
+import Notifications from './component/notifications';
 
 // Store
 import './store';
