@@ -66,13 +66,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.icon-file-add:before {
-  content: "\e902";
-}
-.icon-comparison:before {
-  content: "\e903";
-}
 .icon-mp3:before {
   content: "\e900";
 }
@@ -81,6 +74,9 @@ body {
 }
 .icon-save:before {
   content: "\e9c7";
+}
+.icon-upload:before {
+  content: "\e9c8";
 }
 .icon-play:before {
   content: "\ea1c";
@@ -97,3 +93,4 @@ body {
 .icon-last:before {
   content: "\ea22";
 }
+

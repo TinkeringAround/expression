@@ -10,17 +10,7 @@ const SIcon = styled.span`
 `;
 
 interface Props {
-  iconType:
-    | AudioType
-    | 'file-add'
-    | 'comparison'
-    | 'save'
-    | 'play'
-    | 'pause'
-    | 'stop'
-    | 'first'
-    | 'last'
-    | null;
+  iconType: AudioType | 'upload' | 'save' | 'play' | 'pause' | 'stop' | 'first' | 'last' | null;
 }
 
 const Icon: FC<Props> = ({ iconType }) => iconType && <SIcon className={`icon icon-${iconType}`} />;
