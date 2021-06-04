@@ -39,6 +39,7 @@ export function useClientRect(ref: any, ignoreScroll: boolean = false) {
     setObserver(new ResizeObserver(onResize));
 
     return () => observer?.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

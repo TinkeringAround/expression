@@ -76,6 +76,7 @@ const AreaSelection: FC = () => {
     // dont use reset function of useDrag directly because
     // it will re-trigger the reset on resize
     file && reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file]);
 
   useEffect(() => {
