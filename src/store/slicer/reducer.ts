@@ -1,4 +1,5 @@
 import { ToneAudioBuffer } from 'tone';
+
 import { ACTION } from '../action-types';
 import { useSlicer } from './index';
 import {
@@ -7,6 +8,7 @@ import {
   SlicerAudioFileLoadedPayload,
   UpdateSlicerSelectionPayload
 } from './types';
+import { addNotification } from '../notification/actions';
 
 const { on } = window.electron;
 
@@ -32,7 +34,7 @@ export const slicerFileLoadedRecipe = (
     buffer: ToneAudioBuffer.fromArray(channelData)
   };
 
-  if (error) console.error(error);
+  if (error) addNotification({ content: error, type: 'error', show: true });
 
   update({
     file: loadedSlicerAudioFile,

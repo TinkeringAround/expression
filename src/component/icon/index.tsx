@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { anyFunction } from '../../util';
 import { AudioType } from '../../audio/types';
+import { NotificationType } from '../../store/notification/types';
 
 const SIcon = styled.span`
   display: flex;
@@ -10,9 +12,23 @@ const SIcon = styled.span`
 `;
 
 interface Props {
-  iconType: AudioType | 'upload' | 'save' | 'play' | 'pause' | 'stop' | 'first' | 'last' | null;
+  iconType:
+    | AudioType
+    | 'upload'
+    | 'save'
+    | 'play'
+    | 'pause'
+    | 'stop'
+    | 'first'
+    | 'last'
+    | 'cross'
+    | NotificationType
+    | null;
+
+  onClick?: anyFunction;
 }
 
-const Icon: FC<Props> = ({ iconType }) => iconType && <SIcon className={`icon icon-${iconType}`} />;
+const Icon: FC<Props> = ({ iconType, onClick }) =>
+  iconType && <SIcon className={`icon icon-${iconType}`} onClick={onClick} />;
 
 export default Icon;

@@ -78,6 +78,15 @@ body {
 .icon-upload:before {
   content: "\e9c8";
 }
+.icon-info:before {
+  content: "\ea0c";
+}
+.icon-error:before {
+  content: "\ea0d";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
 .icon-play:before {
   content: "\ea1c";
 }
@@ -93,4 +102,3 @@ body {
 .icon-last:before {
   content: "\ea22";
 }
-

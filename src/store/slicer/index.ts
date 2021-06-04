@@ -1,4 +1,5 @@
 import create, { State } from 'zustand';
+
 import { AudioFile, SlicerAudioFile, SlicerSelection } from './types';
 
 export interface SlicerState extends State {
