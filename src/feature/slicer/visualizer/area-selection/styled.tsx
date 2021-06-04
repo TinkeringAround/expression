@@ -25,9 +25,9 @@ export const SAreaSelection = styled.div`
 
 export const SSelector = styled.div`
   position: absolute;
-  top: 15px;
+  top: 20px;
 
-  height: calc(100% - 30px);
+  height: calc(100% - 40px);
 
   border-radius: 2px;
   background: ${props => props.theme.green};
@@ -35,28 +35,18 @@ export const SSelector = styled.div`
   z-index: 6;
   cursor: grab;
   transition: opacity 0.15s ease-in-out;
-
-  span {
-    position: relative;
-    left: -0.75rem;
-    bottom: -100%;
-
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: ${props => props.theme.green};
-  }
 `;
 
 export const SArea = styled.div`
   position: absolute;
-  top: 20px;
+  top: 40px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
 
-  height: calc(100% - 40px);
+  height: calc(100% - 80px);
 
   border-radius: 2px;
   background: ${props => props.theme.hexToRgbA(props.theme.green, '0.15')};

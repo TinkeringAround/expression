@@ -2,17 +2,18 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { useStore } from '../../../store';
-import { addSlicerFilesRecipe } from '../../../store/reducer';
+import { useSlicer } from '../../../store/slicer';
+import { AudioFile } from '../../../store/slicer/types';
+import { addSlicerFilesRecipe } from '../../../store/slicer/reducer';
 import { removeAudioFileTypeFromName } from '../../../audio';
 
 import DropZone from './index';
 
-import { getMockStore } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/store';
 import { mockElectronDispatch, mockElectronTrigger } from '../../../mock/electron';
 import { getFileMock } from '../../../mock/types';
 import { AppMock } from '../../../mock/components';
-import { mockReactDropZone } from '../../../mock/modules';
+import { mockReactDropZone } from '../../../mock/hook';
 
 describe('FileDropZone', () => {
   const DropZoneInApp = (
@@ -22,14 +23,14 @@ describe('FileDropZone', () => {
   );
 
   beforeEach(() => {
-    useStore.setState(getMockStore());
+    useSlicer.setState(getSlicerStoreMock());
   });
 
   test('should render loaded audio', async () => {
-    const { files } = useStore.getState().slicer;
+    const { files } = useSlicer.getState();
     render(DropZoneInApp);
 
-    files.forEach(file =>
+    files.forEach((file: AudioFile) =>
       expect(screen.getByText(removeAudioFileTypeFromName(file.name))).toBeInTheDocument()
     );
   });

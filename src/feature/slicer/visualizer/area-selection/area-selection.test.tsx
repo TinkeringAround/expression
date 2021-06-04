@@ -2,31 +2,25 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
+import { useSlicer } from '../../../../store/slicer';
+
 import AreaSelection from './index';
 
 import { AppMock } from '../../../../mock/components';
-import { mockUseDrag } from '../../../../mock/hook';
+import { mockUseClientRect, mockUseDrag } from '../../../../mock/hook';
+import { getSlicerStoreMock } from '../../../../mock/store';
 
 describe('AreaSelection', () => {
-  const duration = 100,
-    size = 10000,
-    zoom = 1,
-    updateSelection = jest.fn();
-
   const AreaSelectionMock = (
     <AppMock>
-      <AreaSelection
-        duration={duration}
-        size={size}
-        zoom={zoom}
-        offset={0}
-        updateSelection={updateSelection}
-      />
+      <AreaSelection />
     </AppMock>
   );
 
   beforeEach(() => {
     mockUseDrag();
+    mockUseClientRect({});
+    useSlicer.setState(getSlicerStoreMock());
   });
 
   test('should display both borders and selection area', async () => {

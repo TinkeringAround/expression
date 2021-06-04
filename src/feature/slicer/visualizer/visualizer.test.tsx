@@ -2,33 +2,34 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { useStore } from '../../../store';
+import { useSlicer } from '../../../store/slicer';
+import { updateSlicerSelectionRecipe } from '../../../store/slicer/reducer';
+import { BORDER_WIDTH } from './area-selection';
 
 import Visualizer from './index';
 
 import { AppMock } from '../../../mock/components';
 import { mockUseClientRect, mockUseDrag } from '../../../mock/hook';
-import { getMockStore } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/store';
 import { mockElectronTrigger } from '../../../mock/electron';
-import { updateSlicerSelectionRecipe } from '../../../store/reducer';
 
 describe('Visualizer', () => {
   const initialEnd = 0,
     width = 100;
-  const VisualizerInApp = () => (
+  const VisualizerInApp = (
     <AppMock>
       <Visualizer />
     </AppMock>
   );
 
   beforeEach(() => {
-    useStore.setState(getMockStore());
+    useSlicer.setState(getSlicerStoreMock());
     mockUseDrag(initialEnd);
     mockUseClientRect({ width });
   });
 
   test('should render controls and drawing', () => {
-    render(VisualizerInApp());
+    render(VisualizerInApp);
 
     expect(screen.getByRole('area')).toBeInTheDocument();
     expect(screen.getAllByRole(/border/).length).toEqual(2);
@@ -37,41 +38,41 @@ describe('Visualizer', () => {
 
   test('should update start and end when area selection border position update', () => {
     mockElectronTrigger(updateSlicerSelectionRecipe);
-    render(VisualizerInApp());
+    render(VisualizerInApp);
 
     // test initial update of border right and update in store
-    expect(useStore.getState().slicer.selection.end).toBe(initialEnd);
+    expect(useSlicer.getState().selection.end).toBe(BORDER_WIDTH);
   });
 
   describe('with disabled useDragMock', () => {
     beforeEach(() => {
-      useStore.setState(getMockStore());
+      useSlicer.setState(getSlicerStoreMock());
       mockUseDrag(0);
     });
 
     test('should update zoom in store when zoomed', () => {
       mockElectronTrigger(updateSlicerSelectionRecipe);
-      render(VisualizerInApp());
+      render(VisualizerInApp);
 
-      fireEvent.wheel(document, { deltaY: 100 });
+      fireEvent.wheel(screen.getByRole('visualizer'), { deltaY: 100 });
 
-      expect(useStore.getState().slicer.selection.zoom).toBe(2);
+      expect(useSlicer.getState().selection.zoom).toBe(2);
     });
 
     test('should update offset in store when scrolled vertically in drawing', () => {
       const scrollLeft = 100;
 
       mockElectronTrigger(updateSlicerSelectionRecipe);
-      render(VisualizerInApp());
+      render(VisualizerInApp);
 
       fireEvent.scroll(screen.getByRole('drawing'), { target: { scrollLeft } });
 
-      const { file, selection } = useStore.getState().slicer;
+      const { file, selection } = useSlicer.getState();
       expect(file).not.toBeNull();
 
       if (file) {
         const expectedOffset = (scrollLeft / (width * selection.zoom)) * file.buffer.duration;
-        expect(useStore.getState().slicer.selection.offset).toBe(expectedOffset);
+        expect(useSlicer.getState().selection.offset).toBe(expectedOffset);
       }
     });
   });

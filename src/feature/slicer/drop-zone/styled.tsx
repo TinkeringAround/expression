@@ -78,6 +78,7 @@ export const SAudioInput = styled.footer`
   border-radius: 2px;
 
   font-family: 'Roboto-Bold', sans-serif;
+  font-size: 0.9rem;
   background: ${props => props.theme.yellow};
 
   box-sizing: border-box;
@@ -89,7 +90,7 @@ export const SAudioInput = styled.footer`
   }
 
   .icon {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     margin-right: 0.75rem;
   }
 `;

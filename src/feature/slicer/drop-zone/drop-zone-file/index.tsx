@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 
-import { AudioFile } from '../../../../store/types';
+import { AudioFile } from '../../../../store/slicer/types';
 import { AudioType } from '../../../../audio/types';
 import { getAudioType, removeAudioFileTypeFromName } from '../../../../audio';
 

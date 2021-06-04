@@ -6,6 +6,8 @@ export const SDrawing = styled.div`
   width: 100%;
   height: 100%;
 
+  background: ${props => props.theme.light};
+
   overflow: auto hidden;
 
   ::-webkit-scrollbar-track {
@@ -36,31 +38,5 @@ export const SDrawing = styled.div`
     width: 0;
     height: 0;
     display: none;
-  }
-
-  div {
-    position: absolute;
-    height: 10px;
-
-    background: ${props => props.theme.grey};
-    border-radius: 2px;
-
-    cursor: pointer;
-    z-index: 10;
-  }
-
-  svg {
-    height: 100%;
-
-    padding: 0 7px; // must be the same value as area-selection selector width
-
-    background: ${props => props.theme.light};
-    box-sizing: border-box;
-
-    polyline {
-      fill: none;
-      stroke: ${props => props.theme.yellow};
-      stroke-width: 3px;
-    }
   }
 `;
