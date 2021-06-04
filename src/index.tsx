@@ -16,7 +16,6 @@ import Slicer from './feature/slicer';
 
 // Store
 import './store';
-import './store/reducer';
 
 // ==========================================================
 ReactDOM.render(
