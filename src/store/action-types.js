@@ -8,7 +8,10 @@ const ACTION = Object.freeze({
   addSlicerFiles: '[SLICER] Add Files',
   loadSlicerFile: '[SLICER] Load File',
   slicerFileLoaded: '[SLICER] File Loaded',
-  updateSlicerSelection: '[SLICER] Update Slicer Selection'
+  updateSlicerSelection: '[SLICER] Update Slicer Selection',
+
+  addNotification: '[NOTIFICATION] Add Notification',
+  hideNotification: '[NOTIFICATION] Hide Notification'
 });
 
 module.exports = {
