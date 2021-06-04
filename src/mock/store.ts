@@ -1,6 +1,8 @@
 import { SlicerSelection } from '../store/slicer/types';
 import { getAudioFileMock, getSlicerAudioFileMock } from './types';
 import { SlicerState, useSlicer } from '../store/slicer';
+import { NotificationState, useNotification } from '../store/notification';
+import { Notification } from '../store/notification/types';
 
 export const getMockSelection = ({
   start = 0,
@@ -35,4 +37,22 @@ export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => Slicer
     ...statePartial,
     update
   } as SlicerState;
+};
+
+export const getNotificationMock = (notificationPartial?: Partial<Notification>): Notification => ({
+  show: notificationPartial?.show ?? true,
+  type: notificationPartial?.type ?? 'info',
+  content: notificationPartial?.content ?? 'Content'
+});
+
+export const getNotificationStoreMock = (
+  statePartial?: Partial<NotificationState>
+): NotificationState => {
+  const { update } = useNotification.getState();
+
+  return {
+    notifications: [getNotificationMock()],
+    ...statePartial,
+    update
+  } as NotificationState;
 };
