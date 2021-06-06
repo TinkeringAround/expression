@@ -22,6 +22,7 @@ interface Props {
     | 'first'
     | 'last'
     | 'cross'
+    | 'trash'
     | NotificationType
     | null;
 
