@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 export const SDropZoneFile = styled.div`
+  position: relative;
+
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 
   width: 100%;
   height: 80px;
@@ -17,6 +19,10 @@ export const SDropZoneFile = styled.div`
   &:hover {
     color: ${props => props.theme.second};
     background: ${props => props.theme.yellow};
+
+    .icon[class*='trash'] {
+      opacity: 1;
+    }
   }
 
   &.selected {
@@ -26,9 +32,27 @@ export const SDropZoneFile = styled.div`
 
   .icon {
     height: 100%;
-    width: 80px;
+    width: 50px;
 
     font-size: 1.75rem;
+
+    &[class*='trash'] {
+      position: absolute;
+      right: 20px;
+      top: 0;
+
+      width: 10px;
+
+      font-size: 1.25rem;
+      color: ${props => props.theme.black};
+
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out 0.1s, color 0.2s ease-in-out;
+
+      &:hover {
+        color: ${props => props.theme.orange};
+      }
+    }
   }
 
   .info {
@@ -36,7 +60,7 @@ export const SDropZoneFile = styled.div`
     flex-direction: column;
     justify-content: center;
 
-    width: calc(100% - 80px);
+    width: calc(100% - 100px);
 
     .name {
       width: 100%;

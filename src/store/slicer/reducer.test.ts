@@ -1,6 +1,7 @@
-import { useSlicer } from './index';
+import { INITIAL_SELECTION, useSlicer } from './index';
 import {
   addSlicerFilesRecipe,
+  removeSlicerFileRecipe,
   slicerFileLoadedRecipe,
   updateSlicerSelectionRecipe
 } from './reducer';
@@ -32,6 +33,41 @@ describe('slicer reducer', () => {
       addSlicerFilesRecipe(null, { files });
 
       expect(useSlicer.getState().files.length).toEqual(files.length);
+    });
+  });
+
+  describe('removeSlicerFileRecipe', () => {
+    beforeEach(() => {
+      useSlicer.setState(getSlicerStoreMock());
+    });
+
+    test('should remove file', () => {
+      const { files } = useSlicer.getState();
+
+      removeSlicerFileRecipe(null, { file: files[0] });
+
+      expect(useSlicer.getState().files.includes(files[0])).toBeFalsy();
+    });
+
+    test('should reset selection when selected file is', () => {
+      useSlicer.setState(
+        getSlicerStoreMock({
+          selection: {
+            start: 1,
+            end: 2,
+            zoom: 4,
+            offset: 1
+          }
+        })
+      );
+      const { file } = useSlicer.getState();
+      expect(file).not.toBeNull();
+
+      if (file) {
+        removeSlicerFileRecipe(null, { file });
+
+        expect(useSlicer.getState().selection).toEqual(INITIAL_SELECTION);
+      }
     });
   });
 

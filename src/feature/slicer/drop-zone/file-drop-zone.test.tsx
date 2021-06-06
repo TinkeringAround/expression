@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { useSlicer } from '../../../store/slicer';
 import { AudioFile } from '../../../store/slicer/types';
-import { addSlicerFilesRecipe } from '../../../store/slicer/reducer';
+import { addSlicerFilesRecipe, removeSlicerFileRecipe } from '../../../store/slicer/reducer';
 import { removeAudioFileTypeFromName } from '../../../audio';
 
 import DropZone from './index';
@@ -33,6 +33,14 @@ describe('FileDropZone', () => {
     files.forEach((file: AudioFile) =>
       expect(screen.getByText(removeAudioFileTypeFromName(file.name))).toBeInTheDocument()
     );
+  });
+
+  test('should render a trash bin for each file', () => {
+    render(DropZoneInApp);
+
+    const trashBins = document.querySelectorAll('.icon-trash');
+
+    expect(trashBins.length).toBe(useSlicer.getState().files.length);
   });
 
   test('should update store and display new audio file on new audio file drop', async () => {
@@ -72,6 +80,20 @@ describe('FileDropZone', () => {
     fireEvent.click(screen.getByText('react'));
 
     expect(loadSlicerFileMock).toHaveBeenCalled();
+  });
+
+  test('should render a trash bin for each file', () => {
+    const { files } = useSlicer.getState();
+    mockElectronTrigger(removeSlicerFileRecipe);
+    render(DropZoneInApp);
+
+    const trashBin = document.querySelector('div > .icon-trash');
+
+    if (trashBin) {
+      fireEvent.click(trashBin);
+
+      expect(useSlicer.getState().files.length).toBe(files.length - 1);
+    }
   });
 
   describe('with mocked react-dropzone module', () => {

@@ -29,6 +29,10 @@ export type AddSlicerFilesPayload = {
   files: AudioFile[];
 };
 
+export type RemoveSlicerFilePayload = {
+  file: AudioFile;
+};
+
 export type SlicerAudioFileLoadedPayload = {
   file: AudioFile;
   channelData: Float32Array[];

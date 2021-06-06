@@ -10,15 +10,17 @@ export interface SlicerState extends State {
   readonly update: (partial: Partial<SlicerState>) => void;
 }
 
+export const INITIAL_SELECTION = {
+  start: 0,
+  end: 0,
+  zoom: 1,
+  offset: 0
+};
+
 export const useSlicer = create<SlicerState>(set => ({
   files: [],
   file: null,
-  selection: {
-    start: 0,
-    end: 0,
-    zoom: 1,
-    offset: 0
-  },
+  selection: INITIAL_SELECTION,
   samples: 5000,
   //@ts-ignore
   update: (partial: Partial<SlicerState>) => set(partial)

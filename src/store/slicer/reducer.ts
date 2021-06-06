@@ -1,9 +1,10 @@
 import { ToneAudioBuffer } from 'tone';
 
 import { ACTION } from '../action-types';
-import { useSlicer } from './index';
+import { INITIAL_SELECTION, useSlicer } from './index';
 import {
   AddSlicerFilesPayload,
+  RemoveSlicerFilePayload,
   SlicerAudioFile,
   SlicerAudioFileLoadedPayload,
   UpdateSlicerSelectionPayload
@@ -21,6 +22,17 @@ export const addSlicerFilesRecipe = (_: null, { files }: AddSlicerFilesPayload) 
   update({
     files: [...slicerFiles, ...newFiles]
   });
+};
+
+export const removeSlicerFileRecipe = (_: null, { file }: RemoveSlicerFilePayload) => {
+  const { update, files: currentFiles, file: selectedFile } = useSlicer.getState();
+
+  const files = currentFiles.filter(f => f.name !== file.name);
+  const fileIsSelection = selectedFile && selectedFile.name === file.name;
+
+  const optionalUpdate = fileIsSelection ? { file: null, selection: INITIAL_SELECTION } : {};
+
+  update({ files, ...optionalUpdate });
 };
 
 export const slicerFileLoadedRecipe = (
@@ -72,5 +84,6 @@ export const updateSlicerSelectionRecipe = (
 
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
+on(ACTION.removeSlicerFile, removeSlicerFileRecipe);
 on(ACTION.slicerFileLoaded, slicerFileLoadedRecipe);
 on(ACTION.updateSlicerSelection, updateSlicerSelectionRecipe);
