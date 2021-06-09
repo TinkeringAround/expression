@@ -11,19 +11,21 @@ const SIcon = styled.span`
   align-items: center;
 `;
 
+export type IconType =
+  | AudioType
+  | 'upload'
+  | 'save'
+  | 'play'
+  | 'pause'
+  | 'stop'
+  | 'first'
+  | 'last'
+  | 'cross'
+  | 'trash'
+  | NotificationType;
+
 interface Props {
-  iconType:
-    | AudioType
-    | 'upload'
-    | 'save'
-    | 'play'
-    | 'pause'
-    | 'stop'
-    | 'first'
-    | 'last'
-    | 'cross'
-    | NotificationType
-    | null;
+  iconType: IconType | null;
 
   onClick?: anyFunction;
 }

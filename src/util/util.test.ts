@@ -34,7 +34,7 @@ describe('Utils', () => {
 
   test('featureToNameByPath', () => {
     const features = ['/', Features.DASHBOARD, Features.SLICER, Features.FX, Features.PHRASER];
-    const expectedNames = ['', 'Kadenz', 'Slicer', 'Fx', 'Phraser'];
+    const expectedNames = ['', 'Kadenz', 'S', 'F', 'P'];
 
     features.forEach((feature, index) =>
       expect(featureToNameByPath(feature)).toEqual(expectedNames[index])

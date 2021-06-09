@@ -34,7 +34,7 @@ export const asSeconds = (duration: number, fraction: number = 0): string => {
 export const featureToNameByPath = (path: string): string => {
   if (path === '/') return '';
   if (path === Features.DASHBOARD) return 'Kadenz';
-  return `${path[1].toUpperCase()}${path.slice(2)}`;
+  return `${path[1].toUpperCase()}${path.slice(2)}`.charAt(0);
 };
 
 /**
