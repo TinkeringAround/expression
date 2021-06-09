@@ -10,8 +10,8 @@ import Header from './index';
 import { mockRouterLocation } from '../../mock/router';
 import { AppMock } from '../../mock/components';
 
-describe('Dashboard', () => {
-  const headerWithRouter = (
+describe('Header', () => {
+  const HeaderInApp = (
     <AppMock>
       <Header />
     </AppMock>
@@ -19,9 +19,23 @@ describe('Dashboard', () => {
 
   test('should render logo', () => {
     mockRouterLocation(Features.DASHBOARD);
-    render(headerWithRouter);
+    render(HeaderInApp);
 
     expect(screen.getByText(featureToNameByPath(Features.DASHBOARD))).toBeTruthy();
+  });
+
+  test('should not render controls on dashboard', () => {
+    mockRouterLocation(Features.DASHBOARD);
+    render(HeaderInApp);
+
+    expect(screen.queryAllByRole('button').length).toBe(0);
+  });
+
+  test('should render slicer controls', () => {
+    mockRouterLocation(Features.SLICER);
+    render(HeaderInApp);
+
+    expect(screen.queryAllByRole('button').length).toBeGreaterThan(0);
   });
 
   test('should display all features as converted names', () => {
@@ -29,7 +43,7 @@ describe('Dashboard', () => {
 
     features.forEach(feature => {
       mockRouterLocation(feature);
-      render(headerWithRouter);
+      render(HeaderInApp);
       expect(screen.getByText(featureToNameByPath(feature))).toBeInTheDocument();
     });
   });

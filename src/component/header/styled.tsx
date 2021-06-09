@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+
 import { fromTop } from '../../animations';
 
 export const SHeader = styled.header`
+  --size: 70px;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -10,7 +13,7 @@ export const SHeader = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  height: 70px;
+  height: var(--size);
   width: 100vw;
 
   background: ${props => props.theme.yellow};
@@ -25,16 +28,16 @@ export const SHeader = styled.header`
     text-decoration: none;
     outline: none;
 
-    height: 100%;
+    height: var(--size);
+    width: calc(var(--multiplier) * var(--size));
 
     .logo {
       display: flex;
       align-items: center;
+      justify-content: center;
 
       height: inherit;
       width: inherit;
-
-      padding: 0 1rem;
 
       font-family: 'Mono', sans-serif;
       font-size: 2.5rem;
@@ -53,18 +56,20 @@ export const SHeader = styled.header`
   }
 
   .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     height: 100%;
-    flex: 11;
+    flex: 1;
   }
 
   .settings {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
 
     height: 100%;
-
-    padding-right: 1rem;
+    width: var(--size);
   }
 `;
