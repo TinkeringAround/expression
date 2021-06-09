@@ -15,7 +15,7 @@ export const SShortcut = styled.div`
 
   margin: 0;
 
-  background: ${props => props.theme.hexToRgbA(props.theme.white, '0.9')};
+  background: ${props => props.theme.hexToRgbA(props.theme.white, '0.7')};
 
   &.show {
     display: flex;
