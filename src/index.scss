@@ -66,42 +66,63 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .icon-mp3:before {
   content: "\e900";
 }
+
 .icon-wav:before {
   content: "\e901";
 }
+
 .icon-trash:before {
   content: "\e9ac";
 }
+
 .icon-save:before {
   content: "\e9c7";
 }
+
 .icon-upload:before {
   content: "\e9c8";
 }
+
 .icon-info:before {
   content: "\ea0c";
 }
+
 .icon-error:before {
   content: "\ea0d";
 }
+
 .icon-cross:before {
   content: "\ea0f";
 }
+
 .icon-play:before {
   content: "\ea1c";
 }
+
 .icon-pause:before {
   content: "\ea1d";
 }
+
 .icon-stop:before {
   content: "\ea1e";
 }
+
+.icon-backward:before {
+  content: "\ea1f";
+}
+
+.icon-foreward:before {
+  content: "\ea20";
+}
+
 .icon-first:before {
   content: "\ea21";
 }
+
 .icon-last:before {
   content: "\ea22";
 }
