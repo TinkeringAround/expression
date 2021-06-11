@@ -8,6 +8,8 @@ import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slice
 import { updateSlicerSelection } from '../../../../store/slicer/actions';
 import { useRefCallback } from '../../../../hook/useRefCallback';
 
+import Marker from './marker';
+
 import { SAreaSelection, SSelector, SArea } from './styled';
 
 export const BORDER_WIDTH = 7;
@@ -96,13 +98,13 @@ const AreaSelection: FC = () => {
 
   useEffect(() => {
     // update start in selection state when border left position changes
-    updateSlicerSelection({ start: left });
-  }, [left]);
+    updateSlicerSelection({ start: toTime(left) });
+  }, [left, toTime]);
 
   useEffect(() => {
     // update end in selection state when border right position changes
-    updateSlicerSelection({ end: right + BORDER_WIDTH });
-  }, [right]);
+    updateSlicerSelection({ end: toTime(right + BORDER_WIDTH) });
+  }, [right, toTime]);
 
   return (
     <SAreaSelection role="selection" ref={setRef} onDragEnter={onDragPrevent}>
@@ -123,6 +125,7 @@ const AreaSelection: FC = () => {
         style={{ width: right - left - BORDER_WIDTH, left: left + BORDER_WIDTH }}
         onDragEnter={onDragPrevent}
       >
+        <Marker />
         <DurationSlice />
       </SArea>
 

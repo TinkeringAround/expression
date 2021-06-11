@@ -22,6 +22,8 @@ export type IconType =
   | 'last'
   | 'cross'
   | 'trash'
+  | 'foreward'
+  | 'backward'
   | NotificationType;
 
 interface Props {

@@ -12,7 +12,10 @@ const ACTION = Object.freeze({
   updateSlicerSelection: '[SLICER] Update Slicer Selection',
 
   addNotification: '[NOTIFICATION] Add Notification',
-  hideNotification: '[NOTIFICATION] Hide Notification'
+  hideNotification: '[NOTIFICATION] Hide Notification',
+
+  updateIsPlaying: '[PLAYER] Update Player',
+  updateMarker: '[PLAYER] Update Marker'
 });
 
 module.exports = {
