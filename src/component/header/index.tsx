@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Features } from '../../features';
-import { featureToNameByPath } from '../../util';
+import { featureToNameByPath } from '../../lib/util';
 
 import Controls from '../controls';
 

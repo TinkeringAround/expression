@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { anyFunction } from '../../util';
+import { anyFunction } from '../../lib/util';
 import { AvailableKeys } from '../../hook/useKeyboard';
 
 import Icon, { IconType } from '../icon';
