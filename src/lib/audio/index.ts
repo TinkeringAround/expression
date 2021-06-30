@@ -69,7 +69,7 @@ export const sampleChannelData = (rawData: Float32Array, samples: number): numbe
 export const convertWavToMp3Size = (wavSize: number): number => Math.floor(wavSize / 10.75);
 
 /**
- * Find the absolute maximum value of a number array
+ * Find the absolute maximum value of a number array (-> always positive)
  * @param {number[]} values the numbers array with negative and/or positive values
  * @returns {number} the absolute maximum value
  */

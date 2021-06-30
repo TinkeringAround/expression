@@ -1,12 +1,13 @@
 import {
   convertWavToMp3Size,
+  findAbsoluteMax,
   getAudioType,
   isAudio,
   removeAudioFileTypeFromName,
   sampleChannelData
 } from './index';
 
-import { getChannelDataMock } from '../mock/audio';
+import { getChannelDataMock } from '../../mock/audio';
 
 describe('audio', () => {
   describe('removeAudioFileTypeFromName', () => {
@@ -71,6 +72,21 @@ describe('audio', () => {
       const estimatedMp3FileSize = 93241;
 
       expect(convertWavToMp3Size(wavFileSize)).toEqual(estimatedMp3FileSize);
+    });
+  });
+
+  describe('findAbsoluteMax', () => {
+    test('should find absolute maximum', () => {
+      const values = [
+        [-1, 1, 0, 2],
+        [-2, 1, 0],
+        [0, 0, 0]
+      ];
+      const expectedMax = [2, 2, 0];
+
+      values.forEach((value, index) => {
+        expect(findAbsoluteMax(value)).toEqual(expectedMax[index]);
+      });
     });
   });
 });
