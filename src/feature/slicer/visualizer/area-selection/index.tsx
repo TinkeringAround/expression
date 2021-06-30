@@ -2,7 +2,7 @@ import React, { FC, Fragment, useCallback, useEffect, useState } from 'react';
 
 import { useDrag } from '../../../../hook/useDrag';
 import { useClientRect } from '../../../../hook/useClientRect';
-import { toMB, map, asSeconds } from '../../../../util';
+import { toMB, map, asSeconds } from '../../../../lib/util';
 import { useSlicer } from '../../../../store/slicer';
 import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
 import { updateSlicerSelection } from '../../../../store/slicer/actions';
