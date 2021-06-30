@@ -3,7 +3,7 @@ import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
 import { AudioFile } from '../../../store/slicer/types';
-import { isAudio } from '../../../audio';
+import { isAudio } from '../../../lib/audio';
 
 import Icon from '../../../component/icon';
 import DropZoneFile from './drop-zone-file';

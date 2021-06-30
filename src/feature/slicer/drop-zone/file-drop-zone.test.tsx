@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { useSlicer } from '../../../store/slicer';
 import { AudioFile } from '../../../store/slicer/types';
 import { addSlicerFilesRecipe, removeSlicerFileRecipe } from '../../../store/slicer/reducer';
-import { removeAudioFileTypeFromName } from '../../../audio';
+import { removeAudioFileTypeFromName } from '../../../lib/audio';
 
 import DropZone from './index';
 

@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
-import { asSeconds, map } from '../../../../../util';
+import { asSeconds, map } from '../../../../../lib/util';
 
 import { STimeline } from './styled';
 

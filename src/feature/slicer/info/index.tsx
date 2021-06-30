@@ -1,8 +1,8 @@
 import React, { FC, useCallback } from 'react';
 
-import { getAudioType, removeAudioFileTypeFromName } from '../../../audio';
+import { getAudioType, removeAudioFileTypeFromName } from '../../../lib/audio';
 import { selectSlicerFile } from '../../../store/slicer/selector';
-import { asSeconds, toMB } from '../../../util';
+import { asSeconds, toMB } from '../../../lib/util';
 import { useSlicer } from '../../../store/slicer';
 
 import Icon from '../../../component/icon';

@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useSlicer } from '../../../store/slicer';
-import { removeAudioFileTypeFromName } from '../../../audio';
-import { toMB } from '../../../util';
+import { removeAudioFileTypeFromName } from '../../../lib/audio';
+import { toMB } from '../../../lib/util';
 
 import Info from './index';
 
