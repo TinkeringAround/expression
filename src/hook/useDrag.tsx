@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { anyFunction } from '../util';
+import { anyFunction } from '../lib/util';
 
 export interface DragState {
   x: number;

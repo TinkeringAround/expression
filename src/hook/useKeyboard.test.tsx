@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AvailableKeys, useKeyboard } from './useKeyboard';
-import { anyFunction } from '../util';
+import { anyFunction } from '../lib/util';
 
 describe('useKeyboard', () => {
   type Props = {
@@ -33,7 +33,7 @@ describe('useKeyboard', () => {
     const onClick = jest.fn();
     render(<UseKeyboard shortcutKey="E" withCtrl onClick={onClick} disabled={false} />);
 
-    fireEvent.keyDown(document, { key: 'e', ctrlKey: true });
+    fireEvent.keyUp(document, { key: 'e', ctrlKey: true });
 
     expect(onClick).toHaveBeenCalled();
   });
@@ -65,11 +65,20 @@ describe('useKeyboard', () => {
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  test('should map available shortcut keys to keys and call onClick', () => {
+  test('should map available shortcut keys without Control to keys and call onClick', () => {
+    const onClick = jest.fn();
+    render(<UseKeyboard shortcutKey="Space" withCtrl={false} onClick={onClick} disabled={false} />);
+
+    fireEvent.keyUp(document, { key: ' ', ctrlKey: false });
+
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  test('should map available shortcut keys with Control to keys and call onClick', () => {
     const onClick = jest.fn();
     render(<UseKeyboard shortcutKey="Space" withCtrl onClick={onClick} disabled={false} />);
 
-    fireEvent.keyDown(document, { key: ' ', ctrlKey: true });
+    fireEvent.keyUp(document, { key: ' ', ctrlKey: true });
 
     expect(onClick).toHaveBeenCalled();
   });
@@ -79,6 +88,15 @@ describe('useKeyboard', () => {
     render(<UseKeyboard shortcutKey="Space" withCtrl onClick={onClick} disabled />);
 
     fireEvent.keyDown(document, { key: ' ', ctrlKey: true });
+
+    expect(onClick).not.toHaveBeenCalled();
+  });
+
+  test('should ignore click execution when disabled is true', () => {
+    const onClick = jest.fn();
+    render(<UseKeyboard shortcutKey="Space" withCtrl onClick={onClick} disabled />);
+
+    fireEvent.keyUp(document, { key: ' ', ctrlKey: true });
 
     expect(onClick).not.toHaveBeenCalled();
   });
