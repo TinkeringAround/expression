@@ -6,15 +6,7 @@ describe('player', () => {
       const player = createPlayer();
 
       expect(player).not.toBeNull();
-    });
-
-    test('should create player with options', () => {
-      const player = createPlayer({ loop: true, loopStart: 1, loopEnd: 2 });
-
-      expect(player).not.toBeNull();
-      expect(player.loop).toBeTruthy();
-      expect(player.loopStart).toBe(1);
-      expect(player.loopEnd).toBe(2);
+      expect(player.state).toBe('stopped');
     });
   });
 });
