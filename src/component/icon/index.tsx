@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { anyFunction } from '../../util';
-import { AudioType } from '../../audio/types';
+import { anyFunction } from '../../lib/util';
+import { AudioType } from '../../lib/audio/types';
 import { NotificationType } from '../../store/notification/types';
 
 const SIcon = styled.span`
@@ -22,6 +22,8 @@ export type IconType =
   | 'last'
   | 'cross'
   | 'trash'
+  | 'foreward'
+  | 'backward'
   | NotificationType;
 
 interface Props {

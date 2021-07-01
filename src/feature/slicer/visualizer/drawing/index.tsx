@@ -3,7 +3,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { calculateDrawingPoints } from './util';
 import { useSlicer } from '../../../../store/slicer';
 import { useClientRect } from '../../../../hook/useClientRect';
-import { findAbsoluteMax, sampleChannelData } from '../../../../audio';
+import { findAbsoluteMax, sampleChannelData } from '../../../../lib/audio';
 import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
 import { updateSlicerSelection } from '../../../../store/slicer/actions';
 import { useRefCallback } from '../../../../hook/useRefCallback';

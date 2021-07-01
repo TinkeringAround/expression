@@ -1,4 +1,4 @@
-import { Features } from '../features';
+import { Features } from '../../features';
 
 /**
  * Placeholder Type for any void Function

@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Features } from '../../features';
-import { featureToNameByPath } from '../../util';
+import { featureToNameByPath } from '../../lib/util';
 
 import Header from './index';
 

@@ -9,7 +9,7 @@ export const getMockSelection = ({
   end = 0,
   zoom = 1,
   offset = 0
-}): Partial<SlicerSelection> => ({
+}): SlicerSelection => ({
   start,
   end,
   zoom,

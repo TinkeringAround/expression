@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { anyFunction } from '../../util';
+import { anyFunction } from '../../lib/util';
 import { AvailableKeys } from '../../hook/useKeyboard';
 
 import Control from './index';

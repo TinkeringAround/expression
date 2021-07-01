@@ -1,4 +1,5 @@
 import { ToneAudioBuffer } from 'tone';
+import { Seconds } from 'tone/build/esm/core/type/Units';
 
 export type SlicerAudioFile = AudioFile & SlicerAudioFileExtension;
 
@@ -8,9 +9,9 @@ type SlicerAudioFileExtension = {
 };
 
 export type SlicerSelection = {
-  start: number;
-  end: number;
-  zoom: number;
+  start: Seconds;
+  end: Seconds;
+  zoom: Seconds;
   offset: number;
 };
 

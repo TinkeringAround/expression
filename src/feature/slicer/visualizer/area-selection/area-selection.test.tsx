@@ -23,12 +23,13 @@ describe('AreaSelection', () => {
     useSlicer.setState(getSlicerStoreMock());
   });
 
-  test('should display both borders and selection area', async () => {
+  test('should display both borders, selection area and marker', async () => {
     render(AreaSelectionMock);
 
     expect(screen.getByRole('border-left')).toBeInTheDocument();
     expect(screen.getByRole('border-right')).toBeInTheDocument();
     expect(screen.getByRole('area')).toBeInTheDocument();
+    expect(screen.getByRole('marker')).toBeInTheDocument();
   });
 
   test('should display selection area with sliced duration', async () => {

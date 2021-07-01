@@ -3,10 +3,10 @@ import create, { State } from 'zustand';
 import { AudioFile, SlicerAudioFile, SlicerSelection } from './types';
 
 export interface SlicerState extends State {
-  files: AudioFile[];
-  file: SlicerAudioFile | null;
-  selection: SlicerSelection;
-  samples: number;
+  readonly files: AudioFile[];
+  readonly file: SlicerAudioFile | null;
+  readonly selection: SlicerSelection;
+  readonly samples: number;
   readonly update: (partial: Partial<SlicerState>) => void;
 }
 

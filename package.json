@@ -1,8 +1,8 @@
 {
   "name": "kadenz",
   "version": "1.0.0",
-  "description": "<description>",
-  "author": "<author>",
+  "description": "Music Maker Helper App",
+  "author": "Thomas Maier",
   "repository": "https://github.com/TinkeringAround/kadenz",
   "build": {
     "appId": "<com.electronapp>",

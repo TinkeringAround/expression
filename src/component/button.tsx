@@ -4,13 +4,14 @@ const SButton = styled.button`
   position: relative;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   height: 70px;
 
   border-radius: 2px;
-  padding: 0 1.5rem;
+  padding: 0 1.25rem;
 
   font-family: 'Roboto-Bold', sans-serif;
   font-size: 0.9rem;
@@ -23,12 +24,6 @@ const SButton = styled.button`
   box-sizing: border-box;
   transition: all 0.1s ease-in-out;
   cursor: pointer;
-
-  // automatically apply margin to second child
-  // e.g. first child = icon, second child = text
-  & > :nth-child(2) {
-    margin-left: 0.75rem;
-  }
 
   &[disabled] {
     color: ${props => props.theme.yellow};
@@ -44,6 +39,11 @@ const SButton = styled.button`
 
   .icon {
     font-size: 1.25rem;
+  }
+
+  span:not(.icon) {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
   }
 `;
 

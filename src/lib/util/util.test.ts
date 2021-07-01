@@ -1,5 +1,5 @@
-import { Features } from '../features';
-import { toMB, featureToNameByPath, map, asSeconds } from '.';
+import { Features } from '../../features';
+import { toMB, featureToNameByPath, map, asSeconds } from './index';
 
 describe('Utils', () => {
   test('toMB', () => {

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { anyFunction } from '../util';
+import { anyFunction } from '../lib/util';
 
-export type AvailableKeys = 'Space' | 'Enter' | 'S' | 'E';
+export type AvailableKeys = 'Space' | 'Enter' | 'S' | 'E' | 'ArrowLeft' | 'ArrowRight';
 
 export function useKeyboard(
   shortcutKey: AvailableKeys,
@@ -22,17 +22,23 @@ export function useKeyboard(
   }, []);
 
   const handleKeyDown = useCallback(
+    ({ key }: any) => {
+      if (disabled) return;
+
+      key === 'Control' && !ctrlPressed && setCtrlPressed(true);
+    },
+    [ctrlPressed, setCtrlPressed, disabled]
+  );
+
+  const handleKeyUp = useCallback(
     ({ key, ctrlKey }: any) => {
       if (disabled) return;
 
-      if (key === 'Control') {
-        !ctrlPressed && setCtrlPressed(true);
-        return;
-      }
+      setCtrlPressed(false);
 
       // currently pressed key with optional control prefix
       const withControl = ctrlKey ? 'control' : '';
-      const pressedKey = `${withControl}${key}`;
+      const pressedKey = `${withControl}${key.toLowerCase()}`;
 
       // shortcut key with optional control prefix
       const triggerWithCtrl = withCtrl ? 'control' : '';
@@ -42,12 +48,8 @@ export function useKeyboard(
         onClick();
       }
     },
-    [ctrlPressed, setCtrlPressed, shortcutKey, withCtrl, disabled, onClick, mapShortcutKey]
+    [disabled, setCtrlPressed, shortcutKey, withCtrl, onClick, mapShortcutKey]
   );
-
-  const handleKeyUp = useCallback(() => {
-    setCtrlPressed(false);
-  }, [setCtrlPressed]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);

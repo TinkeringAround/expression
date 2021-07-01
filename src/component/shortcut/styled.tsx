@@ -19,28 +19,28 @@ export const SShortcut = styled.div`
 
   &.show {
     display: flex;
-  }
 
-  kbd {
-    padding: 3px 8px;
+    kbd {
+      padding: 3px 8px;
 
-    font-size: 0.9em;
-    font-weight: bold;
-    color: ${props => props.theme.black};
-    background-color: ${props => props.theme.light};
-    white-space: nowrap;
+      font-size: 0.9em;
+      font-weight: bold;
+      color: ${props => props.theme.black};
+      background-color: ${props => props.theme.light};
+      white-space: nowrap;
 
-    border-radius: 3px;
-    border: 1px solid ${props => props.theme.grey};
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
-  }
+      border-radius: 3px;
+      border: 1px solid ${props => props.theme.grey};
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+    }
 
-  span {
-    display: block;
+    span {
+      display: block;
 
-    margin: 0 0.15rem;
+      margin: 0;
 
-    font-size: 0.75rem;
-    color: ${props => props.theme.black};
+      font-size: 0.75rem;
+      color: ${props => props.theme.black};
+    }
   }
 `;

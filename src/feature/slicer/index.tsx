@@ -7,32 +7,18 @@ import Hint from './hint';
 
 import { SSlicer } from './styled';
 
-const Slicer: FC = () => {
-  // TODO: Clean up
-  // useEffect(() => {
-  //   if (file?.audio) {
-  //     const { buffer } = file.audio;
-  //
-  //     const toneBufferSource = new ToneBufferSource(buffer);
-  //     const gainNode = new Gain(1).toDestination();
-  //     toneBufferSource.connect(gainNode);
-  //     toneBufferSource.start(0);
-  //     gainNode.toDestination();
-  //   }
-  // }, [file]);
+const Slicer: FC = () => (
+  <SSlicer>
+    <DropZone />
 
-  return (
-    <SSlicer>
-      <DropZone />
-
-      <div className="wrapper">
-        <div className="content">
-          <Info />
-          <Visualizer />
-          <Hint />
-        </div>
+    <div className="wrapper">
+      <div className="content">
+        <Info />
+        <Visualizer />
+        <Hint />
       </div>
-    </SSlicer>
-  );
-};
+    </div>
+  </SSlicer>
+);
+
 export default Slicer;
