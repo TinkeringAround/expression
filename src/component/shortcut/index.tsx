@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useCallback } from 'react';
 
-import { anyFunction } from '../../util';
+import { anyFunction } from '../../lib/util';
 import { AvailableKeys, useKeyboard } from '../../hook/useKeyboard';
 
 import { SShortcut } from './styled';
@@ -15,11 +15,22 @@ interface Props {
 const Shortcut: FC<Props> = ({ keyboard: key, withCtrl, disabled, onClick }) => {
   const { ctrlPressed: show } = useKeyboard(key, withCtrl, onClick, disabled);
 
+  const mapKey = useCallback((key: AvailableKeys) => {
+    switch (key) {
+      case 'ArrowLeft':
+        return '🠔';
+      case 'ArrowRight':
+        return '🠖';
+      default:
+        return key;
+    }
+  }, []);
+
   return (
     <SShortcut className={show && !disabled ? 'show' : ''}>
-      <kbd>Strg</kbd>
-      <span>+</span>
-      <kbd>{key}</kbd>
+      {withCtrl && <kbd>Strg</kbd>}
+      {withCtrl && <span>+</span>}
+      <kbd>{mapKey(key)}</kbd>
     </SShortcut>
   );
 };

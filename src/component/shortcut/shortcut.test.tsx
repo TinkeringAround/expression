@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AvailableKeys } from '../../hook/useKeyboard';
-import { anyFunction } from '../../util';
+import { anyFunction } from '../../lib/util';
 
 import Shortcut from './index';
 
