@@ -41,7 +41,7 @@ describe('Visualizer', () => {
     render(VisualizerInApp);
 
     // test initial update of border right and update in store
-    expect(useSlicer.getState().selection.end).toBe(BORDER_WIDTH);
+    expect(useSlicer.getState().selection.end).toBeGreaterThan(BORDER_WIDTH);
   });
 
   describe('with disabled useDragMock', () => {
