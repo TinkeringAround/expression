@@ -1,9 +1,8 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { Time, Transport } from 'tone';
+import React, { FC, useCallback, useEffect, useState } from 'react';
+import { Player, Time, Transport } from 'tone';
 
+import { createPlayer } from '../../../lib/player';
 import { useSlicer } from '../../../store/slicer';
-import { usePlayer } from '../../../store/player';
-import { updateIsPlaying, updateMarker } from '../../../store/player/actions';
 
 import Control from '../../control';
 import Icon from '../../icon';
@@ -14,14 +13,15 @@ import { SSlicerControls } from './styled';
 
 const SlicerControls: FC = () => {
   const { file, selection } = useSlicer();
-  const { isPlaying, player } = usePlayer();
+
+  const [player] = useState<Player>(createPlayer());
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const playPauseType = isPlaying ? 'pause' : 'play';
   const disabled = !file;
 
   const onFirst = useCallback(() => {
     Transport.seconds = Time(Transport.loopStart).toSeconds();
-    updateMarker(Transport.progress * 100);
   }, []);
 
   const onBackward = useCallback(() => {
@@ -29,50 +29,55 @@ const SlicerControls: FC = () => {
       Transport.seconds - 1 < Transport.loopStart
         ? Time(Transport.loopStart).toSeconds()
         : Transport.seconds - 1;
-    updateMarker(Transport.progress * 100);
   }, []);
 
   const onPlayPause = useCallback(() => {
-    updateIsPlaying(!isPlaying);
-  }, [isPlaying]);
+    setIsPlaying(!isPlaying);
+  }, [isPlaying, setIsPlaying]);
 
   const onStop = useCallback(() => {
     Transport.seconds = Time(Transport.loopStart).toSeconds();
-    updateMarker(Transport.progress * 100);
-    updateIsPlaying(false);
-  }, []);
+    setIsPlaying(false);
+  }, [setIsPlaying]);
 
-  const onForeward = useCallback(() => {
+  const onForward = useCallback(() => {
     Transport.seconds = Transport.seconds + 1;
-    updateMarker(Transport.progress * 100);
   }, []);
 
   const onLast = useCallback(() => {
-    Transport.seconds = Time(Transport.loopEnd).toSeconds() - 0.1;
-    updateMarker(Transport.progress * 100);
-  }, []);
+    Transport.seconds = Time(Transport.loopEnd).toSeconds() - 0.01;
+    setIsPlaying(false);
+  }, [setIsPlaying]);
 
   const onExport = useCallback(() => console.log('export'), []);
 
   useEffect(() => {
     if (file && player) {
-      updateIsPlaying(false);
+      Transport.stop();
+      const startTime = Transport.seconds < 0 ? 0 : Transport.seconds;
+
+      player.state === 'started' && player.stop();
       player.buffer = file.buffer;
-      player.state === 'stopped' && player.start();
+      player.state === 'stopped' && player.start(startTime);
     }
-  }, [file, player]);
+  }, [file, player, setIsPlaying]);
+
+  useEffect(() => {
+    setIsPlaying(false);
+  }, [file, setIsPlaying]);
 
   useEffect(() => {
     const { start, end, offset } = selection;
     const loopStart = start < 0 ? offset : start + offset;
-    const loopEnd = end + offset;
+    const loopEnd = end < 0 ? offset : end + offset;
 
     Transport.loop = true;
     Transport.setLoopPoints(loopStart, loopEnd);
 
     if (Transport.seconds < loopStart) {
       Transport.seconds = loopStart;
-      updateMarker(Transport.progress * 100);
+    } else if (Transport.seconds > loopEnd) {
+      Transport.seconds = loopEnd;
     }
   }, [selection]);
 
@@ -81,38 +86,14 @@ const SlicerControls: FC = () => {
     else Transport.pause();
   }, [isPlaying]);
 
-  useEffect(() => {
-    // set repeat to keep track on progess in percent
-    Transport.on('start', () => {
-      Transport.scheduleRepeat(() => {
-        updateMarker(Transport.progress * 100);
-      }, '2n');
-    });
-
-    Transport.on('pause', () => {
-      // cancel all scheduled repeats
-      Transport.cancel();
-    });
-
-    Transport.on('loopStart', () => {
-      console.log('LoopStart', Transport.progress * 100);
-      updateMarker(Transport.progress * 100);
-    });
-
-    Transport.on('loopEnd', () => {
-      console.log('LoopEnd', Transport.progress * 100);
-      updateMarker(Transport.progress * 100);
-    });
-  }, []);
-
   return (
     <SSlicerControls>
-      <Control type="first" onClick={onFirst} disabled={disabled} />
-      <Control type="backward" onClick={onBackward} disabled={disabled} />
-      <Control type={playPauseType} disabled={disabled} onClick={onPlayPause} />
-      <Control type="stop" disabled={disabled} onClick={onStop} />
-      <Control type="foreward" onClick={onForeward} disabled={disabled} />
-      <Control type="last" disabled={disabled} onClick={onLast} />
+      <Control keyboard="ArrowLeft" withCtrl type="first" onClick={onFirst} disabled={disabled} />
+      <Control keyboard="ArrowLeft" type="backward" onClick={onBackward} disabled={disabled} />
+      <Control keyboard="Space" type={playPauseType} disabled={disabled} onClick={onPlayPause} />
+      <Control keyboard="Space" withCtrl type="stop" disabled={disabled} onClick={onStop} />
+      <Control keyboard="ArrowRight" type="foreward" onClick={onForward} disabled={disabled} />
+      <Control keyboard="ArrowRight" withCtrl type="last" disabled={disabled} onClick={onLast} />
 
       <SButton disabled={disabled} onClick={onExport}>
         <Icon iconType="save" />

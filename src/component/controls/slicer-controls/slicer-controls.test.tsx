@@ -1,4 +1,5 @@
 import React from 'react';
+import { Transport } from 'tone';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -7,10 +8,10 @@ import { useSlicer } from '../../../store/slicer';
 import SlicerControls from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getSlicerStoreMock } from '../../../mock/store';
+import { getMockSelection, getSlicerStoreMock } from '../../../mock/store';
 
 describe('SlicerControls', () => {
-  const icons = ['first', 'play', 'stop', 'last', 'save'];
+  const icons = ['first', 'backward', 'play', 'stop', 'foreward', 'last', 'save'];
   const SlicerControlsInApp = (
     <AppMock>
       <SlicerControls />
@@ -19,34 +20,186 @@ describe('SlicerControls', () => {
 
   beforeEach(() => {
     useSlicer.setState(getSlicerStoreMock());
+    Transport.seconds = 0;
   });
 
-  test('should render all slicer relevant icons', () => {
-    render(SlicerControlsInApp);
+  describe('controls', () => {
+    test('should render all slicer relevant icons regardless of selected file', () => {
+      render(SlicerControlsInApp);
 
-    icons.forEach(icon => {
-      expect(document.querySelector(`.icon-${icon}`)).toBeInTheDocument();
+      icons.every(icon => expect(document.querySelector(`.icon-${icon}`)).toBeInTheDocument());
+    });
+
+    test('should render and enable all slicer relevant buttons when selected file is not null', () => {
+      render(SlicerControlsInApp);
+
+      const buttons = screen.getAllByRole('button');
+
+      expect(buttons.length).toBe(icons.length);
+      buttons.every(button => expect(button).not.toHaveAttribute('disabled'));
+    });
+
+    test('should disable all slicer buttons when selected file is null', () => {
+      useSlicer.setState(getSlicerStoreMock({ file: null }));
+      render(SlicerControlsInApp);
+
+      screen.getAllByRole('button').every(button => expect(button).toHaveAttribute('disabled'));
+    });
+
+    describe('onFirst', () => {
+      test('should reset seconds to loopStart', () => {
+        Transport.seconds = 2; // some value != 0
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: 'ArrowLeft', ctrlKey: true });
+
+        expect(Transport.seconds).toBe(0);
+      });
+    });
+
+    describe('onBackward', () => {
+      test('should set seconds to loopStart when step back would be lower than loopStart', () => {
+        const start = 1,
+          end = 5;
+        Transport.seconds = start + 1;
+        useSlicer.setState({ selection: getMockSelection({ start, end }) });
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: 'ArrowLeft' });
+
+        expect(Transport.seconds).toBe(start);
+      });
+
+      test('should set seconds to loopStart when step back would be lower than loopStart', () => {
+        const start = 1,
+          end = 5;
+        Transport.seconds = start + 0.5; // - 1 would be lower than start
+        useSlicer.setState({ selection: getMockSelection({ start, end }) });
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: 'ArrowLeft' });
+
+        expect(Transport.seconds).toBe(start);
+      });
+    });
+
+    describe('onPlayPause', () => {
+      test('should start Transport', () => {
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: ' ' });
+
+        expect(Transport.state).toBe('started');
+      });
+
+      test('should start Transport', () => {
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: ' ' }); // start
+        fireEvent.keyUp(document, { key: ' ' }); // pause
+
+        expect(Transport.state).toBe('paused');
+      });
+    });
+
+    describe('onStop', () => {
+      test('should set seconds to loopStart', () => {
+        Transport.seconds = 2; // not loopStart === 0
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: ' ' }); // start
+        fireEvent.keyUp(document, { key: ' ', ctrlKey: true }); // start
+
+        expect(Transport.seconds).toBe(0);
+        expect(Transport.state).toBe('paused');
+      });
+    });
+
+    describe('onForward', () => {
+      test('should increment current seconds by 1', () => {
+        const start = 0;
+        Transport.seconds = start;
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: 'ArrowRight' });
+
+        expect(Transport.seconds).toBe(start + 1);
+      });
+    });
+
+    describe('onLast', () => {
+      test('should set Transport seconds to almost loopEnd', () => {
+        const start = 0,
+          end = 5;
+        Transport.seconds = 1;
+        useSlicer.setState({ selection: getMockSelection({ start, end }) });
+
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: ' ' }); // start
+        fireEvent.keyUp(document, { key: 'ArrowRight', ctrlKey: true });
+
+        expect(Transport.seconds).toBe(end - 0.01);
+        expect(Transport.state).toBe('paused');
+      });
+    });
+
+    describe('onExport', () => {
+      test('should be called', () => {
+        render(SlicerControlsInApp);
+        fireEvent.keyUp(document, { key: 'E', ctrlKey: true });
+      });
     });
   });
 
-  test('should render all slicer relevant buttons', () => {
-    render(SlicerControlsInApp);
+  describe('Transport', () => {
+    test('should init Transport loop properties', () => {
+      const start = 1,
+        end = 2,
+        offset = 2;
+      useSlicer.setState({ selection: getMockSelection({ start, end, offset }) });
 
-    screen.getAllByRole('button').forEach(button => {
-      // click to trigger onClick -> no expectations yet
-      fireEvent.click(button);
+      render(SlicerControlsInApp);
 
-      expect(button).toBeInTheDocument();
-      expect(button).not.toHaveAttribute('disabled');
+      expect(Transport.loop).toBeTruthy();
+      expect(Transport.loopStart).toBe(start + offset);
+      expect(Transport.loopEnd).toBe(end + offset);
+    });
+
+    test('should set Transport seconds to loop start when seconds are below loopStart', () => {
+      const start = 1;
+      useSlicer.setState({ selection: getMockSelection({ start, offset: 0 }) });
+
+      render(SlicerControlsInApp);
+
+      expect(Transport.seconds).toBe(start);
+    });
+
+    test('should use offset to init loopStart and LoopEnd when start or end is below 0', () => {
+      const start = -2,
+        end = -1,
+        offset = 2;
+      useSlicer.setState({ selection: getMockSelection({ start, end, offset }) });
+
+      render(SlicerControlsInApp);
+
+      expect(Transport.loopStart).toBe(offset);
+      expect(Transport.loopEnd).toBe(offset);
+    });
+
+    test('should set Transport seconds to loop end when seconds are higher than loopEnd', () => {
+      const end = 1;
+      Transport.seconds = 2;
+      useSlicer.setState({ selection: getMockSelection({ end }) });
+
+      render(SlicerControlsInApp);
+
+      expect(Transport.loopEnd).toBe(end);
     });
   });
 
-  test('should disable all slicer buttons', () => {
-    useSlicer.setState(getSlicerStoreMock({ file: null }));
-    render(SlicerControlsInApp);
+  describe('player', () => {
+    test('should init player with startTime without crash', () => {
+      Transport.seconds = -1;
 
-    screen.getAllByRole('button').forEach(button => {
-      expect(button).toHaveAttribute('disabled');
+      render(SlicerControlsInApp);
     });
   });
 });
