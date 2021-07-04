@@ -73,8 +73,8 @@ export const updateSlicerSelectionRecipe = (
   if (isDirty) {
     update({
       selection: {
-        start: start ?? selection.start,
-        end: end ?? selection.end,
+        start: start ?? Math.max(0, selection.start),
+        end: end ?? Math.max(0, selection.end),
         offset: offset ?? selection.offset,
         zoom: zoom ?? selection.zoom
       }

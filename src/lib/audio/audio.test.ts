@@ -3,11 +3,13 @@ import {
   findAbsoluteMax,
   getAudioType,
   isAudio,
+  isSupported,
   removeAudioFileTypeFromName,
   sampleChannelData
 } from './index';
 
 import { getChannelDataMock } from '../../mock/audio';
+import { AudioType } from './types';
 
 describe('audio', () => {
   describe('removeAudioFileTypeFromName', () => {
@@ -44,6 +46,21 @@ describe('audio', () => {
       audioTypeInputs.forEach((audioTypeInput, index) => {
         expect(isAudio(audioTypeInput)).toBe(expectedAudioTypes[index]);
       });
+    });
+  });
+
+  describe('isSupported', () => {
+    test('should return correct values', () => {
+      const audioTypes: AudioType[] = ['wav', 'mp3'];
+      const expectedResponse = [true, false];
+
+      audioTypes.forEach((audioType, index) => {
+        expect(isSupported(audioType)).toBe(expectedResponse[index]);
+      });
+    });
+
+    test('should return false when audio type is null', () => {
+      expect(isSupported(null)).toBeFalsy();
     });
   });
 

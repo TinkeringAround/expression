@@ -29,6 +29,8 @@ class Player {
     this._state = 'stopped';
   }
 
+  seek() {}
+
   constructor() {}
 }
 

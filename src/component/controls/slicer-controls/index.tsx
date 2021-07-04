@@ -3,6 +3,7 @@ import { Player, Time, Transport } from 'tone';
 
 import { createPlayer } from '../../../lib/player';
 import { useSlicer } from '../../../store/slicer';
+import { exportSlicerFile } from '../../../store/slicer/actions';
 
 import Control from '../../control';
 import Icon from '../../icon';
@@ -49,22 +50,32 @@ const SlicerControls: FC = () => {
     setIsPlaying(false);
   }, [setIsPlaying]);
 
-  const onExport = useCallback(() => console.log('export'), []);
+  const onExport = useCallback(() => {
+    if (file) {
+      Transport.pause();
+      exportSlicerFile(file, selection);
+    }
+  }, [file, selection]);
 
   useEffect(() => {
     if (file && player) {
-      Transport.stop();
-      const startTime = Transport.seconds < 0 ? 0 : Transport.seconds;
+      if (Transport.state === 'started') {
+        Transport.pause();
 
-      player.state === 'started' && player.stop();
-      player.buffer = file.buffer;
-      player.state === 'stopped' && player.start(startTime);
+        player.buffer = file.buffer;
+        player.seek(0, 0);
+
+        Transport.seconds = 0;
+        Transport.start();
+      } else {
+        // stopped or paused
+        Transport.seconds = 0;
+
+        player.buffer = file.buffer;
+        player.start(0);
+      }
     }
-  }, [file, player, setIsPlaying]);
-
-  useEffect(() => {
-    setIsPlaying(false);
-  }, [file, setIsPlaying]);
+  }, [file, player]);
 
   useEffect(() => {
     const { start, end, offset } = selection;

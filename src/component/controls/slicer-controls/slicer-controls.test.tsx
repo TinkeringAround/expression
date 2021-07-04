@@ -9,6 +9,8 @@ import SlicerControls from './index';
 
 import { AppMock } from '../../../mock/components';
 import { getMockSelection, getSlicerStoreMock } from '../../../mock/store';
+import { mockElectronDispatch } from '../../../mock/electron';
+import { act } from 'react-dom/test-utils';
 
 describe('SlicerControls', () => {
   const icons = ['first', 'backward', 'play', 'stop', 'foreward', 'last', 'save'];
@@ -142,9 +144,15 @@ describe('SlicerControls', () => {
     });
 
     describe('onExport', () => {
-      test('should be called', () => {
+      test('should dispatch exportSlicerFile action', () => {
+        const exportSlicerFile = jest.fn();
+        mockElectronDispatch(exportSlicerFile);
+
         render(SlicerControlsInApp);
         fireEvent.keyUp(document, { key: 'E', ctrlKey: true });
+
+        expect(Transport.state).toBe('paused');
+        expect(exportSlicerFile).toHaveBeenCalled();
       });
     });
   });
@@ -186,12 +194,15 @@ describe('SlicerControls', () => {
 
     test('should set Transport seconds to loop end when seconds are higher than loopEnd', () => {
       const end = 1;
-      Transport.seconds = 2;
       useSlicer.setState({ selection: getMockSelection({ end }) });
 
       render(SlicerControlsInApp);
+      Transport.seconds = 2;
+
+      act(() => useSlicer.setState({ selection: getMockSelection({ end }) }));
 
       expect(Transport.loopEnd).toBe(end);
+      expect(Transport.seconds).toBe(end);
     });
   });
 

@@ -76,9 +76,10 @@ describe('slicer reducer', () => {
       useSlicer.setState(getSlicerStoreMock());
     });
 
-    test('should update store on non null audio file with audio data', () => {
+    test('should update store when file with audio data is non null', () => {
       const audioFileMock = getAudioFileMock({});
       const channelMock = getChannelDataMock(100);
+
       slicerFileLoadedRecipe(null, {
         file: audioFileMock,
         channelData: [channelMock, channelMock]
@@ -89,6 +90,7 @@ describe('slicer reducer', () => {
 
     test('should update store on non null audio file with error', () => {
       const audioFileMock = getAudioFileMock({});
+
       slicerFileLoadedRecipe(null, {
         file: getAudioFileMock({}),
         channelData: [new Float32Array(), new Float32Array()],
