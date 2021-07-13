@@ -73,13 +73,16 @@ describe('FileDropZone', () => {
   });
 
   test('should dispatch loadSlicerFile on click non selected file', () => {
-    const loadSlicerFileMock = jest.fn();
-    mockElectronDispatch(loadSlicerFileMock);
+    const loadSlicerFileTriggerMock = jest.fn();
+    const loadSlicerFileDispatchMock = jest.fn();
+    mockElectronTrigger(loadSlicerFileTriggerMock);
+    mockElectronDispatch(loadSlicerFileDispatchMock);
     render(DropZoneInApp);
 
     fireEvent.click(screen.getByText('react'));
 
-    expect(loadSlicerFileMock).toHaveBeenCalled();
+    expect(loadSlicerFileTriggerMock).toHaveBeenCalled();
+    expect(loadSlicerFileDispatchMock).toHaveBeenCalled();
   });
 
   test('should render a trash bin for each file', () => {
