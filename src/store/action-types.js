@@ -11,6 +11,8 @@ const ACTION = Object.freeze({
   slicerFileLoaded: '[SLICER] File Loaded',
   updateSlicerSelection: '[SLICER] Update Slicer Selection',
   exportSlicerFile: '[SLICER] Export Slicer File',
+  updateSlicerProgression: '[SLICER] Update Slicer Progression',
+  slicerFileExported: '[SLICER] Slicer File Exported',
 
   addNotification: '[NOTIFICATION] Add Notification',
   hideNotification: '[NOTIFICATION] Hide Notification'

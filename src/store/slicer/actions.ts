@@ -8,11 +8,13 @@ export const addSlicerFiles = (files: AudioFile[]) => trigger(ACTION.addSlicerFi
 
 export const removeSlicerFile = (file: AudioFile) => trigger(ACTION.removeSlicerFile, { file });
 
-export const loadSlicerFile = (file: AudioFile) =>
+export const loadSlicerFile = (file: AudioFile) => {
+  trigger(ACTION.loadSlicerFile);
   dispatch(ACTION.loadSlicerFile, {
     file,
     audioType: getAudioType(file.type)
   });
+};
 
 export const updateSlicerSelection = ({ zoom, start, end, offset }: UpdateSlicerSelectionPayload) =>
   trigger(ACTION.updateSlicerSelection, { zoom, start, end, offset });
@@ -20,4 +22,7 @@ export const updateSlicerSelection = ({ zoom, start, end, offset }: UpdateSlicer
 export const exportSlicerFile = (
   { channelData, buffer: { sampleRate, duration } }: SlicerAudioFile,
   { start, end, offset }: SlicerSelection
-) => dispatch(ACTION.exportSlicerFile, { channelData, start, end, offset, sampleRate, duration });
+) => {
+  trigger(ACTION.exportSlicerFile);
+  dispatch(ACTION.exportSlicerFile, { channelData, start, end, offset, sampleRate, duration });
+};

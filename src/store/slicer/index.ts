@@ -1,12 +1,13 @@
 import create, { State } from 'zustand';
 
-import { AudioFile, SlicerAudioFile, SlicerSelection } from './types';
+import { AudioFile, HasProgress, SlicerAudioFile, SlicerSelection } from './types';
 
-export interface SlicerState extends State {
+export interface SlicerState extends State, HasProgress {
   readonly files: AudioFile[];
   readonly file: SlicerAudioFile | null;
   readonly selection: SlicerSelection;
   readonly samples: number;
+  readonly isExporting: boolean;
   readonly update: (partial: Partial<SlicerState>) => void;
 }
 
@@ -22,6 +23,8 @@ export const useSlicer = create<SlicerState>(set => ({
   file: null,
   selection: INITIAL_SELECTION,
   samples: 5000,
+  progress: 0,
+  isExporting: false,
   //@ts-ignore
   update: (partial: Partial<SlicerState>) => set(partial)
 }));

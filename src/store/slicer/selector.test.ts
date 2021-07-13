@@ -1,6 +1,6 @@
 import { getSlicerStoreMock } from '../../mock/store';
 
-import { selectSlicerFile, selectSlicerSelection } from './selector';
+import { selectSlicerFile, selectSlicerIsProcessing, selectSlicerSelection } from './selector';
 
 describe('slicer selector', () => {
   describe('selectSlicerFile', () => {
@@ -13,8 +13,7 @@ describe('slicer selector', () => {
     });
 
     test('should return non null file', () => {
-      const state = getSlicerStoreMock();
-      state.file = null;
+      const state = { ...getSlicerStoreMock(), file: null };
 
       const selectedFile = selectSlicerFile(state);
 
@@ -30,6 +29,32 @@ describe('slicer selector', () => {
       const selection = selectSlicerSelection(state);
 
       expect(selection).toEqual(state.selection);
+    });
+  });
+
+  describe('selectSlicerIsProcessing', () => {
+    test('should return true when progress between 0 and 100', () => {
+      const state = { ...getSlicerStoreMock(), progress: 50 };
+
+      const selection = selectSlicerIsProcessing(state);
+
+      expect(selection).toBeTruthy();
+    });
+
+    test('should return false when progress is lower than 0', () => {
+      const state = { ...getSlicerStoreMock(), progress: -10 };
+
+      const selection = selectSlicerIsProcessing(state);
+
+      expect(selection).toBeFalsy();
+    });
+
+    test('should return false when progress is equal to 100', () => {
+      const state = { ...getSlicerStoreMock(), progress: 100 };
+
+      const selection = selectSlicerIsProcessing(state);
+
+      expect(selection).toBeFalsy();
     });
   });
 });
