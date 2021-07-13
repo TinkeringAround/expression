@@ -17,6 +17,7 @@ async function loadAudioFile(event, { file, audioType }) {
 
     if (fs.existsSync(file.path)) {
       const channelData = await decode(file.path, audioType);
+      event.reply(ACTION.updateSlicerProgression, { progress: 100 });
 
       if (channelData) {
         event.reply(ACTION.slicerFileLoaded, { file, channelData });
@@ -55,10 +56,7 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
   try {
     logInfo(`${ACTION.exportSlicerFile}`);
 
-    const path = dialog.showSaveDialogSync({
-      title: 'Test',
-      buttonLabel: 'Export Audio Slice'
-    });
+    const path = dialog.showSaveDialogSync({ title: 'Export Audio Slice' });
 
     if (path) {
       // slice section for each channel
@@ -81,9 +79,9 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
       fs.writeFileSync(path, buffer);
 
       logInfo(`${ACTION.exportSlicerFile} successful`);
-      event.reply(ACTION.addNotification, {
+      event.reply(ACTION.slicerFileExported, {
         notification: {
-          content: 'Exporting Audio Slice successful!',
+          content: 'Exporting Audio Slice successful.',
           type: 'info',
           show: true
         }
@@ -93,9 +91,9 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
     const errorMsg = `${ACTION.exportSlicerFile}, raising ${error}`;
     logError(errorMsg);
 
-    event.reply(ACTION.addNotification, {
+    event.reply(ACTION.slicerFileExported, {
       notification: {
-        content: 'Exporting Audio Slice failed!',
+        content: 'Exporting Audio Slice failed.',
         type: 'error',
         show: true
       }
