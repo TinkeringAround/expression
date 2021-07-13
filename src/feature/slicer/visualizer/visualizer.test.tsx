@@ -28,12 +28,13 @@ describe('Visualizer', () => {
     mockUseClientRect({ width });
   });
 
-  test('should render controls and drawing', () => {
+  test('should render controls, drawing and loading', () => {
     render(VisualizerInApp);
 
     expect(screen.getByRole('area')).toBeInTheDocument();
     expect(screen.getAllByRole(/border/).length).toEqual(2);
     expect(document.querySelector('svg')).toBeInTheDocument();
+    expect(screen.getByRole('loading')).toBeInTheDocument();
   });
 
   test('should update start and end when area selection border position update', () => {

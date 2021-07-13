@@ -7,11 +7,13 @@ import { useRefCallback } from '../../../hook/useRefCallback';
 
 import AreaSelection from './area-selection';
 import Drawing from './drawing';
+import Loading from './loading';
+import ExportingOverlay from './exporting-overlay';
 
 import { SVisualizer } from './styled';
 
 const Visualizer: FC = () => {
-  const { file } = useSlicer();
+  const { file, isExporting } = useSlicer();
   const { ref, setRef } = useRefCallback();
   const { zoom, setZoom } = useZoom(ref);
 
@@ -27,10 +29,11 @@ const Visualizer: FC = () => {
 
   return (
     <SVisualizer role="visualizer" ref={setRef}>
+      <Loading />
+      <ExportingOverlay visible={isExporting} />
       {file && <AreaSelection />}
       {file && <Drawing />}
     </SVisualizer>
   );
 };
-
 export default Visualizer;
