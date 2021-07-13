@@ -1,6 +1,6 @@
 import React from 'react';
 import { Transport } from 'tone';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useSlicer } from '../../../store/slicer';
@@ -9,6 +9,7 @@ import SlicerControls from './index';
 
 import { AppMock } from '../../../mock/components';
 import { getMockSelection, getSlicerStoreMock } from '../../../mock/store';
+import { mockElectronDispatch } from '../../../mock/electron';
 
 describe('SlicerControls', () => {
   const icons = ['first', 'backward', 'play', 'stop', 'foreward', 'last', 'save'];
@@ -142,9 +143,15 @@ describe('SlicerControls', () => {
     });
 
     describe('onExport', () => {
-      test('should be called', () => {
+      test('should dispatch exportSlicerFile action', () => {
+        const exportSlicerFile = jest.fn();
+        mockElectronDispatch(exportSlicerFile);
+
         render(SlicerControlsInApp);
         fireEvent.keyUp(document, { key: 'E', ctrlKey: true });
+
+        expect(Transport.state).toBe('paused');
+        expect(exportSlicerFile).toHaveBeenCalled();
       });
     });
   });
@@ -172,26 +179,17 @@ describe('SlicerControls', () => {
       expect(Transport.seconds).toBe(start);
     });
 
-    test('should use offset to init loopStart and LoopEnd when start or end is below 0', () => {
-      const start = -2,
-        end = -1,
-        offset = 2;
-      useSlicer.setState({ selection: getMockSelection({ start, end, offset }) });
-
-      render(SlicerControlsInApp);
-
-      expect(Transport.loopStart).toBe(offset);
-      expect(Transport.loopEnd).toBe(offset);
-    });
-
     test('should set Transport seconds to loop end when seconds are higher than loopEnd', () => {
       const end = 1;
-      Transport.seconds = 2;
       useSlicer.setState({ selection: getMockSelection({ end }) });
 
       render(SlicerControlsInApp);
+      Transport.seconds = 2;
+
+      act(() => useSlicer.setState({ selection: getMockSelection({ end }) }));
 
       expect(Transport.loopEnd).toBe(end);
+      expect(Transport.seconds).toBe(end);
     });
   });
 

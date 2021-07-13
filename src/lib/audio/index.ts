@@ -1,6 +1,11 @@
 import { AudioType } from './types';
 
 /**
+ * Currently supported Audio Types
+ */
+export const SUPPORTED_AUDIO_TYPES: AudioType[] = ['wav'];
+
+/**
  * Removes audio type from audio name
  * @param {string} audioName the audio name with audio type
  * @returns {string} the audio name without audio type ending
@@ -18,7 +23,7 @@ export const removeAudioFileTypeFromName: (audioName: string) => string = audioN
  */
 export const getAudioType: (audioType: string) => AudioType | null = audioType => {
   if (audioType.includes('wav')) return 'wav';
-  if (audioType.includes('mp3')) return 'mp3';
+  if (audioType.includes('mp3') || audioType.includes('mpeg')) return 'mp3';
   return null;
 };
 
@@ -28,6 +33,14 @@ export const getAudioType: (audioType: string) => AudioType | null = audioType =
  * @returns {boolean}
  */
 export const isAudio = (fileType: string): boolean => fileType.includes('audio');
+
+/**
+ * Check if audio type is supported
+ * @param {AudioType} audioType the the file type
+ * @returns {boolean}
+ */
+export const isSupported = (audioType: AudioType | null): boolean =>
+  !!audioType && SUPPORTED_AUDIO_TYPES.includes(audioType);
 
 /**
  * Samples the AudioBuffer retrieved from an external source

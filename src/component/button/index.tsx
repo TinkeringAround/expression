@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SButton = styled.button`
+const Button = styled.button`
   position: relative;
 
   display: flex;
@@ -47,4 +47,4 @@ const SButton = styled.button`
   }
 `;
 
-export default SButton;
+export default Button;

@@ -40,3 +40,7 @@ export type SlicerAudioFileLoadedPayload = {
 } & HasError;
 
 export type UpdateSlicerSelectionPayload = Partial<SlicerSelection>;
+
+export interface HasProgress {
+  readonly progress: number;
+}

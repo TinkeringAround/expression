@@ -4,12 +4,15 @@ import { ACTION } from '../action-types';
 import { INITIAL_SELECTION, useSlicer } from './index';
 import {
   AddSlicerFilesPayload,
+  HasProgress,
   RemoveSlicerFilePayload,
   SlicerAudioFile,
   SlicerAudioFileLoadedPayload,
   UpdateSlicerSelectionPayload
 } from './types';
 import { addNotification } from '../notification/actions';
+import { toValidNumber } from '../../lib/util';
+import { AddNotificationPayload } from '../notification/types';
 
 const { on } = window.electron;
 
@@ -35,6 +38,14 @@ export const removeSlicerFileRecipe = (_: null, { file }: RemoveSlicerFilePayloa
   update({ files, ...optionalUpdate });
 };
 
+export const loadSlicerFileRecipe = (_: null) => {
+  const { update, progress } = useSlicer.getState();
+
+  if (progress !== 1) {
+    update({ progress: 1 });
+  }
+};
+
 export const slicerFileLoadedRecipe = (
   _: null,
   { file, error, channelData }: SlicerAudioFileLoadedPayload
@@ -55,7 +66,8 @@ export const slicerFileLoadedRecipe = (
       end: 0,
       offset: 0,
       zoom: 1
-    }
+    },
+    progress: 0
   });
 };
 
@@ -73,17 +85,46 @@ export const updateSlicerSelectionRecipe = (
   if (isDirty) {
     update({
       selection: {
-        start: start ?? selection.start,
-        end: end ?? selection.end,
-        offset: offset ?? selection.offset,
+        start: toValidNumber(start ?? selection.start),
+        end: toValidNumber(end ?? selection.end),
+        offset: toValidNumber(offset ?? selection.offset),
         zoom: zoom ?? selection.zoom
       }
     });
   }
 };
 
+export const updateSlicerProgressionRecipe = (_: null, { progress }: HasProgress) => {
+  const { update, progress: currentProgress } = useSlicer.getState();
+
+  if (progress !== currentProgress) {
+    update({ progress });
+  }
+};
+
+export const exportSlicerFileRecipe = (_: null) => {
+  const { update, isExporting } = useSlicer.getState();
+
+  if (!isExporting) {
+    update({ isExporting: true });
+  }
+};
+
+export const slicerFileExportedRecipe = (_: null, { notification }: AddNotificationPayload) => {
+  const { update, isExporting } = useSlicer.getState();
+
+  if (isExporting) {
+    update({ isExporting: false });
+    addNotification(notification);
+  }
+};
+
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
 on(ACTION.removeSlicerFile, removeSlicerFileRecipe);
+on(ACTION.loadSlicerFile, loadSlicerFileRecipe);
 on(ACTION.slicerFileLoaded, slicerFileLoadedRecipe);
 on(ACTION.updateSlicerSelection, updateSlicerSelectionRecipe);
+on(ACTION.updateSlicerProgression, updateSlicerProgressionRecipe);
+on(ACTION.exportSlicerFile, exportSlicerFileRecipe);
+on(ACTION.slicerFileExported, slicerFileExportedRecipe);

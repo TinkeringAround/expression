@@ -33,6 +33,8 @@ export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => Slicer
     ],
     file: getSlicerAudioFileMock({}),
     selection: getMockSelection({}),
+    progress: 0,
+    isExporting: false,
     samples: 100,
     ...statePartial,
     update

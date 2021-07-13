@@ -6,7 +6,7 @@ export const SNotifications = styled.section`
   bottom: 2rem;
   right: 3rem;
 
-  z-index: 10;
+  z-index: 20;
 `;
 
 export const SNotification = styled.div`

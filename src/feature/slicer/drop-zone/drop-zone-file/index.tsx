@@ -32,7 +32,7 @@ const DropZoneFile: FC<Props> = ({ file, onClick, isSelected }) => {
     >
       <Icon iconType="trash" />
       {audioType && <Icon iconType={audioType} />}
-      <div className="info" onClick={onFileClick}>
+      <div className="info">
         <span className="name">{removeAudioFileTypeFromName(file.name)}</span>
       </div>
     </SDropZoneFile>

@@ -3,7 +3,7 @@ import { Resizable } from 're-resizable';
 import { useDropzone } from 'react-dropzone';
 
 import { AudioFile } from '../../../store/slicer/types';
-import { isAudio } from '../../../lib/audio';
+import { getAudioType, isAudio, isSupported } from '../../../lib/audio';
 
 import Icon from '../../../component/icon';
 import DropZoneFile from './drop-zone-file';
@@ -42,7 +42,10 @@ const DropZone: FC = () => {
     );
   }, []);
 
-  const fileIsValid = useCallback(file => (!isAudio(file.type) ? ERROR_MESSAGE : null), []);
+  const fileIsValid = useCallback(
+    file => (!isAudio(file.type) || !isSupported(getAudioType(file.type)) ? ERROR_MESSAGE : null),
+    []
+  );
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,

@@ -1,5 +1,5 @@
 import { Features } from '../../features';
-import { toMB, featureToNameByPath, map, asSeconds } from './index';
+import { toMB, featureToNameByPath, map, asSeconds, delay, toValidNumber } from './index';
 
 describe('Utils', () => {
   test('toMB', () => {
@@ -46,5 +46,27 @@ describe('Utils', () => {
     const expectedValues = [0, 50, 100];
 
     values.forEach((value, index) => expect(map(value, 0, 10, 0, 100)).toBe(expectedValues[index]));
+  });
+
+  test('delay', () => {
+    jest.useFakeTimers();
+    const callback = jest.fn();
+    const time = 1000;
+
+    delay(callback, time);
+    jest.advanceTimersByTime(time);
+
+    expect(callback).toHaveBeenCalled();
+
+    jest.useRealTimers();
+  });
+
+  test('validateValue', () => {
+    const values: number[] = [-100, 200, Infinity];
+    const expectedValues = [0, 200, 0];
+
+    values.forEach((val, index) => {
+      expect(toValidNumber(val)).toBe(expectedValues[index]);
+    });
   });
 });

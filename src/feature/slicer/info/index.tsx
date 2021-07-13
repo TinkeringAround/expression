@@ -6,7 +6,7 @@ import { asSeconds, toMB } from '../../../lib/util';
 import { useSlicer } from '../../../store/slicer';
 
 import Icon from '../../../component/icon';
-import STag from '../../../component/tag';
+import Tag from '../../../component/tag';
 
 import { SInfo } from './styled';
 
@@ -23,8 +23,8 @@ const Info: FC = () => {
       </div>
 
       <div className="aboutFileSize">
-        {isShowing() && <STag>{toMB(size)}</STag>}
-        {isShowing() && <STag>{`~ ${asSeconds(buffer.duration, 0)}`}</STag>}
+        {isShowing() && <Tag>{toMB(size)}</Tag>}
+        {isShowing() && <Tag>{`~ ${asSeconds(buffer.duration, 0)}`}</Tag>}
       </div>
     </SInfo>
   );
