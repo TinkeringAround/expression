@@ -75,6 +75,11 @@ class TransportMock {
     this._eventListener[event] = callback;
   }
 
+  cancel() {}
+
+  /**
+   * Test Function only
+   */
   triggerLoopStart() {
     if (this._eventListener['loopStart']) {
       this._eventListener['loopStart']();
