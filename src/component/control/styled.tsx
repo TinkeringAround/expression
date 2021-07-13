@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import SButton from '../button';
+import Button from '../button';
 
-export const SControl = styled(SButton)`
+export const SControl = styled(Button)`
   width: 70px;
   padding: 1rem;
 

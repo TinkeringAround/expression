@@ -8,7 +8,7 @@ import { exportSlicerFile } from '../../../store/slicer/actions';
 import Control from '../../control';
 import Icon from '../../icon';
 import Shortcut from '../../shortcut';
-import SButton from '../../button';
+import Button from '../../button';
 
 import { SSlicerControls } from './styled';
 
@@ -16,7 +16,7 @@ const SlicerControls: FC = () => {
   const { file, selection } = useSlicer();
 
   const [player] = useState<Player>(createPlayer());
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(Transport.state === 'started');
 
   const playPauseType = isPlaying ? 'pause' : 'play';
   const disabled = !file;
@@ -52,7 +52,7 @@ const SlicerControls: FC = () => {
 
   const onExport = useCallback(() => {
     if (file) {
-      Transport.pause();
+      setIsPlaying(false);
       exportSlicerFile(file, selection);
     }
   }, [file, selection]);
@@ -61,12 +61,12 @@ const SlicerControls: FC = () => {
     if (file && player) {
       if (Transport.state === 'started') {
         Transport.pause();
+        setIsPlaying(false);
 
-        player.buffer = file.buffer;
         player.seek(0, 0);
+        player.buffer = file.buffer;
 
         Transport.seconds = 0;
-        Transport.start();
       } else {
         // stopped or paused
         Transport.seconds = 0;
@@ -75,12 +75,12 @@ const SlicerControls: FC = () => {
         player.start(0);
       }
     }
-  }, [file, player]);
+  }, [file, player, setIsPlaying]);
 
   useEffect(() => {
     const { start, end, offset } = selection;
-    const loopStart = start < 0 ? offset : start + offset;
-    const loopEnd = end < 0 ? offset : end + offset;
+    const loopStart = start + offset;
+    const loopEnd = end + offset;
 
     Transport.loop = true;
     Transport.setLoopPoints(loopStart, loopEnd);
@@ -106,11 +106,11 @@ const SlicerControls: FC = () => {
       <Control keyboard="ArrowRight" type="foreward" onClick={onForward} disabled={disabled} />
       <Control keyboard="ArrowRight" withCtrl type="last" disabled={disabled} onClick={onLast} />
 
-      <SButton disabled={disabled} onClick={onExport}>
+      <Button disabled={disabled} onClick={onExport}>
         <Icon iconType="save" />
         <span>Export</span>
         <Shortcut keyboard="E" withCtrl disabled={disabled} onClick={onExport} />
-      </SButton>
+      </Button>
     </SSlicerControls>
   );
 };

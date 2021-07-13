@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { fadeIn } from '../../../animations';
+
 export const SSlicerControls = styled.div`
   position: relative;
 
@@ -7,6 +9,10 @@ export const SSlicerControls = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1;
+
+  animation: fadeIn 0.25s ease-in-out;
+
+  ${fadeIn()}
 
   button:last-child {
     position: absolute;
