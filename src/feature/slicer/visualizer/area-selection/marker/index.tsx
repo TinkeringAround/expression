@@ -12,7 +12,7 @@ const Marker: FC = () => {
 
   useEffect(() => {
     let handler: NodeJS.Timeout;
-    // set repeat to keep track on progess in percent
+    // set repeat to keep track on progress in percent
     Transport.on('start', () => {
       handler = setInterval(() => {
         setPosition(Transport.progress * 100);
