@@ -48,3 +48,23 @@ export const featureToNameByPath = (path: string): string => {
  */
 export const map = (value: number, x1: number, y1: number, x2: number, y2: number) =>
   ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
+
+/**
+ * Delay helper function
+ * @param {function} callback callback function
+ * @param {number} time
+ * @return {number} the handler
+ */
+export const delay = (callback: anyFunction, time: number) => setTimeout(callback, time);
+
+/**
+ * Number Mapping Helper to always have a positive Valid Number
+ * value < 0 || value === Infinity -> return 0, else value
+ * @param {number} value the number
+ * @return {number} the valid mapped number
+ */
+export const toValidNumber = (value: number): number => {
+  if (value < 0) return 0;
+  if (value === Infinity) return 0;
+  return value;
+};
