@@ -7,6 +7,7 @@ import { useSlicer } from '../../../../store/slicer';
 import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
 import { updateSlicerSelection } from '../../../../store/slicer/actions';
 import { useRefCallback } from '../../../../hook/useRefCallback';
+import { useDebounce } from '../../../../hook/useDebounce';
 
 import Marker from './marker';
 
@@ -15,6 +16,7 @@ import { SAreaSelection, SSelector, SArea } from './styled';
 export const BORDER_WIDTH = 7;
 const UNDEFINED = BORDER_WIDTH;
 const AREA_THRESHOLD = 70;
+const DELAY = 100;
 
 const AreaSelection: FC = () => {
   const { file } = useSlicer();
@@ -47,6 +49,10 @@ const AreaSelection: FC = () => {
     onDragEnd: onDragEndRight,
     reset: resetRightBorder
   } = useDrag(left + BORDER_WIDTH, maxWidth - BORDER_WIDTH, maxWidth - BORDER_WIDTH);
+
+  // debounced values
+  const debouncedLeft = useDebounce<number>(left, DELAY);
+  const debouncedRight = useDebounce<number>(right, DELAY);
 
   const reset = () => {
     resetLeftBorder();
@@ -98,13 +104,13 @@ const AreaSelection: FC = () => {
 
   useEffect(() => {
     // update start in selection state when border left position changes
-    updateSlicerSelection({ start: toTime(left) });
-  }, [left, toTime]);
+    updateSlicerSelection({ start: toTime(debouncedLeft) });
+  }, [debouncedLeft, toTime]);
 
   useEffect(() => {
     // update end in selection state when border right position changes
-    updateSlicerSelection({ end: toTime(right + BORDER_WIDTH) });
-  }, [right, toTime]);
+    updateSlicerSelection({ end: toTime(debouncedRight + BORDER_WIDTH) });
+  }, [debouncedRight, toTime]);
 
   return (
     <SAreaSelection role="selection" ref={setRef} onDragEnter={onDragPrevent}>

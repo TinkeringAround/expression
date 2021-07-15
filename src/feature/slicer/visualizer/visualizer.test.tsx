@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useSlicer } from '../../../store/slicer';
@@ -49,32 +49,45 @@ describe('Visualizer', () => {
     beforeEach(() => {
       useSlicer.setState(getSlicerStoreMock());
       mockUseDrag(0);
+      jest.useFakeTimers();
     });
 
-    test('should update zoom in store when zoomed', () => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    test('should update zoom in store when zoomed', async () => {
       mockElectronTrigger(updateSlicerSelectionRecipe);
       render(VisualizerInApp);
 
-      fireEvent.wheel(screen.getByRole('visualizer'), { deltaY: 100 });
+      act(() => {
+        fireEvent.wheel(screen.getByRole('visualizer'), { deltaY: 100 });
+        jest.advanceTimersByTime(500);
+      });
 
-      expect(useSlicer.getState().selection.zoom).toBe(2);
+      await waitFor(() => expect(useSlicer.getState().selection.zoom).toBe(2));
     });
 
-    test('should update offset in store when scrolled vertically in drawing', () => {
+    test('should update offset in store when scrolled vertically in drawing', async () => {
       const scrollLeft = 100;
 
       mockElectronTrigger(updateSlicerSelectionRecipe);
       render(VisualizerInApp);
 
-      fireEvent.scroll(screen.getByRole('drawing'), { target: { scrollLeft } });
+      act(() => {
+        fireEvent.scroll(screen.getByRole('drawing'), { target: { scrollLeft } });
+        jest.advanceTimersByTime(500);
+      });
 
-      const { file, selection } = useSlicer.getState();
-      expect(file).not.toBeNull();
+      await waitFor(() => {
+        const { file, selection } = useSlicer.getState();
+        expect(file).not.toBeNull();
 
-      if (file) {
-        const expectedOffset = (scrollLeft / (width * selection.zoom)) * file.buffer.duration;
-        expect(useSlicer.getState().selection.offset).toBe(expectedOffset);
-      }
+        if (file) {
+          const expectedOffset = (scrollLeft / (width * selection.zoom)) * file.buffer.duration;
+          return expect(useSlicer.getState().selection.offset).toBe(expectedOffset);
+        }
+      });
     });
   });
 });

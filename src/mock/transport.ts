@@ -22,6 +22,14 @@ class TransportMock {
     this._loop = loop;
   }
 
+  set loopStart(loopStart: Time) {
+    this._loopStart = loopStart;
+  }
+
+  set loopEnd(loopEnd: Time) {
+    this._loopEnd = loopEnd;
+  }
+
   set progress(progress: NormalRange) {
     this._progress = progress;
   }

@@ -1,9 +1,8 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { updateSlicerSelectionRecipe } from '../../../../store/slicer/reducer';
-import { updateSlicerSelection } from '../../../../store/slicer/actions';
 import { useSlicer } from '../../../../store/slicer';
 
 import Drawing from './index';
@@ -16,10 +15,11 @@ import { mockElectronTrigger } from '../../../../mock/electron';
 
 describe('Drawing', () => {
   const width = 500;
+  const zoom = 5;
 
   const DrawingInApp = (
     <AppMock>
-      <Drawing />
+      <Drawing zoom={zoom} />
     </AppMock>
   );
 
@@ -59,25 +59,41 @@ describe('Drawing', () => {
   });
 
   test('should adjust svg width according to zoom', async () => {
-    const zoom = 5;
-    updateSlicerSelection({ zoom });
     render(DrawingInApp);
 
     expect(screen.getByRole('audio')).toHaveStyle(`width: ${zoom * 100}%`);
   });
 
-  test('should update offset when scrolled', async () => {
-    const zoom = 5,
-      scrollLeft = 100;
-    updateSlicerSelection({ zoom });
+  describe('with fake timers', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+      mockUseClientRect({ width });
+      useSlicer.setState(getSlicerStoreMock());
+    });
 
-    render(DrawingInApp);
+    afterEach(() => {
+      jest.useRealTimers();
+    });
 
-    fireEvent.scroll(screen.getByRole('drawing'), { target: { scrollLeft } });
+    test('should update offset when scrolled', async () => {
+      const scrollLeft = 100;
+      mockElectronTrigger(updateSlicerSelectionRecipe);
 
-    const duration = useSlicer.getState().file?.buffer.duration ?? 0;
-    expect(duration).not.toBe(0);
-    expect(useSlicer.getState().selection.offset).toBe((scrollLeft / (width * zoom)) * duration);
+      render(DrawingInApp);
+
+      act(() => {
+        fireEvent.scroll(screen.getByRole('drawing'), { target: { scrollLeft } });
+        jest.advanceTimersByTime(500);
+      });
+
+      await waitFor(() => {
+        const duration = useSlicer.getState().file?.buffer.duration ?? 0;
+        expect(duration).not.toBe(0);
+        return expect(useSlicer.getState().selection.offset).toBe(
+          (scrollLeft / (width * zoom)) * duration
+        );
+      });
+    });
   });
 
   describe('with baseWidth is UNDEFINED (=1)', () => {

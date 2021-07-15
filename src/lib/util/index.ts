@@ -63,8 +63,17 @@ export const delay = (callback: anyFunction, time: number) => setTimeout(callbac
  * @param {number} value the number
  * @return {number} the valid mapped number
  */
-export const toValidNumber = (value: number): number => {
+export const toValidFloat = (value: number): number => {
   if (value < 0) return 0;
   if (value === Infinity) return 0;
-  return value;
+  return parseFloat(value.toFixed(2));
 };
+
+/**
+ * Float Value Comparing Helper Function
+ * @param {number} float1
+ * @param {number} float2
+ * @return {boolean} the comparison result
+ */
+export const floatsDiffer = (float1: number, float2: number) =>
+  toValidFloat(float1) !== toValidFloat(float2);
