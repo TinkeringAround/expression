@@ -18,6 +18,9 @@ export const SInfo = styled.section`
     width: 100%;
     margin-bottom: 0.5rem;
 
+    transition: color 0.15s ease-in-out;
+    cursor: pointer;
+
     h1,
     span {
       font-size: 3rem;
@@ -29,6 +32,10 @@ export const SInfo = styled.section`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    :hover {
+      color: ${({ theme }) => theme.darkBlue};
     }
   }
 
