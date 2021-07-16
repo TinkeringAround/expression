@@ -11,7 +11,7 @@ import {
   UpdateSlicerSelectionPayload
 } from './types';
 import { addNotification } from '../notification/actions';
-import { toValidNumber } from '../../lib/util';
+import { floatsDiffer, toValidFloat } from '../../lib/util';
 import { AddNotificationPayload } from '../notification/types';
 
 const { on } = window.electron;
@@ -77,17 +77,17 @@ export const updateSlicerSelectionRecipe = (
 ) => {
   const { update, selection } = useSlicer.getState();
   const isDirty =
-    (end && end !== selection.end) ||
-    (offset && offset !== selection.offset) ||
-    (start && start !== selection.start) ||
-    (zoom && zoom !== selection.zoom);
+    (!!end && floatsDiffer(end, selection.end)) ||
+    (!!offset && floatsDiffer(offset, selection.offset)) ||
+    (!!start && floatsDiffer(start, selection.start)) ||
+    (!!zoom && zoom !== selection.zoom);
 
   if (isDirty) {
     update({
       selection: {
-        start: toValidNumber(start ?? selection.start),
-        end: toValidNumber(end ?? selection.end),
-        offset: toValidNumber(offset ?? selection.offset),
+        start: toValidFloat(start ?? selection.start),
+        end: toValidFloat(end ?? selection.end),
+        offset: toValidFloat(offset ?? selection.offset),
         zoom: zoom ?? selection.zoom
       }
     });

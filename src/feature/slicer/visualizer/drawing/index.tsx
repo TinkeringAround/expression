@@ -4,9 +4,10 @@ import { calculateDrawingPoints } from './util';
 import { useSlicer } from '../../../../store/slicer';
 import { useClientRect } from '../../../../hook/useClientRect';
 import { findAbsoluteMax, sampleChannelData } from '../../../../lib/audio';
-import { selectSlicerFile, selectSlicerSelection } from '../../../../store/slicer/selector';
+import { selectSlicerFile } from '../../../../store/slicer/selector';
 import { updateSlicerSelection } from '../../../../store/slicer/actions';
 import { useRefCallback } from '../../../../hook/useRefCallback';
+import { useDebounce } from '../../../../hook/useDebounce';
 
 import Timeline from './timeline';
 import Audio from './audio';
@@ -15,11 +16,15 @@ import { SDrawing } from './styled';
 
 const PADDING = 70;
 const UNDEFINED = 1;
+const DELAY = 100;
 
-const Drawing: FC = () => {
+interface Props {
+  zoom: number;
+}
+
+const Drawing: FC<Props> = ({ zoom }) => {
   const { samples } = useSlicer();
   const { channelData, buffer } = useSlicer(selectSlicerFile);
-  const { zoom } = useSlicer(selectSlicerSelection);
   const { ref, setRef } = useRefCallback();
   const { rect } = useClientRect(ref, true);
 
@@ -28,14 +33,16 @@ const Drawing: FC = () => {
   const [sample, setSample] = useState<number[]>([]);
   const [maxAmplitude, setMaxAmplitude] = useState<number>(UNDEFINED);
   const [points, setPoints] = useState<string>('');
+  const [offset, setOffset] = useState<number>(0);
+
+  const debouncedOffset = useDebounce<number>(offset, DELAY);
 
   const updateOffset = useCallback(
     event => {
       // update scroll left as duration offset
       // @ts-ignore
       const { scrollLeft } = event.target;
-      const offset = (buffer.duration * scrollLeft) / (baseWidth * zoom);
-      updateSlicerSelection({ offset });
+      setOffset((buffer.duration * scrollLeft) / (baseWidth * zoom));
     },
     [buffer, baseWidth, zoom]
   );
@@ -72,6 +79,10 @@ const Drawing: FC = () => {
       setPoints(calculateDrawingPoints(sample, maxAmplitude, stepWidth, maxHeight, PADDING));
     }
   }, [rect, sample, maxAmplitude, samples, zoom, baseWidth, setPoints]);
+
+  useEffect(() => {
+    updateSlicerSelection({ offset: debouncedOffset });
+  }, [debouncedOffset]);
 
   return (
     <SDrawing role="drawing" ref={setRef} onScroll={updateOffset}>

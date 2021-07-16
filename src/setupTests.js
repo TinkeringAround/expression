@@ -1,4 +1,4 @@
-import { mockResizeObserver } from './mock/html';
+import { mockResizeObserver } from './mock/window';
 
 // mock resize observer globally
 mockResizeObserver();

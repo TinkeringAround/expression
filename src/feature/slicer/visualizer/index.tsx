@@ -4,6 +4,7 @@ import { useZoom } from '../../../hook/useZoom';
 import { useSlicer } from '../../../store/slicer';
 import { updateSlicerSelection } from '../../../store/slicer/actions';
 import { useRefCallback } from '../../../hook/useRefCallback';
+import { useDebounce } from '../../../hook/useDebounce';
 
 import AreaSelection from './area-selection';
 import Drawing from './drawing';
@@ -12,10 +13,14 @@ import ExportingOverlay from './exporting-overlay';
 
 import { SVisualizer } from './styled';
 
+const DELAY = 100;
+
 const Visualizer: FC = () => {
   const { file, isExporting } = useSlicer();
   const { ref, setRef } = useRefCallback();
   const { zoom, setZoom } = useZoom(ref);
+
+  const debouncedZoom = useDebounce<number>(zoom, DELAY);
 
   useEffect(() => {
     // reset zoom when file changes
@@ -24,15 +29,15 @@ const Visualizer: FC = () => {
 
   useEffect(() => {
     // update slicer selection zoom
-    updateSlicerSelection({ zoom, ...(zoom === 1 ? { offset: 0 } : {}) });
-  }, [zoom]);
+    updateSlicerSelection({ zoom: debouncedZoom, ...(debouncedZoom === 1 ? { offset: 0 } : {}) });
+  }, [debouncedZoom]);
 
   return (
     <SVisualizer role="visualizer" ref={setRef}>
       <Loading />
       <ExportingOverlay visible={isExporting} />
       {file && <AreaSelection />}
-      {file && <Drawing />}
+      {file && <Drawing zoom={zoom} />}
     </SVisualizer>
   );
 };

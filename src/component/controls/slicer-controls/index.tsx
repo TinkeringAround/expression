@@ -4,6 +4,7 @@ import { Player, Time, Transport } from 'tone';
 import { createPlayer } from '../../../lib/player';
 import { useSlicer } from '../../../store/slicer';
 import { exportSlicerFile } from '../../../store/slicer/actions';
+import { floatsDiffer } from '../../../lib/util';
 
 import Control from '../../control';
 import Icon from '../../icon';
@@ -26,10 +27,10 @@ const SlicerControls: FC = () => {
   }, []);
 
   const onBackward = useCallback(() => {
-    Transport.seconds =
-      Transport.seconds - 1 < Transport.loopStart
-        ? Time(Transport.loopStart).toSeconds()
-        : Transport.seconds - 1;
+    const stepBackIsBelowLoopStart = Transport.seconds - 1 < Transport.loopStart;
+    Transport.seconds = stepBackIsBelowLoopStart
+      ? Time(Transport.loopStart).toSeconds()
+      : Transport.seconds - 1;
   }, []);
 
   const onPlayPause = useCallback(() => {
@@ -79,15 +80,29 @@ const SlicerControls: FC = () => {
 
   useEffect(() => {
     const { start, end, offset } = selection;
-    const loopStart = start + offset;
-    const loopEnd = end + offset;
+    const loopStart = Time(start + offset).toSeconds();
+    const loopEnd = Time(end + offset).toSeconds();
+    const currentLoopStart = Time(Transport.loopStart).toSeconds();
+    const currentLoopEnd = Time(Transport.loopEnd).toSeconds();
+    const currentSeconds = Transport.seconds; // separate variable for testing purpose
 
-    Transport.loop = true;
-    Transport.setLoopPoints(loopStart, loopEnd);
+    if (!Transport.loop) {
+      Transport.loop = true;
+    }
 
-    if (Transport.seconds < loopStart) {
+    if (floatsDiffer(currentLoopStart, loopStart)) {
+      Transport.loopStart = loopStart;
+    }
+
+    if (floatsDiffer(currentLoopEnd, loopEnd)) {
+      Transport.loopEnd = loopEnd;
+    }
+
+    if (currentSeconds < loopStart) {
       Transport.seconds = loopStart;
-    } else if (Transport.seconds > loopEnd) {
+    }
+
+    if (currentSeconds > loopEnd) {
       Transport.seconds = loopEnd;
     }
   }, [selection]);

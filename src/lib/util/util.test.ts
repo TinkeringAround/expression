@@ -1,5 +1,13 @@
 import { Features } from '../../features';
-import { toMB, featureToNameByPath, map, asSeconds, delay, toValidNumber } from './index';
+import {
+  toMB,
+  featureToNameByPath,
+  map,
+  asSeconds,
+  delay,
+  toValidFloat,
+  floatsDiffer
+} from './index';
 
 describe('Utils', () => {
   test('toMB', () => {
@@ -66,7 +74,29 @@ describe('Utils', () => {
     const expectedValues = [0, 200, 0];
 
     values.forEach((val, index) => {
-      expect(toValidNumber(val)).toBe(expectedValues[index]);
+      expect(toValidFloat(val)).toBe(expectedValues[index]);
+    });
+  });
+
+  test('floatsDiffer', () => {
+    const values: Array<{
+      float1: number;
+      float2: number;
+    }> = [
+      {
+        float1: 1.0345234,
+        float2: 1.03436
+      },
+      {
+        float1: 1.0345234,
+        float2: 1.0457893
+      }
+    ];
+
+    const expectedValues = [false, true];
+
+    values.forEach(({ float1, float2 }, index) => {
+      expect(floatsDiffer(float1, float2)).toBe(expectedValues[index]);
     });
   });
 });

@@ -4,6 +4,7 @@ import {
   getAudioType,
   isAudio,
   isSupported,
+  removeAudioFileFromPath,
   removeAudioFileTypeFromName,
   sampleChannelData
 } from './index';
@@ -19,6 +20,20 @@ describe('audio', () => {
 
       audioTypeInputs.forEach((audioTypeInput, index) => {
         expect(removeAudioFileTypeFromName(audioTypeInput)).toEqual(expectedAudioTypes[index]);
+      });
+    });
+  });
+
+  describe('removeAudioFileFromPath', () => {
+    test('should remove audio file from absolute audio file path', () => {
+      const audioPaths = [
+        'C:\\test\\separated dire\\audioFile.wav',
+        '/Users/user/separated dire/audioFile.wav'
+      ];
+      const expectedDirs = ['C:\\test\\separated dire', '/Users/user/separated dire'];
+
+      audioPaths.forEach((audioPath, index) => {
+        expect(removeAudioFileFromPath(audioPath)).toEqual(expectedDirs[index]);
       });
     });
   });

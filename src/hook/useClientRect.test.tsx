@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { useClientRect } from './useClientRect';
 import { useRefCallback } from './useRefCallback';
 
-import { mockResizeObserver } from '../mock/html';
+import { mockResizeObserver } from '../mock/window';
 
 describe('useClientRect', () => {
   const UseClientRect: FC<{ ignoreScroll?: boolean }> = ({ ignoreScroll = false }) => {
