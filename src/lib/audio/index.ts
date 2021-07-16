@@ -10,10 +10,21 @@ export const SUPPORTED_AUDIO_TYPES: AudioType[] = ['wav'];
  * @param {string} audioName the audio name with audio type
  * @returns {string} the audio name without audio type ending
  */
-export const removeAudioFileTypeFromName: (audioName: string) => string = audioName => {
+export const removeAudioFileTypeFromName = (audioName: string): string => {
   if (audioName.includes('.wav')) return audioName.replace('.wav', '');
   if (audioName.includes('.mp3')) return audioName.replace('.mp3', '');
   return audioName;
+};
+
+/**
+ * Removes audio file from absolute audio file path
+ * @param {string} audioPath the absolute audio file path
+ * @returns {string} the absolute audio directory path without the audio file
+ */
+export const removeAudioFileFromPath = (audioPath: string): string => {
+  const isMac = audioPath.includes('/');
+  const pathSlices = audioPath.replace(/[/]|[\\]/g, '|').split('|');
+  return pathSlices.slice(0, pathSlices.length - 1).join(isMac ? '/' : '\\');
 };
 
 /**
