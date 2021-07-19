@@ -67,6 +67,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-double-left:before {
+  content: "\e902";
+}
+
+.icon-arrow-double-right:before {
+  content: "\e903";
+}
+
 .icon-mp3:before {
   content: "\e900";
 }
