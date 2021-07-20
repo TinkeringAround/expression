@@ -15,7 +15,7 @@ const ACTION = Object.freeze({
   slicerFileExported: '[SLICER] Slicer File Exported',
 
   addNotification: '[NOTIFICATION] Add Notification',
-  hideNotification: '[NOTIFICATION] Hide Notification'
+  resetNotifications: '[NOTIFICATION] Reset Notifications'
 });
 
 module.exports = {

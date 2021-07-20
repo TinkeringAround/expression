@@ -57,7 +57,7 @@ export const slicerFileLoadedRecipe = (
     buffer: ToneAudioBuffer.fromArray(channelData)
   };
 
-  if (error) addNotification({ content: error, type: 'error', show: true });
+  if (error) addNotification({ content: error, type: 'error' });
 
   update({
     file: loadedSlicerAudioFile,

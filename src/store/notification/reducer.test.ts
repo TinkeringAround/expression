@@ -1,5 +1,5 @@
 import { useNotification } from './index';
-import { addNotificationRecipe, hideNotificationRecipe } from './reducer';
+import { addNotificationRecipe, resetNotificationsRecipe } from './reducer';
 
 import { getNotificationMock, getNotificationStoreMock } from '../../mock/store';
 
@@ -19,23 +19,17 @@ describe('notifications reducer', () => {
     });
   });
 
-  describe('hideNotificationRecipe', () => {
-    const notification = getNotificationMock();
-
+  describe('resetNotifications', () => {
     beforeEach(() => {
       useNotification.setState(getNotificationStoreMock());
     });
 
-    test('should hide notification when notification exists', () => {
-      hideNotificationRecipe(null, { notification });
+    test('should reset notifications', () => {
+      expect(useNotification.getState().notifications.length).toBeGreaterThan(0);
 
-      expect(useNotification.getState().notifications[0].show).toBeFalsy();
-    });
+      resetNotificationsRecipe(null);
 
-    test('should not hide notification when notification does not exists', () => {
-      hideNotificationRecipe(null, { notification: { ...notification, content: 'NOT EXISTING' } });
-
-      expect(useNotification.getState().notifications[0].show).toBeTruthy();
+      expect(useNotification.getState().notifications.length).toBe(0);
     });
   });
 });
