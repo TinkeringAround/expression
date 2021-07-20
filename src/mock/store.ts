@@ -42,7 +42,6 @@ export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => Slicer
 };
 
 export const getNotificationMock = (notificationPartial?: Partial<Notification>): Notification => ({
-  show: notificationPartial?.show ?? true,
   type: notificationPartial?.type ?? 'info',
   content: notificationPartial?.content ?? 'Content'
 });
