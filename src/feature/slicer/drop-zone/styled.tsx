@@ -1,39 +1,17 @@
 import styled from 'styled-components';
 
-export const SDropZone = styled.aside`
+import { fadeIn } from '../../../animations';
+
+export const SDropZone = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
 
   height: 100%;
+  width: 100%;
 
-  background: ${props => props.theme.white};
-
-  transition: all 0.1s ease-in-out;
-
-  border-right: 3px solid ${props => props.theme.light};
   box-sizing: border-box;
-
   outline: none;
-
-  &:hover {
-    border-right: 3px solid ${props => props.theme.yellow};
-  }
-
-  .resizable {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    box-sizing: border-box;
-    transition: background 0.15s ease-in-out 0.1s;
-
-    &:active {
-      background: ${props => props.theme.hexToRgbA(props.theme.light, '0.25')};
-    }
-
-    & > * {
-      box-sizing: border-box;
-    }
-  }
 `;
 
 export const SResizableOverlay = styled.div`
@@ -41,15 +19,17 @@ export const SResizableOverlay = styled.div`
   width: 100%;
   height: 100%;
 
-  background: ${props => props.theme.hexToRgbA(props.theme.yellow, '0.5')};
+  background: ${props => props.theme.hexToRgbA(props.theme.white, '0.8')};
+  animation: fadeIn 0.15s ease-in-out;
+
   z-index: 5;
+
+  ${fadeIn()}
 `;
 
 export const SDropZoneFiles = styled.div`
   width: 100%;
   height: 100%;
-
-  margin-top: 1rem;
 
   overflow: hidden auto;
 
@@ -74,7 +54,7 @@ export const SAudioInput = styled.footer`
   height: 70px;
   width: 80%;
 
-  margin-bottom: 2rem;
+  margin: 2rem 0;
   border-radius: 2px;
 
   font-family: 'Roboto-Bold', sans-serif;
