@@ -26,8 +26,7 @@ const Info: FC = () => {
     const success = await copy(removeAudioFileFromPath(path));
     addNotification({
       type: success ? 'info' : 'error',
-      show: true,
-      content: success ? 'Path successfully copied' : 'Could not copy path to clipboard'
+      content: success ? 'Path successfully copied.' : 'Could not copy path to clipboard.'
     });
   }, [path, copy]);
 
