@@ -23,6 +23,7 @@ const DropZoneFile: FC<Props> = ({ file, onClick, isSelected }) => {
 
   return (
     <SDropZoneFile
+      title={removeAudioFileTypeFromName(file.name)}
       className={`${isSelected && 'selected'}`}
       onClick={({ target }) => {
         // if trash icon includes trash

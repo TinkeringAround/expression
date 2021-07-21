@@ -51,7 +51,7 @@ export const SAudioInput = styled.footer`
   justify-content: center;
   align-items: center;
 
-  height: 70px;
+  height: 80px;
   width: 80%;
 
   margin: 2rem 0;
