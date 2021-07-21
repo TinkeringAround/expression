@@ -15,32 +15,35 @@ const Button = styled.button`
 
   font-family: 'Roboto-Bold', sans-serif;
   font-size: 0.9rem;
-  background: ${({ theme: { orange } }) => orange};
-  color: ${({ theme: { white } }) => white};
+  background: ${({ theme: { yellow } }) => yellow};
+  color: ${({ theme: { black } }) => black};
 
   outline: none;
   border: none;
 
   box-sizing: border-box;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.15s ease-in-out;
   cursor: pointer;
 
   &[disabled] {
-    color: ${({ theme: { yellow } }) => yellow};
+    background: ${({ theme: { light } }) => light};
+    color: ${({ theme: { grey } }) => grey};
 
     cursor: default;
   }
 
   &:not([disabled]) {
     :hover {
-      background: ${({ theme: { hexToRgbA, orange } }) => hexToRgbA(orange, '0.7')};
+      background: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.7')};
     }
   }
 
   .icon {
-    margin-right: 0.75rem;
-
     font-size: 1.25rem;
+
+    &:not(:last-of-type) {
+      margin-right: 0.75rem;
+    }
   }
 
   span:not(.icon) {
