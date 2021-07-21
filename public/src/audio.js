@@ -82,8 +82,7 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
       event.reply(ACTION.slicerFileExported, {
         notification: {
           content: 'Exporting Audio Slice successful.',
-          type: 'info',
-          show: true
+          type: 'info'
         }
       });
     }
@@ -94,8 +93,7 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
     event.reply(ACTION.slicerFileExported, {
       notification: {
         content: 'Exporting Audio Slice failed.',
-        type: 'error',
-        show: true
+        type: 'error'
       }
     });
   }
