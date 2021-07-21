@@ -5,9 +5,9 @@ import { resetNotifications } from '../../../store/notification/actions';
 
 import Icon from '../../icon';
 import For from '../../for';
+import If from '../../if';
 
 import { SNotification, SNotifications } from './styled';
-import If from '../../if';
 
 const Notifications: FC = () => {
   const { notifications } = useNotification();

@@ -53,6 +53,8 @@ export const SNotifications = styled.section`
     overflow: hidden auto;
 
     > p {
+      margin: auto;
+
       font-size: 0.8rem;
       color: ${({ theme: { grey } }) => grey};
     }
