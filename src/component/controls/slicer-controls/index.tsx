@@ -11,11 +11,11 @@ import Control from '../../control';
 import { SSlicerControls } from './styled';
 
 const SlicerControls: FC = () => {
-  const { file, selection, isPlaying } = useSlicer();
+  const { file, selection, isPlaying, isExporting } = useSlicer();
   const [player] = useState<Player>(createPlayer());
 
   const playPauseType = isPlaying ? 'pause' : 'play';
-  const disabled = !file;
+  const disabled = !file || isExporting;
 
   const onFirst = useCallback(() => {
     Transport.seconds = Time(Transport.loopStart).toSeconds();
