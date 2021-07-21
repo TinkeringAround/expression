@@ -8,6 +8,7 @@ export interface SlicerState extends State, HasProgress {
   readonly selection: SlicerSelection;
   readonly samples: number;
   readonly isExporting: boolean;
+  readonly isPlaying: boolean;
   readonly update: (partial: Partial<SlicerState>) => void;
 }
 
@@ -25,6 +26,7 @@ export const useSlicer = create<SlicerState>(set => ({
   samples: 5000,
   progress: 0,
   isExporting: false,
+  isPlaying: false,
   //@ts-ignore
   update: (partial: Partial<SlicerState>) => set(partial)
 }));

@@ -1,5 +1,5 @@
 import { ACTION } from '../action-types';
-import { AddNotificationPayload, HideNotificationPayload } from './types';
+import { AddNotificationPayload } from './types';
 import { useNotification } from './index';
 
 const { on } = window.electron;
@@ -13,16 +13,12 @@ export const addNotificationRecipe = (_: null, { notification }: AddNotification
   });
 };
 
-export const hideNotificationRecipe = (_: null, { notification }: HideNotificationPayload) => {
-  const { update, notifications } = useNotification.getState();
+export const resetNotificationsRecipe = (_: null) => {
+  const { update } = useNotification.getState();
 
-  const index = notifications.findIndex(n => n.content === notification.content);
-  if (index >= 0) {
-    notifications[index].show = false;
-    update({ notifications });
-  }
+  update({ notifications: [] });
 };
 
 // ==============================================================
 on(ACTION.addNotification, addNotificationRecipe);
-on(ACTION.hideNotification, hideNotificationRecipe);
+on(ACTION.resetNotifications, resetNotificationsRecipe);

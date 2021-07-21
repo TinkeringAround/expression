@@ -26,8 +26,7 @@ const Info: FC = () => {
     const success = await copy(removeAudioFileFromPath(path));
     addNotification({
       type: success ? 'info' : 'error',
-      show: true,
-      content: success ? 'Path successfully copied' : 'Could not copy path to clipboard'
+      content: success ? 'Path successfully copied.' : 'Could not copy path to clipboard.'
     });
   }, [path, copy]);
 
@@ -35,7 +34,7 @@ const Info: FC = () => {
     <SInfo>
       <div className="aboutFileName" onClick={onCopy}>
         <Icon iconType={getAudioType(type)} />
-        <h1>{removeAudioFileTypeFromName(name)}</h1>
+        <h1 title={removeAudioFileTypeFromName(name)}>{removeAudioFileTypeFromName(name)}</h1>
       </div>
 
       <div className="aboutFileSize">

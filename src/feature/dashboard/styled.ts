@@ -4,7 +4,7 @@ export const SDashboard = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding: 2rem;
+  padding: 3rem;
 
   box-sizing: border-box;
 
@@ -25,7 +25,7 @@ export const SDashboard = styled.div`
     font-size: 3rem;
     font-family: 'Mono', sans-serif;
 
-    border-radius: 5px 2px 2px 5px;
+    border-radius: 1rem 3px 3px 1rem;
     border-left: 20px solid ${props => props.theme.yellow};
 
     box-sizing: border-box;

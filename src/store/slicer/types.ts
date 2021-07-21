@@ -15,6 +15,10 @@ export type SlicerSelection = {
   offset: number;
 };
 
+export interface DropFile extends File {
+  path?: string;
+}
+
 export type AudioFile = {
   name: string;
   path: string;

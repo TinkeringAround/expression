@@ -26,3 +26,6 @@ export const exportSlicerFile = (
   trigger(ACTION.exportSlicerFile);
   dispatch(ACTION.exportSlicerFile, { channelData, start, end, offset, sampleRate, duration });
 };
+
+export const updateSlicerIsPlaying = (isPlaying: boolean) =>
+  trigger(ACTION.updateSlicerIsPlaying, { isPlaying });

@@ -38,4 +38,13 @@ describe('Slicer', () => {
 
     expect(screen.getByText(/Select/)).toBeInTheDocument();
   });
+
+  test('should render tabs', () => {
+    const tabs = ['Export', 'Notifications'];
+
+    render(SlicerInApp);
+
+    expect(document.querySelector('aside')).toBeInTheDocument();
+    tabs.forEach(tab => expect(screen.queryAllByText(tab).length).toBeGreaterThan(0));
+  });
 });

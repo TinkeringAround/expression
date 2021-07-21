@@ -35,14 +35,14 @@ export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => Slicer
     selection: getMockSelection({}),
     progress: 0,
     isExporting: false,
+    isPlaying: false,
     samples: 100,
     ...statePartial,
-    update
+    update: statePartial.update ?? update
   } as SlicerState;
 };
 
 export const getNotificationMock = (notificationPartial?: Partial<Notification>): Notification => ({
-  show: notificationPartial?.show ?? true,
   type: notificationPartial?.type ?? 'info',
   content: notificationPartial?.content ?? 'Content'
 });

@@ -12,7 +12,7 @@ import {
 } from './types';
 import { addNotification } from '../notification/actions';
 import { floatsDiffer, toValidFloat } from '../../lib/util';
-import { AddNotificationPayload } from '../notification/types';
+import { AddNotificationPayload, UpdateSlicerIsPlayingPayload } from '../notification/types';
 
 const { on } = window.electron;
 
@@ -57,7 +57,7 @@ export const slicerFileLoadedRecipe = (
     buffer: ToneAudioBuffer.fromArray(channelData)
   };
 
-  if (error) addNotification({ content: error, type: 'error', show: true });
+  if (error) addNotification({ content: error, type: 'error' });
 
   update({
     file: loadedSlicerAudioFile,
@@ -119,6 +119,17 @@ export const slicerFileExportedRecipe = (_: null, { notification }: AddNotificat
   }
 };
 
+export const updateSlicerIsPlayingRecipe = (
+  _: null,
+  { isPlaying }: UpdateSlicerIsPlayingPayload
+) => {
+  const { update, isPlaying: currentIsPlaying } = useSlicer.getState();
+
+  if (currentIsPlaying !== isPlaying) {
+    update({ isPlaying });
+  }
+};
+
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
 on(ACTION.removeSlicerFile, removeSlicerFileRecipe);
@@ -128,3 +139,4 @@ on(ACTION.updateSlicerSelection, updateSlicerSelectionRecipe);
 on(ACTION.updateSlicerProgression, updateSlicerProgressionRecipe);
 on(ACTION.exportSlicerFile, exportSlicerFileRecipe);
 on(ACTION.slicerFileExported, slicerFileExportedRecipe);
+on(ACTION.updateSlicerIsPlaying, updateSlicerIsPlayingRecipe);

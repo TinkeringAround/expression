@@ -6,6 +6,7 @@ import {
   removeSlicerFileRecipe,
   slicerFileExportedRecipe,
   slicerFileLoadedRecipe,
+  updateSlicerIsPlayingRecipe,
   updateSlicerProgressionRecipe,
   updateSlicerSelectionRecipe
 } from './reducer';
@@ -281,7 +282,7 @@ describe('slicer reducer', () => {
 
     test('should set isExporting to false when being true and send notification', () => {
       const addNotificationSpy = jest.fn();
-      const notification: Notification = { show: true, type: 'info', content: '' };
+      const notification: Notification = { type: 'info', content: '' };
       mockElectronTrigger(addNotificationSpy);
 
       slicerFileExportedRecipe(null, { notification });
@@ -292,7 +293,7 @@ describe('slicer reducer', () => {
 
     test('should ignore isExporting update when isExporting is false', () => {
       const addNotificationSpy = jest.fn();
-      const notification: Notification = { show: true, type: 'info', content: '' };
+      const notification: Notification = { type: 'info', content: '' };
 
       mockElectronTrigger(addNotificationSpy);
       useSlicer.setState(getSlicerStoreMock({ isExporting: false }));
@@ -300,6 +301,23 @@ describe('slicer reducer', () => {
       slicerFileExportedRecipe(null, { notification });
 
       expect(addNotificationSpy).not.toHaveBeenCalledWith(null, { notification });
+    });
+  });
+
+  describe('updateSlicerIsPlayingRecipe', () => {
+    test('should update isPlaying when update is not equal to current Value', () => {
+      updateSlicerIsPlayingRecipe(null, { isPlaying: true });
+
+      expect(useSlicer.getState().isPlaying).toBeTruthy();
+    });
+
+    test('should update isPlaying when update is not equal to current Value', () => {
+      const updateMock = jest.fn();
+      useSlicer.setState(getSlicerStoreMock({ update: updateMock, isPlaying: true }));
+
+      updateSlicerIsPlayingRecipe(null, { isPlaying: true });
+
+      expect(useSlicer.getState().isPlaying).toBeTruthy();
     });
   });
 });

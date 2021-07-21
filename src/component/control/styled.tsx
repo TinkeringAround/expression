@@ -6,19 +6,19 @@ export const SControl = styled(Button)`
   width: 70px;
   padding: 1rem;
 
-  color: ${props => props.theme.black};
-  background: ${props => props.theme.yellow};
+  background: transparent;
 
   &[disabled] {
-    color: ${props => props.theme.orange};
+    color: ${({ theme: { orange } }) => orange};
+    background: transparent;
   }
 
   &:not([disabled]) {
     &:hover {
-      background: ${props => props.theme.orange};
+      background: ${({ theme: { orange } }) => orange};
 
       .icon {
-        color: ${props => props.theme.white};
+        color: ${({ theme: { white } }) => white};
       }
     }
   }

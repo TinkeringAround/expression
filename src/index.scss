@@ -8,6 +8,8 @@ body {
   cursor: default;
   color: #373737;
   background: #F0F0F0;
+
+  overflow: hidden;
 }
 
 // Fonts
@@ -65,6 +67,14 @@ body {
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-double-left:before {
+  content: "\e902";
+}
+
+.icon-arrow-double-right:before {
+  content: "\e903";
 }
 
 .icon-mp3:before {
