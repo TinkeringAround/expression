@@ -8,3 +8,7 @@ export type Notification = {
 export type AddNotificationPayload = {
   notification: Notification;
 };
+
+export interface UpdateSlicerIsPlayingPayload {
+  isPlaying: boolean;
+}
