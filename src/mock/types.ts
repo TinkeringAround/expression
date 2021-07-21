@@ -15,7 +15,7 @@ export const getAudioFileMock = ({
   type = 'audio/wav',
   path = 'audioPath',
   size = 1000
-}: Partial<AudioFile>): AudioFile & { size: number } => ({
+}: Partial<AudioFile>): AudioFile => ({
   name,
   type,
   path,

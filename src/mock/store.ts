@@ -35,9 +35,10 @@ export const getSlicerStoreMock: (statePartial?: Partial<SlicerState>) => Slicer
     selection: getMockSelection({}),
     progress: 0,
     isExporting: false,
+    isPlaying: false,
     samples: 100,
     ...statePartial,
-    update
+    update: statePartial.update ?? update
   } as SlicerState;
 };
 
