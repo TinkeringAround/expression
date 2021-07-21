@@ -3,21 +3,16 @@ import { Player, Time, Transport } from 'tone';
 
 import { createPlayer } from '../../../lib/player';
 import { useSlicer } from '../../../store/slicer';
-import { exportSlicerFile } from '../../../store/slicer/actions';
 import { floatsDiffer } from '../../../lib/util';
+import { updateSlicerIsPlaying } from '../../../store/slicer/actions';
 
 import Control from '../../control';
-import Icon from '../../icon';
-import Shortcut from '../../shortcut';
-import Button from '../../button';
 
 import { SSlicerControls } from './styled';
 
 const SlicerControls: FC = () => {
-  const { file, selection } = useSlicer();
-
+  const { file, selection, isPlaying } = useSlicer();
   const [player] = useState<Player>(createPlayer());
-  const [isPlaying, setIsPlaying] = useState<boolean>(Transport.state === 'started');
 
   const playPauseType = isPlaying ? 'pause' : 'play';
   const disabled = !file;
@@ -34,13 +29,13 @@ const SlicerControls: FC = () => {
   }, []);
 
   const onPlayPause = useCallback(() => {
-    setIsPlaying(!isPlaying);
-  }, [isPlaying, setIsPlaying]);
+    updateSlicerIsPlaying(!isPlaying);
+  }, [isPlaying]);
 
   const onStop = useCallback(() => {
     Transport.seconds = Time(Transport.loopStart).toSeconds();
-    setIsPlaying(false);
-  }, [setIsPlaying]);
+    updateSlicerIsPlaying(false);
+  }, []);
 
   const onForward = useCallback(() => {
     Transport.seconds = Transport.seconds + 1;
@@ -48,21 +43,14 @@ const SlicerControls: FC = () => {
 
   const onLast = useCallback(() => {
     Transport.seconds = Time(Transport.loopEnd).toSeconds() - 0.01;
-    setIsPlaying(false);
-  }, [setIsPlaying]);
-
-  const onExport = useCallback(() => {
-    if (file) {
-      setIsPlaying(false);
-      exportSlicerFile(file, selection);
-    }
-  }, [file, selection]);
+    updateSlicerIsPlaying(false);
+  }, []);
 
   useEffect(() => {
     if (file && player) {
       if (Transport.state === 'started') {
         Transport.pause();
-        setIsPlaying(false);
+        updateSlicerIsPlaying(false);
 
         player.seek(0, 0);
         player.buffer = file.buffer;
@@ -76,7 +64,7 @@ const SlicerControls: FC = () => {
         player.start(0);
       }
     }
-  }, [file, player, setIsPlaying]);
+  }, [file, player]);
 
   useEffect(() => {
     const { start, end, offset } = selection;
@@ -120,12 +108,6 @@ const SlicerControls: FC = () => {
       <Control keyboard="Space" withCtrl type="stop" disabled={disabled} onClick={onStop} />
       <Control keyboard="ArrowRight" type="foreward" onClick={onForward} disabled={disabled} />
       <Control keyboard="ArrowRight" withCtrl type="last" disabled={disabled} onClick={onLast} />
-
-      <Button disabled={disabled} onClick={onExport}>
-        <Icon iconType="save" />
-        <span>Export</span>
-        <Shortcut keyboard="E" withCtrl disabled={disabled} onClick={onExport} />
-      </Button>
     </SSlicerControls>
   );
 };

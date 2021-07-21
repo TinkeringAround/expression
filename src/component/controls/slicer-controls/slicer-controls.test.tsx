@@ -1,18 +1,21 @@
 import React from 'react';
-import { Transport } from 'tone';
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { ToneAudioBuffer, Transport } from 'tone';
+import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useSlicer } from '../../../store/slicer';
+import { updateSlicerIsPlaying } from '../../../store/slicer/actions';
 
 import SlicerControls from './index';
 
 import { AppMock } from '../../../mock/components';
 import { getMockSelection, getSlicerStoreMock } from '../../../mock/store';
-import { mockElectronDispatch } from '../../../mock/electron';
+import { mockElectronTrigger } from '../../../mock/electron';
+import { getAudioFileMock } from '../../../mock/types';
+import { getChannelDataMock } from '../../../mock/audio';
 
 describe('SlicerControls', () => {
-  const icons = ['first', 'backward', 'play', 'stop', 'foreward', 'last', 'save'];
+  const icons = ['first', 'backward', 'play', 'stop', 'foreward', 'last'];
   const SlicerControlsInApp = (
     <AppMock>
       <SlicerControls />
@@ -85,19 +88,39 @@ describe('SlicerControls', () => {
     });
 
     describe('onPlayPause', () => {
-      test('should start Transport', () => {
-        render(SlicerControlsInApp);
-        fireEvent.keyUp(document, { key: ' ' });
-
-        expect(Transport.state).toBe('started');
+      beforeEach(() => {
+        mockElectronTrigger(updateSlicerIsPlaying);
       });
 
-      test('should start Transport', () => {
+      test('should start Transport', async () => {
+        const updateSlicerMock = jest.fn();
+        mockElectronTrigger(updateSlicerMock);
+
         render(SlicerControlsInApp);
-        fireEvent.keyUp(document, { key: ' ' }); // start
-        fireEvent.keyUp(document, { key: ' ' }); // pause
+
+        act(() => {
+          fireEvent.keyUp(document, { key: ' ' });
+        });
 
         expect(Transport.state).toBe('paused');
+        expect(updateSlicerMock).toHaveBeenCalledWith(null, { isPlaying: true });
+      });
+
+      test('should pause Transport', async () => {
+        const updateSlicerMock = jest.fn();
+        mockElectronTrigger(updateSlicerMock);
+
+        render(SlicerControlsInApp);
+
+        act(() => {
+          useSlicer.setState({ isPlaying: true });
+        });
+
+        await waitFor(() => expect(Transport.state).toBe('started'));
+
+        fireEvent.keyUp(document, { key: ' ' }); // pause
+
+        expect(updateSlicerMock).toHaveBeenCalledWith(null, { isPlaying: false });
       });
     });
 
@@ -139,19 +162,6 @@ describe('SlicerControls', () => {
 
         expect(Transport.seconds).toBe(end - 0.01);
         expect(Transport.state).toBe('paused');
-      });
-    });
-
-    describe('onExport', () => {
-      test('should dispatch exportSlicerFile action', () => {
-        const exportSlicerFile = jest.fn();
-        mockElectronDispatch(exportSlicerFile);
-
-        render(SlicerControlsInApp);
-        fireEvent.keyUp(document, { key: 'E', ctrlKey: true });
-
-        expect(Transport.state).toBe('paused');
-        expect(exportSlicerFile).toHaveBeenCalled();
       });
     });
   });
@@ -198,6 +208,26 @@ describe('SlicerControls', () => {
       Transport.seconds = -1;
 
       render(SlicerControlsInApp);
+    });
+
+    test('should adjust player and set Transport seconds to 0 when started an file changes', () => {
+      const newFile = getAudioFileMock({ name: 'vue.wav' });
+      Transport.start();
+      Transport.seconds = 1;
+
+      render(SlicerControlsInApp);
+
+      act(() => {
+        useSlicer.setState({
+          file: {
+            ...newFile,
+            buffer: new ToneAudioBuffer(),
+            channelData: [getChannelDataMock(100), getChannelDataMock(100)]
+          }
+        });
+      });
+
+      expect(Transport.seconds).toBe(0);
     });
   });
 });

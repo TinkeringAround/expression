@@ -13,9 +13,4 @@ export const SSlicerControls = styled.div`
   animation: fadeIn 0.25s ease-in-out;
 
   ${fadeIn()}
-
-  button:last-child {
-    position: absolute;
-    right: 1.5rem;
-  }
 `;
