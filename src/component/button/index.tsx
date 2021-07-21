@@ -4,7 +4,7 @@ const Button = styled.button`
   position: relative;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
@@ -15,8 +15,8 @@ const Button = styled.button`
 
   font-family: 'Roboto-Bold', sans-serif;
   font-size: 0.9rem;
-  background: ${props => props.theme.orange};
-  color: ${props => props.theme.white};
+  background: ${({ theme: { orange } }) => orange};
+  color: ${({ theme: { white } }) => white};
 
   outline: none;
   border: none;
@@ -26,23 +26,24 @@ const Button = styled.button`
   cursor: pointer;
 
   &[disabled] {
-    color: ${props => props.theme.yellow};
+    color: ${({ theme: { yellow } }) => yellow};
 
     cursor: default;
   }
 
   &:not([disabled]) {
     :hover {
-      background: ${props => props.theme.hexToRgbA(props.theme.orange, '0.7')};
+      background: ${({ theme: { hexToRgbA, orange } }) => hexToRgbA(orange, '0.7')};
     }
   }
 
   .icon {
+    margin-right: 0.75rem;
+
     font-size: 1.25rem;
   }
 
   span:not(.icon) {
-    margin-top: 0.25rem;
     font-size: 0.8rem;
   }
 `;
