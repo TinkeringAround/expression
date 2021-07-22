@@ -130,6 +130,18 @@ export const updateSlicerIsPlayingRecipe = (
   }
 };
 
+export const slicerFileExportCancelledRecipe = (
+  _: null,
+  { notification }: AddNotificationPayload
+) => {
+  const { update, isExporting } = useSlicer.getState();
+
+  if (isExporting) {
+    update({ isExporting: false });
+    addNotification(notification);
+  }
+};
+
 // ==============================================================
 on(ACTION.addSlicerFiles, addSlicerFilesRecipe);
 on(ACTION.removeSlicerFile, removeSlicerFileRecipe);
@@ -140,3 +152,4 @@ on(ACTION.updateSlicerProgression, updateSlicerProgressionRecipe);
 on(ACTION.exportSlicerFile, exportSlicerFileRecipe);
 on(ACTION.slicerFileExported, slicerFileExportedRecipe);
 on(ACTION.updateSlicerIsPlaying, updateSlicerIsPlayingRecipe);
+on(ACTION.slicerFileExportCancelled, slicerFileExportCancelledRecipe);

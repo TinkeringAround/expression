@@ -103,6 +103,7 @@ const AreaSelection: FC = () => {
       reset();
       setInitialized(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxWidth, setMaxWidth, setInitialized]);
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import {
   exportSlicerFileRecipe,
   loadSlicerFileRecipe,
   removeSlicerFileRecipe,
+  slicerFileExportCancelledRecipe,
   slicerFileExportedRecipe,
   slicerFileLoadedRecipe,
   updateSlicerIsPlayingRecipe,
@@ -318,6 +319,40 @@ describe('slicer reducer', () => {
       updateSlicerIsPlayingRecipe(null, { isPlaying: true });
 
       expect(useSlicer.getState().isPlaying).toBeTruthy();
+    });
+  });
+
+  describe('slicerFileExportCancelledRecipe', () => {
+    beforeEach(() => {
+      useSlicer.setState(getSlicerStoreMock());
+    });
+
+    test('should reset isExporting and add notification when export is cancelled', async () => {
+      const addNotificationMock = jest.fn(),
+        updateMock = jest.fn();
+      mockElectronTrigger(addNotificationMock);
+
+      const notification: Notification = { type: 'info', content: 'reset' };
+      useSlicer.setState(getSlicerStoreMock({ update: updateMock, isExporting: true }));
+
+      slicerFileExportCancelledRecipe(null, { notification });
+
+      expect(updateMock).toHaveBeenCalledWith({ isExporting: false });
+      expect(addNotificationMock).toHaveBeenCalledWith(null, { notification });
+    });
+
+    test('should not reset isExporting when not exporting to begin with', () => {
+      const addNotificationMock = jest.fn(),
+        updateMock = jest.fn();
+      mockElectronTrigger(addNotificationMock);
+
+      const notification: Notification = { type: 'info', content: 'no reset' };
+      useSlicer.setState(getSlicerStoreMock({ update: updateMock, isExporting: false }));
+
+      slicerFileExportCancelledRecipe(null, { notification });
+
+      expect(updateMock).not.toHaveBeenCalled();
+      expect(addNotificationMock).not.toHaveBeenCalled();
     });
   });
 });

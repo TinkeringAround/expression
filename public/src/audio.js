@@ -85,6 +85,14 @@ function exportSlicerFile(event, { channelData, start, end, offset, sampleRate, 
           type: 'info'
         }
       });
+    } else {
+      logInfo(`${ACTION.exportSlicerFile} cancelled`);
+      event.reply(ACTION.slicerFileExportCancelled, {
+        notification: {
+          content: 'Exporting Audio Slice cancelled.',
+          type: 'info'
+        }
+      });
     }
   } catch (error) {
     const errorMsg = `${ACTION.exportSlicerFile}, raising ${error}`;
