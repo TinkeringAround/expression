@@ -15,7 +15,7 @@ const Notifications: FC = () => {
   return (
     <SNotifications>
       <h1>Notifications</h1>
-      <Icon iconType="trash" onClick={() => resetNotifications()} />
+      <Icon iconType="trash" title="Clear Notifications" onClick={() => resetNotifications()} />
       <div>
         <If condition={notifications.length === 0}>
           <p>No Notifications yet...</p>

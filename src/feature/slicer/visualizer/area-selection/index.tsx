@@ -25,6 +25,7 @@ const AreaSelection: FC = () => {
   const { ref, setRef } = useRefCallback();
   const { rect } = useClientRect(ref, true);
 
+  const [initialized, setInitialized] = useState<boolean>(false);
   const [maxWidth, setMaxWidth] = useState<number>(UNDEFINED);
   const [maxXLeft, setMaxXLeft] = useState<number>(UNDEFINED);
   const [areaWidth, setAreaWidth] = useState<number>(UNDEFINED);
@@ -96,6 +97,14 @@ const AreaSelection: FC = () => {
     // set initial max value
     rect && setMaxWidth(rect.width);
   }, [rect, setMaxWidth]);
+
+  useEffect(() => {
+    if (!initialized && maxWidth > BORDER_WIDTH) {
+      reset();
+      setInitialized(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxWidth, setMaxWidth, setInitialized]);
 
   useEffect(() => {
     // update max left border value when right border position updates

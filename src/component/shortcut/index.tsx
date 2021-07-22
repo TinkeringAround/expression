@@ -3,6 +3,8 @@ import React, { FC, useCallback } from 'react';
 import { anyFunction } from '../../lib/util';
 import { AvailableKeys, useKeyboard } from '../../hook/useKeyboard';
 
+import If from '../if';
+
 import { SShortcut } from './styled';
 
 interface Props {
@@ -28,8 +30,10 @@ const Shortcut: FC<Props> = ({ keyboard: key, withCtrl, disabled, onClick }) => 
 
   return (
     <SShortcut className={show && !disabled ? 'show' : ''}>
-      {withCtrl && <kbd>Strg</kbd>}
-      {withCtrl && <span>+</span>}
+      <If condition={withCtrl}>
+        <kbd>Strg</kbd>
+        <span>+</span>
+      </If>
       <kbd>{mapKey(key)}</kbd>
     </SShortcut>
   );

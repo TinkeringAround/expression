@@ -1,9 +1,8 @@
-import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { fadeIn } from '../../animations';
 
-const SContent = styled.main`
+const Content = styled.main`
   position: fixed;
   top: 70px;
 
@@ -21,7 +20,5 @@ const SContent = styled.main`
 
   ${fadeIn()}
 `;
-
-const Content: FC = ({ children }) => <SContent>{children}</SContent>;
 
 export default Content;

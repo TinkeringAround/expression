@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { fadeIn, fromTop } from '../../animations';
+import { fadeIn, fadeOut, fromTop } from '../../animations';
 import { delay } from '../../lib/util';
 
-const SOverlay = styled.div<HasVisible>`
+import If from '../if';
+
+const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
   position: absolute;
   top: 30%;
   left: 30%;
@@ -14,17 +16,28 @@ const SOverlay = styled.div<HasVisible>`
 
   z-index: ${({ visible }) => (visible ? 100 : -1)};
 
+  ${({ leaving }) =>
+    leaving
+      ? `
+        > * {
+          opacity: 0;
+          animation: fadeOut 0.25s ease-in-out !important;
+       
+          ${fadeOut()};
+        }`
+      : ''};
+
   .content {
     position: relative;
 
     width: 100%;
     height: 100%;
 
-    background: ${({ theme }) => theme.white};
+    background: ${({ theme: { white } }) => white};
 
     border-radius: 3px;
 
-    z-index: ${({ visible }) => (visible ? 101 : -1)};
+    z-index: 101;
 
     animation: fromTop 0.5s ease-in-out, fadeIn 0.5s ease-in-out;
 
@@ -42,7 +55,7 @@ const SOverlay = styled.div<HasVisible>`
 
     overflow: hidden;
 
-    background: ${({ theme }) => theme.hexToRgbA(theme.black, '0.75')};
+    background: ${({ theme: { hexToRgbA, black } }) => hexToRgbA(black, '0.75')};
 
     animation: fadeIn 0.5s ease-in-out;
 
@@ -67,9 +80,11 @@ const Overlay: FC<HasVisible> = ({ visible, children }) => {
   }, [visible, setShow]);
 
   return (
-    <SOverlay visible={show}>
-      {show && <div className="content">{children}</div>}
-      {show && <div className="background" />}
+    <SOverlay visible={show} leaving={!visible && show}>
+      <If condition={show}>
+        <div className="content">{children}</div>
+        <div className="background" />
+      </If>
     </SOverlay>
   );
 };

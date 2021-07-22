@@ -19,7 +19,7 @@ export const SResizableOverlay = styled.div`
   width: 100%;
   height: 100%;
 
-  background: ${props => props.theme.hexToRgbA(props.theme.white, '0.8')};
+  background: ${({ theme: { hexToRgbA, white } }) => hexToRgbA(white, '0.8')};
   animation: fadeIn 0.15s ease-in-out;
 
   z-index: 5;
@@ -59,14 +59,14 @@ export const SAudioInput = styled.footer`
 
   font-family: 'Roboto-Bold', sans-serif;
   font-size: 0.9rem;
-  background: ${props => props.theme.yellow};
+  background: ${({ theme: { yellow } }) => yellow};
 
   box-sizing: border-box;
   transition: background 0.15s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    background: ${props => props.theme.hexToRgbA(props.theme.yellow, '0.7')};
+    background: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.7')};
   }
 
   .icon {

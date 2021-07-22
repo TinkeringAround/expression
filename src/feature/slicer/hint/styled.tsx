@@ -6,7 +6,7 @@ export const SHint = styled.div`
 
   span {
     font-weight: lighter;
-    color: ${props => props.theme.grey};
+    color: ${({ theme: { grey } }) => grey};
 
     &.icon {
       font-size: 2rem;

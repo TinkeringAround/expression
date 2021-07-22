@@ -16,17 +16,17 @@ export const STimeline = styled.svg`
 
   polyline[role='step'] {
     stroke-width: 2;
-    stroke: ${props => props.theme.hexToRgbA(props.theme.grey, '1')};
+    stroke: ${({ theme: { grey } }) => grey};
   }
 
   polyline[role='line'] {
     stroke-width: 2;
-    stroke: ${props => props.theme.hexToRgbA(props.theme.grey, '0.2')};
+    stroke: ${({ theme: { hexToRgbA, grey } }) => hexToRgbA(grey, '0.2')};
   }
 
   polyline[role='baseline'] {
     stroke-width: 5;
-    stroke: ${props => props.theme.hexToRgbA(props.theme.grey, '1')};
+    stroke: ${({ theme: { grey } }) => grey};
   }
 
   text {

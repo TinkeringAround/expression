@@ -14,7 +14,7 @@ export const SAudio = styled.svg`
 
   polyline {
     fill: none;
-    stroke: ${props => props.theme.yellow};
+    stroke: ${({ theme: { yellow } }) => yellow};
     stroke-width: 3px;
   }
 `;

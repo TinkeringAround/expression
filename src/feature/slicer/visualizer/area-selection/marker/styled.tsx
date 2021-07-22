@@ -14,5 +14,5 @@ export const SMarker = styled.div`
   transform: translateX(calc(var(--width) / 2));
   transition: left 50ms linear;
 
-  background: ${props => props.theme.red};
+  background: ${({ theme: { red } }) => red};
 `;

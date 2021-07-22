@@ -7,6 +7,8 @@ import { addSlicerFiles, loadSlicerFile } from '../../../store/slicer/actions';
 import { useSlicer } from '../../../store/slicer';
 
 import Icon from '../../../component/icon';
+import For from '../../../component/for';
+import If from '../../../component/if';
 
 import DropZoneFile from './drop-zone-file';
 import { SDropZoneFiles, SAudioInput, SDropZone, SResizableOverlay } from './styled';
@@ -50,21 +52,24 @@ const DropZone: FC = () => {
   return (
     <SDropZone role="dropzone" {...getRootProps()}>
       {/* White Overlay when dragged */}
-      {isDragActive && <SResizableOverlay role="overlay" />}
+      <If condition={isDragActive}>
+        <SResizableOverlay role="overlay" />
+      </If>
 
-      {/* Audio Files */}
       <SDropZoneFiles>
-        {files.map((file: AudioFile) => (
-          <DropZoneFile
-            key={file.name}
-            file={file}
-            isSelected={isSelected(file.name)}
-            onClick={loadFile}
-          />
-        ))}
+        <For
+          values={files}
+          projector={(file: AudioFile) => (
+            <DropZoneFile
+              key={file.name}
+              file={file}
+              isSelected={isSelected(file.name)}
+              onClick={loadFile}
+            />
+          )}
+        />
       </SDropZoneFiles>
 
-      {/* Audio Input Footer */}
       <SAudioInput onClick={open}>
         <input {...getInputProps()} />
         <Icon iconType="upload" />

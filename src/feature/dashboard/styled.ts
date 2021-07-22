@@ -20,13 +20,13 @@ export const SDashboard = styled.div`
 
     padding-left: 2rem;
 
-    color: ${props => props.theme.black};
-    background: ${props => props.theme.white};
+    color: ${({ theme: { black } }) => black};
+    background: ${({ theme: { white } }) => white};
     font-size: 3rem;
     font-family: 'Mono', sans-serif;
 
     border-radius: 1rem 3px 3px 1rem;
-    border-left: 20px solid ${props => props.theme.yellow};
+    border-left: 20px solid ${({ theme: { yellow } }) => yellow};
 
     box-sizing: border-box;
     text-decoration: none;
@@ -39,7 +39,7 @@ export const SDashboard = styled.div`
     &:hover {
       left: 1rem;
 
-      background: ${props => props.theme.yellow};
+      background: ${({ theme: { yellow } }) => yellow};
     }
   }
 `;
