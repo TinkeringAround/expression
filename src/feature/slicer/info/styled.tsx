@@ -35,7 +35,7 @@ export const SInfo = styled.section`
     }
 
     :hover {
-      color: ${({ theme }) => theme.darkBlue};
+      color: ${({ theme: { hexToRgbA, orange } }) => hexToRgbA(orange, '0.85')};
     }
   }
 

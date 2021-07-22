@@ -12,6 +12,7 @@ interface Props {
   type: IconType;
   onClick: anyFunction;
 
+  title?: string;
   disabled?: boolean;
   keyboard?: AvailableKeys;
   withCtrl?: boolean;
@@ -19,13 +20,14 @@ interface Props {
 
 const Control: FC<Props> = ({
   type,
+  title,
   disabled = false,
   keyboard: key,
   withCtrl = false,
   onClick
 }) => (
   <SControl onClick={onClick} disabled={disabled}>
-    <Icon iconType={type} />
+    <Icon title={title} iconType={type} />
     {key && <Shortcut keyboard={key} withCtrl={withCtrl} disabled={disabled} onClick={onClick} />}
   </SControl>
 );

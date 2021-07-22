@@ -11,7 +11,7 @@ export const SGridTabs = styled.aside<{ expanded: boolean }>`
   background: ${({ theme: { light } }) => light};
   color: ${({ theme: { black } }) => black};
 
-  border-right: solid 5px ${({ theme: { yellow } }) => yellow};
+  border-right: solid 10px ${({ theme: { yellow } }) => yellow};
 
   transition: width 0.2s ease-in-out;
 

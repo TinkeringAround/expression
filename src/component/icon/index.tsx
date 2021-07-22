@@ -32,10 +32,18 @@ export type IconType =
 
 interface Props {
   iconType: IconType | null;
+  title?: string;
   onClick?: anyFunction;
 }
 
-const Icon: FC<Props> = ({ iconType, onClick }) =>
-  iconType && <SIcon className={`icon icon-${iconType}`} onClick={onClick} clickable={!!onClick} />;
+const Icon: FC<Props> = ({ iconType, title, onClick }) =>
+  iconType && (
+    <SIcon
+      className={`icon icon-${iconType}`}
+      title={title}
+      onClick={onClick}
+      clickable={!!onClick}
+    />
+  );
 
 export default Icon;
