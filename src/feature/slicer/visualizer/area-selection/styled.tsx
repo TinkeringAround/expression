@@ -30,7 +30,7 @@ export const SSelector = styled.div`
   height: calc(100% - 40px);
 
   border-radius: 2px;
-  background: ${props => props.theme.green};
+  background: ${({ theme: { green } }) => green};
 
   z-index: 6;
   cursor: grab;
@@ -49,7 +49,7 @@ export const SArea = styled.div`
   height: calc(100% - 80px);
 
   border-radius: 2px;
-  background: ${props => props.theme.hexToRgbA(props.theme.green, '0.15')};
+  background: ${({ theme: { hexToRgbA, green } }) => hexToRgbA(green, '0.15')};
 
   z-index: 5;
 
@@ -60,6 +60,6 @@ export const SArea = styled.div`
 
     font-size: 0.8rem;
     font-weight: bold;
-    color: ${props => props.theme.green};
+    color: ${({ theme: { green } }) => green};
   }
 `;

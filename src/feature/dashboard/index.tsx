@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Features } from '../../features';
 
+import For from '../../component/for';
+
 import { SDashboard } from './styled';
 
 const Dashboard: FC = () => {
@@ -10,13 +12,14 @@ const Dashboard: FC = () => {
 
   return (
     <SDashboard>
-      {Object.keys(Features)
-        .filter(route => route !== 'DASHBOARD')
-        .map((route: string, index: number) => (
+      <For
+        values={Object.keys(Features).filter(route => route !== 'DASHBOARD')}
+        projector={(route: string, index: number) => (
           <Link key={route} to={routeLinks[index]}>
             {route}
           </Link>
-        ))}
+        )}
+      />
     </SDashboard>
   );
 };

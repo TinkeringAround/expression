@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { fadeIn, fromTop } from '../../animations';
 import { delay } from '../../lib/util';
 
+import If from '../if';
+
 const SOverlay = styled.div<HasVisible>`
   position: absolute;
   top: 30%;
@@ -20,7 +22,7 @@ const SOverlay = styled.div<HasVisible>`
     width: 100%;
     height: 100%;
 
-    background: ${({ theme }) => theme.white};
+    background: ${({ theme: { white } }) => white};
 
     border-radius: 3px;
 
@@ -42,7 +44,7 @@ const SOverlay = styled.div<HasVisible>`
 
     overflow: hidden;
 
-    background: ${({ theme }) => theme.hexToRgbA(theme.black, '0.75')};
+    background: ${({ theme: { hexToRgbA, black } }) => hexToRgbA(black, '0.75')};
 
     animation: fadeIn 0.5s ease-in-out;
 
@@ -68,8 +70,10 @@ const Overlay: FC<HasVisible> = ({ visible, children }) => {
 
   return (
     <SOverlay visible={show}>
-      {show && <div className="content">{children}</div>}
-      {show && <div className="background" />}
+      <If condition={show}>
+        <div className="content">{children}</div>
+        <div className="background" />
+      </If>
     </SOverlay>
   );
 };

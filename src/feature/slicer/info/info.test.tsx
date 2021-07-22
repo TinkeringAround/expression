@@ -12,15 +12,22 @@ import Info from './index';
 
 import { mockClipBoard } from '../../../mock/window';
 import { mockElectronTrigger } from '../../../mock/electron';
+import { AppMock } from '../../../mock/components';
 
 describe('Info', () => {
+  const InfoInApp = (
+    <AppMock>
+      <Info />
+    </AppMock>
+  );
+
   beforeEach(() => {
     mockElectronTrigger(addNotificationRecipe);
   });
 
   test('should display audio file info when audio file is not null', () => {
     const { file } = useSlicer.getState();
-    render(<Info />);
+    render(InfoInApp);
 
     if (file) {
       const fileNameWithoutType = removeAudioFileTypeFromName(file.name);
@@ -33,7 +40,7 @@ describe('Info', () => {
 
   test('should copy path to clipboard successfully when clipboard is available', async () => {
     mockClipBoard();
-    render(<Info />);
+    render(InfoInApp);
 
     const heading = screen.getByRole('heading');
     expect(heading.parentNode).toBeInTheDocument();
@@ -53,7 +60,7 @@ describe('Info', () => {
   test('should not copy path to clipboard when clipboard is not available', async () => {
     mockClipBoard(false);
 
-    render(<Info />);
+    render(InfoInApp);
 
     const heading = screen.getByRole('heading');
     expect(heading.parentNode).toBeInTheDocument();

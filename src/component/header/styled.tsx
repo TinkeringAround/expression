@@ -16,7 +16,7 @@ export const SHeader = styled.header`
   height: var(--size);
   width: 100vw;
 
-  background: ${props => props.theme.yellow};
+  background: ${({ theme: { yellow } }) => yellow};
 
   animation: fromTop 0.5s ease-in-out;
 
@@ -41,7 +41,7 @@ export const SHeader = styled.header`
 
       font-family: 'Mono', sans-serif;
       font-size: 2.5rem;
-      color: ${props => props.theme.black};
+      color: ${({ theme: { black } }) => black};
 
       background: transparent;
       transition: all 0.15s ease-in-out;
@@ -49,8 +49,8 @@ export const SHeader = styled.header`
       cursor: pointer;
 
       &:hover {
-        color: ${props => props.theme.white};
-        background: ${props => props.theme.orange};
+        color: ${({ theme: { white } }) => white};
+        background: ${({ theme: { orange } }) => orange};
       }
     }
   }

@@ -23,7 +23,7 @@ const SLoading = styled.div<{ visible: boolean }>`
 
   opacity: ${({ visible }) => (visible ? '1' : '0')};
 
-  transition: opacity 0.15s ease-in-out, z-index 0.15s ease-in-out;
+  transition: opacity 0.1s ease-in-out, z-index 0.1s ease-in-out;
 
   z-index: ${({ visible }) => (visible ? 20 : -1)};
 `;

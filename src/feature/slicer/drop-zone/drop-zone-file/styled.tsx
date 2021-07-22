@@ -17,8 +17,8 @@ export const SDropZoneFile = styled.div`
   cursor: pointer;
 
   &:hover {
-    color: ${props => props.theme.second};
-    background: ${props => props.theme.yellow};
+    color: ${({ theme: { second } }) => second};
+    background: ${({ theme: { yellow } }) => yellow};
 
     .icon[class*='trash'] {
       opacity: 1;
@@ -26,8 +26,8 @@ export const SDropZoneFile = styled.div`
   }
 
   &.selected {
-    border-left: solid 15px ${props => props.theme.yellow};
-    background: ${props => props.theme.light};
+    border-left: solid 15px ${({ theme: { yellow } }) => yellow};
+    background: ${({ theme: { light } }) => light};
   }
 
   .icon {
@@ -44,13 +44,13 @@ export const SDropZoneFile = styled.div`
       width: 10px;
 
       font-size: 1.25rem;
-      color: ${props => props.theme.black};
+      color: ${({ theme: { black } }) => black};
 
       opacity: 0;
       transition: opacity 0.3s ease-in-out 0.1s, color 0.2s ease-in-out;
 
       &:hover {
-        color: ${props => props.theme.orange};
+        color: ${({ theme: { orange } }) => orange};
       }
     }
   }

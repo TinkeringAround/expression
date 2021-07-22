@@ -13,6 +13,7 @@ import { addNotification } from '../../../store/notification/actions';
 
 import Icon from '../../../component/icon';
 import Tag from '../../../component/tag';
+import If from '../../../component/if';
 
 import { SInfo } from './styled';
 
@@ -38,8 +39,10 @@ const Info: FC = () => {
       </div>
 
       <div className="aboutFileSize">
-        {isShowing() && <Tag>{toMB(size)}</Tag>}
-        {isShowing() && <Tag>{`~ ${asSeconds(buffer.duration, 0)}`}</Tag>}
+        <If condition={isShowing()}>
+          <Tag>{toMB(size)}</Tag>
+          <Tag>{`~ ${asSeconds(buffer.duration, 0)}`}</Tag>
+        </If>
       </div>
     </SInfo>
   );

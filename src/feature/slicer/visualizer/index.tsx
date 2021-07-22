@@ -12,6 +12,7 @@ import Loading from './loading';
 import ExportingOverlay from './exporting-overlay';
 
 import { SVisualizer } from './styled';
+import If from '../../../component/if';
 
 const DELAY = 100;
 
@@ -36,8 +37,10 @@ const Visualizer: FC = () => {
     <SVisualizer role="visualizer" ref={setRef}>
       <Loading />
       <ExportingOverlay visible={isExporting} />
-      {file && <AreaSelection />}
-      {file && <Drawing zoom={zoom} />}
+      <If condition={!!file}>
+        <AreaSelection />
+        <Drawing zoom={zoom} />
+      </If>
     </SVisualizer>
   );
 };

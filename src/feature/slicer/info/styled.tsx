@@ -18,7 +18,7 @@ export const SInfo = styled.section`
     width: 100%;
     margin-bottom: 0.5rem;
 
-    transition: color 0.15s ease-in-out;
+    transition: color 0.1s ease-in-out;
     cursor: pointer;
 
     h1,

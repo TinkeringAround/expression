@@ -3,6 +3,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { asSeconds, map } from '../../../../../lib/util';
 
 import { STimeline } from './styled';
+import For from '../../../../../component/for';
 
 const PADDING_BOTTOM = 60;
 
@@ -100,11 +101,14 @@ const Timeline: FC<Props> = ({ duration, zoom, height, width }) => {
       <polyline role="line" points={linePoints} />
 
       {/* Texts */}
-      {stepTexts.map(({ x, y, text }, index) => (
-        <text key={`text-${index}`} x={x} y={y}>
-          {text}
-        </text>
-      ))}
+      <For
+        values={stepTexts}
+        projector={({ x, y, text }, index) => (
+          <text key={`text-${index}`} x={x} y={y}>
+            {text}
+          </text>
+        )}
+      />
     </STimeline>
   );
 };
