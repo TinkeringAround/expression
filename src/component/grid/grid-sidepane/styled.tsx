@@ -8,8 +8,6 @@ export const SGridSidepane = styled(Resizable)`
 
   width: 50px;
 
-  padding-top: 1.5rem;
-
   background: ${({ theme: { white } }) => white};
   border-right: 3px solid ${({ theme: { light } }) => light};
 
