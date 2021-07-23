@@ -1,7 +1,7 @@
 {
   "name": "kadenz",
   "version": "1.0.0",
-  "description": "Music App for Non-Creatives",
+  "description": "Music Creation Helper App for Non-Creatives",
   "author": "Thomas Maier",
   "repository": "https://github.com/TinkeringAround/kadenz",
   "build": {
