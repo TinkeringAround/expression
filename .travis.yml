@@ -11,4 +11,3 @@ install:
   - yarn install
 script:
   - yarn test:ci
-  - yarn electron:package
