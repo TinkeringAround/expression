@@ -1,19 +1,19 @@
 {
   "name": "kadenz",
   "version": "1.0.0",
-  "description": "Music Maker Helper App",
+  "description": "Music App for Non-Creatives",
   "author": "Thomas Maier",
   "repository": "https://github.com/TinkeringAround/kadenz",
   "build": {
-    "appId": "<com.electronapp>",
-    "productName": "<productName>"
+    "appId": "com.electron.kadenz",
+    "productName": "Kadenz",
+    "copyright": "Copyright © 2021 Thomas Maier"
   },
   "main": "./public/electron.js",
   "homepage": "./",
   "private": true,
   "dependencies": {
     "electron-is-dev": "2.0.0",
-    "node-sass": "5.0.0",
     "node-wav": "0.0.2",
     "re-resizable": "6.9.0",
     "react": "17.0.2",
@@ -22,7 +22,7 @@
     "react-router-dom": "5.2.0",
     "styled-components": "5.3.0",
     "tone": "14.7.77",
-    "zustand": "3.5.0"
+    "zustand": "3.5.7"
   },
   "devDependencies": {
     "@babel/core": "7.14.0",
@@ -32,7 +32,7 @@
     "@testing-library/jest-dom": "5.12.0",
     "@testing-library/react": "11.2.6",
     "@types/jest": "26.0.23",
-    "@types/node": "15.0.1",
+    "@types/node": "16.4.1",
     "@types/react": "17.0.4",
     "@types/react-dom": "17.0.3",
     "@types/react-dropzone": "5.1.0",
@@ -42,14 +42,15 @@
     "concurrently": "6.0.2",
     "cpx": "1.5.0",
     "cross-env": "7.0.3",
-    "electron": "12.0.6",
-    "electron-builder": "22.10.5",
+    "electron": "13.1.7",
+    "electron-builder": "22.11.7",
     "jest": "26.6.0",
-    "jest-mock-extended": "1.0.15",
-    "prettier": "2.2.1",
+    "jest-mock-extended": "1.0.18",
+    "prettier": "2.3.2",
     "react-scripts": "4.0.3",
-    "typescript": "4.2.4",
-    "wait-on": "5.3.0"
+    "sass": "1.35.2",
+    "typescript": "4.3.5",
+    "wait-on": "6.0.0"
   },
   "scripts": {
     "dev": "concurrently \"cross-env BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && electron .\"",
