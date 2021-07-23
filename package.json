@@ -7,8 +7,9 @@
   "build": {
     "appId": "com.electron.kadenz",
     "productName": "Kadenz",
-    "copyright": "Copyright © 2021 Thomas Maier",
-    "icon": "./public/assets/kadenz.icns"
+    "copyright": "Copyright © 2021 ${author}",
+    "icon": "./public/assets/kadenz.icns",
+    "artifactName": "${productName}.${ext}"
   },
   "main": "./public/electron.js",
   "homepage": "./",
