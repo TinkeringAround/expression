@@ -1,10 +1,10 @@
-#TODO Logo
+![Logo](./documentation/kadenz.png 'Logo')
 
-![Love](https://img.shields.io/badge/Made%20with-%E2%99%A5-red.svg) 
+![Love](https://img.shields.io/badge/Made%20with-%E2%99%A5-red.svg)
 [![Build Status](https://travis-ci.com/TinkeringAround/kadenz.svg?branch=master)](https://travis-ci.com/TinkeringAround/kadenz)
 ![Platform](https://img.shields.io/badge/platform-windows-yellow.svg?style=flat")
 
-# 🎵 Kadenz
+# Kadenz
 
 Music Creation Helper App for Non-Creatives.
 
