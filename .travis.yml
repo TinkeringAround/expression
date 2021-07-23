@@ -1,3 +1,4 @@
+os: windows
 language: node_js
 node_js:
   - "16.5.0"
@@ -11,3 +12,4 @@ install:
   - yarn install
 script:
   - yarn test:ci
+  - yarn electron:package
