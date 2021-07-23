@@ -18,7 +18,7 @@ const Content = styled.main`
     animation: fadeIn 1s ease-in-out;
   }
 
-  ${fadeIn()}
+  ${fadeIn};
 `;
 
 export default Content;
