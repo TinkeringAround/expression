@@ -9,7 +9,7 @@ import { SDashboard } from './styled';
 
 const Dashboard: FC = () => {
   const [routeLinks] = useState([Features.SLICER, Features.PHRASER, Features.FX]);
-  const [enabledLinks] = useState([0]);
+  const [enabledLinks] = useState([0, 1]);
 
   return (
     <SDashboard>
