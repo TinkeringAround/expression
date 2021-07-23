@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { fadeIn } from '../../../animations';
+import { fadeIn, scaleUpDown } from '../../../animations';
 
 export const SGridTabs = styled.aside<{ expanded: boolean }>`
   position: relative;
@@ -27,6 +27,8 @@ export const SGridTabs = styled.aside<{ expanded: boolean }>`
 `;
 
 export const SGridTab = styled.span<{ active: boolean }>`
+  position: relative;
+
   display: flex;
   align-items: center;
 
@@ -43,8 +45,37 @@ export const SGridTab = styled.span<{ active: boolean }>`
   transition: background 0.15s ease-in-out;
   cursor: pointer;
 
+  > .count {
+    position: absolute;
+    top: -0.5rem;
+    left: -0.75rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 1.5rem;
+    width: 1.5rem;
+
+    writing-mode: lr;
+    text-orientation: mixed;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: ${({ theme: { white } }) => white};
+    background: ${({ theme: { green } }) => green};
+
+    border-radius: 1rem;
+    box-shadow: 3px 2px 3px rgb(0 0 0 / 15%);
+
+    animation: fadeIn 0.2s ease-in-out, scaleUpDown 2s ease-in-out infinite;
+
+    ${fadeIn};
+    ${scaleUpDown};
+  }
+
   &:not(:last-of-type) {
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.75rem;
   }
 
   &:hover {
@@ -53,8 +84,7 @@ export const SGridTab = styled.span<{ active: boolean }>`
 
   ${({ active, theme: { hexToRgbA, orange } }) =>
     active &&
-    `
-      background: ${orange}; 
+    ` background: ${orange}; 
       &:hover {
         background: ${hexToRgbA(orange, '0.7')};
       }`}
@@ -75,5 +105,5 @@ export const SGridTabContent = styled.div`
   box-sizing: border-box;
   animation: fadeIn 0.35s ease-in-out;
 
-  ${fadeIn()}
+  ${fadeIn};
 `;

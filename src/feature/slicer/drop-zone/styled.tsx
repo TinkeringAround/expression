@@ -24,7 +24,7 @@ export const SResizableOverlay = styled.div`
 
   z-index: 5;
 
-  ${fadeIn()}
+  ${fadeIn};
 `;
 
 export const SDropZoneFiles = styled.div`

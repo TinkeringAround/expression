@@ -12,5 +12,5 @@ export const SSlicerControls = styled.div`
 
   animation: fadeIn 0.25s ease-in-out;
 
-  ${fadeIn()}
+  ${fadeIn};
 `;

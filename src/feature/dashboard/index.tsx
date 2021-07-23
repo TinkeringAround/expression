@@ -1,24 +1,32 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Features } from '../../features';
+import { FeatureDescription, Features } from '../../features';
 
 import For from '../../component/for';
 
 import { SDashboard } from './styled';
 
 const Dashboard: FC = () => {
-  const [routeLinks] = useState([Features.SLICER, Features.FX, Features.PHRASER]);
+  const [routeLinks] = useState([Features.SLICER, Features.PHRASER, Features.FX]);
+  const [enabledLinks] = useState([0]);
 
   return (
     <SDashboard>
       <For
-        values={Object.keys(Features).filter(route => route !== 'DASHBOARD')}
-        projector={(route: string, index: number) => (
-          <Link key={route} to={routeLinks[index]}>
-            {route}
-          </Link>
-        )}
+        values={Object.keys(Features).splice(1, 3)}
+        projector={(route: string, index: number) => {
+          const enabled = enabledLinks.includes(index);
+          const link = enabled ? routeLinks[index] : Features.DASHBOARD;
+          const className = enabled ? '' : 'disabled';
+
+          return (
+            <Link key={route} to={link} className={className}>
+              <h1>{route}</h1>
+              <p>{FeatureDescription[route]}</p>
+            </Link>
+          );
+        }}
       />
     </SDashboard>
   );

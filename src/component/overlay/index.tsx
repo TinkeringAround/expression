@@ -23,7 +23,7 @@ const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
           opacity: 0;
           animation: fadeOut 0.25s ease-in-out !important;
        
-          ${fadeOut()};
+          ${fadeOut};
         }`
       : ''};
 
@@ -42,7 +42,7 @@ const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
     animation: fromTop 0.5s ease-in-out, fadeIn 0.5s ease-in-out;
 
     ${fromTop('-5rem', '0rem')}
-    ${fadeIn()}
+    ${fadeIn};
   }
 
   .background {
@@ -59,7 +59,7 @@ const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
 
     animation: fadeIn 0.5s ease-in-out;
 
-    ${fadeIn()}
+    ${fadeIn};
   }
 `;
 

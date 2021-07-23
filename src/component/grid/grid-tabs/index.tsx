@@ -7,7 +7,8 @@ import { SGridTab, SGridTabContent, SGridTabs } from './styled';
 
 export interface GridTab {
   name: string;
-  component: any;
+  component: JSX.Element;
+  count?: number;
 }
 
 interface Props {
@@ -35,13 +36,16 @@ const GridTabs: FC<Props> = ({ tabs, initialTab = NO_TAB }) => {
       <div className="tabs">
         <For
           values={tabs}
-          projector={({ name }, index) => (
+          projector={({ name, count }, index) => (
             <SGridTab
               key={`tab-${name}`}
               active={selectedTab === index}
               onClick={() => toggleTab(index)}
             >
               {name}
+              <If condition={selectedTab !== index && !!count && count > 0}>
+                <span className="count">{count}</span>
+              </If>
             </SGridTab>
           )}
         />
