@@ -1,4 +1,5 @@
 import { Features } from '../../features';
+import { v4 } from 'uuid';
 
 /**
  * Placeholder Type for any void Function
@@ -77,3 +78,9 @@ export const toValidFloat = (value: number): number => {
  */
 export const floatsDiffer = (float1: number, float2: number) =>
   toValidFloat(float1) !== toValidFloat(float2);
+
+/**
+ * Generate unique Id Helper Function
+ * @return {string} the new id
+ */
+export const generateId = (): string => v4().toString();
