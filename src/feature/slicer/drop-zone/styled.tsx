@@ -7,7 +7,7 @@ export const SDropZone = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding-top: 1.5rem;
+  padding-top: 2rem;
 
   height: 100%;
   width: 100%;
