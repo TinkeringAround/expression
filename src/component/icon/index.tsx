@@ -17,8 +17,11 @@ export type IconType =
   | AudioType
   | 'arrow-double-left'
   | 'arrow-double-right'
+  | 'arrow-double-down'
+  | 'arrow-double-up'
   | 'upload'
   | 'save'
+  | 'save-disc'
   | 'play'
   | 'pause'
   | 'stop'

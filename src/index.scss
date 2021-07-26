@@ -69,6 +69,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-double-down:before {
+  content: "\e904";
+}
+
+.icon-arrow-double-up:before {
+  content: "\e905";
+}
+
 .icon-arrow-double-left:before {
   content: "\e902";
 }
@@ -83,6 +91,10 @@ body {
 
 .icon-wav:before {
   content: "\e901";
+}
+
+.icon-save-disc:before {
+  content: "\e962";
 }
 
 .icon-trash:before {
