@@ -16,6 +16,16 @@ const ACTION = Object.freeze({
   slicerFileExported: '[SLICER] Slicer File Exported',
   slicerFileExportCancelled: '[SLICER] Slicer File Export Cancelled',
 
+  addPhraserCollection: '[PHRASER] Add Music Collection',
+  reorderPhraserCollection: '[PHRASER] Reorder Collection',
+  deletePhraserCollection: '[PHRASER] Delete Music Collection',
+  updatePhraserCollectionTitle: '[PHRASER] Update Music Collection Title',
+  reorderPhraserCollectionSongs: '[PHRASER] Update Music Collection Songs',
+  movePhraserCollectionSong: '[PHRASER] Move Music Collection Song',
+  addPhraserCollectionSong: '[PHRASER] Add Music Collection Song',
+  selectPhraserSong: '[PHRASER] Select Song',
+  deletePhraserSong: '[PHRASER] Delete Song',
+
   addNotification: '[NOTIFICATION] Add Notification',
   resetNotifications: '[NOTIFICATION] Reset Notifications'
 });
