@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { fadeIn } from '../../../animations';
+import { noScrollbar } from '../../../scrollbar';
 
 export const SDropZone = styled.div`
   display: flex;
@@ -35,17 +36,7 @@ export const SDropZoneFiles = styled.div`
 
   overflow: hidden auto;
 
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  ::-webkit-scrollbar {
-    width: 0;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: transparent;
-  }
+  ${noScrollbar};
 `;
 
 export const SAudioInput = styled.footer`
