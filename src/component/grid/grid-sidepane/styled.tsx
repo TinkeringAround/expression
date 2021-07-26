@@ -27,7 +27,9 @@ export const SGridSidepane = styled(Resizable)`
 
     font-size: 1.5rem;
 
-    transition: color 0.15s ease-in-out;
+    opacity: 0;
+    z-index: 2;
+    transition: color 0.15s ease-in-out, opacity 0.15s ease-in-out 0.15s;
 
     &:hover {
       color: ${({ theme: { yellow } }) => yellow};
@@ -36,9 +38,17 @@ export const SGridSidepane = styled(Resizable)`
 
   &:hover {
     border-right: 3px solid ${({ theme: { yellow } }) => yellow};
+
+    > .icon {
+      opacity: 1;
+    }
   }
 
   &:active {
     background: ${({ theme: { hexToRgbA, white } }) => hexToRgbA(white, '0.8')};
+
+    > .icon {
+      opacity: 1;
+    }
   }
 `;
