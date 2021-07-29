@@ -3,6 +3,8 @@ import { getAudioFileMock, getSlicerAudioFileMock } from './types';
 import { SlicerState, useSlicer } from '../store/slicer';
 import { NotificationState, useNotification } from '../store/notification';
 import { Notification } from '../store/notification/types';
+import { PhraserState, usePhraser } from '../store/phraser';
+import { getCollectionMock } from './collection';
 
 export const getMockSelection = ({
   start = 0,
@@ -57,4 +59,15 @@ export const getNotificationStoreMock = (
     ...statePartial,
     update
   } as NotificationState;
+};
+
+export const getPhraserMock = (phraserState?: Partial<PhraserState>): PhraserState => {
+  const { update } = usePhraser.getState();
+
+  return {
+    collections: [getCollectionMock()],
+    selectedSong: null,
+    update,
+    ...phraserState
+  } as PhraserState;
 };
