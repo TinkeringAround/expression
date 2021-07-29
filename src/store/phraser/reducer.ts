@@ -6,7 +6,12 @@ import {
   UpdatePhraserCollectionTitlePayload,
   ReorderPhraserCollectionRecipe,
   MovePhraserCollectionSongPayload,
-  AddPhraserCollectionSongPayload
+  AddPhraserCollectionSongPayload,
+  ReorderPhraserSongPartRhymePayload,
+  MovePhraserSongPartRhymePayload,
+  UpdatePhraserSongTitlePayload,
+  UpdatePhraserSongPartNamePayload,
+  DeletePhraserSongPartPayload
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
@@ -118,16 +123,130 @@ export const selectPhraserSongRecipe = (_: null, { song }: SelectPhraserSongPayl
   const { update, selectedSong } = usePhraser.getState();
 
   if (selectedSong?.id !== song.id) {
-    update({ selectedSong: song });
+    update({
+      selectedSong: {
+        ...song,
+        dirty: false
+      }
+    });
+  }
+};
+
+export const updatePhraserSongTitleRecipe = (_: null, { title }: UpdatePhraserSongTitlePayload) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    selectedSong.dirty = true;
+    selectedSong.title = title;
+
+    update({ selectedSong });
+  }
+};
+
+export const addPhraserSongPartRecipe = (_: null) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    selectedSong.dirty = true;
+    selectedSong.parts.push({
+      id: generateId(),
+      name: 'UNTITLED',
+      rhymes: []
+    });
+
+    update({ selectedSong });
+  }
+};
+
+export const deletePhraserSongPartRecipe = (_: null, { partId }: DeletePhraserSongPartPayload) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const partIndex = selectedSong.parts.findIndex(p => p.id === partId);
+
+    selectedSong.dirty = true;
+    selectedSong.parts.splice(partIndex, 1);
+
+    update({ selectedSong });
+  }
+};
+
+export const updatePhraserSongPartNameRecipe = (
+  _: null,
+  { partId, name }: UpdatePhraserSongPartNamePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const partIndex = selectedSong.parts.findIndex(p => p.id === partId);
+
+    selectedSong.dirty = true;
+    selectedSong.parts[partIndex].name = name;
+
+    update({ selectedSong });
+  }
+};
+
+export const reorderPhraserSongPartRhymeRecipe = (
+  _: null,
+  { source, destination }: ReorderPhraserSongPartRhymePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const rhymeIndex = selectedSong.parts.findIndex(p => p.id === source.droppableId);
+    const rhyme = selectedSong.parts[rhymeIndex].rhymes[source.index];
+
+    selectedSong.dirty = true;
+    selectedSong.parts[rhymeIndex].rhymes.splice(source.index, 1);
+    selectedSong.parts[rhymeIndex].rhymes.splice(destination.index, 0, rhyme);
+
+    update({ selectedSong });
+  }
+};
+
+export const movePhraserSongPartRhymeRecipe = (
+  _: null,
+  { source, destination }: MovePhraserSongPartRhymePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const sourcePartIndex = selectedSong.parts.findIndex(p => p.id === source.droppableId);
+    const destinationPartIndex = selectedSong.parts.findIndex(
+      p => p.id === destination.droppableId
+    );
+    const rhyme = selectedSong.parts[sourcePartIndex].rhymes[source.index];
+
+    selectedSong.dirty = true;
+    selectedSong.parts[sourcePartIndex].rhymes.splice(source.index, 1);
+    selectedSong.parts[destinationPartIndex].rhymes.splice(destination.index, 0, rhyme);
+
+    update({ selectedSong });
   }
 };
 
 // ==============================================================
+// Collection Management
 on(ACTION.addPhraserCollection, addPhraserCollectionRecipe);
 on(ACTION.reorderPhraserCollection, reorderPhraserCollectionRecipe);
 on(ACTION.deletePhraserCollection, deletePhraserCollectionRecipe);
+
+// Collection Manipulation
 on(ACTION.updatePhraserCollectionTitle, updatePhraserCollectionTitleRecipe);
 on(ACTION.reorderPhraserCollectionSongs, reorderPhraserCollectionSongsRecipe);
 on(ACTION.movePhraserCollectionSong, movePhraserCollectionSongRecipe);
 on(ACTION.addPhraserCollectionSong, addPhraserCollectionSongRecipe);
+
+// Song Management
 on(ACTION.selectPhraserSong, selectPhraserSongRecipe);
+
+// Song Manipulation
+on(ACTION.updatePhraserSongTitle, updatePhraserSongTitleRecipe);
+on(ACTION.addPhraserSongPart, addPhraserSongPartRecipe);
+on(ACTION.deletePhraserSongPart, deletePhraserSongPartRecipe);
+
+// Song Rhyme Manipulation
+on(ACTION.updatePhraserSongPartName, updatePhraserSongPartNameRecipe);
+on(ACTION.reorderPhraserSongPartRhyme, reorderPhraserSongPartRhymeRecipe);
+on(ACTION.movePhraserSongPartRhyme, movePhraserSongPartRhymeRecipe);
