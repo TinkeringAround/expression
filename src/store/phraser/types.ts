@@ -1,6 +1,7 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 export enum Pattern {
+  NONE = '',
   PAAR = 'aabb',
   KREUZ = 'abab'
 }
@@ -17,14 +18,30 @@ export interface Song {
   parts: Part[];
 }
 
+export interface EditableSong extends Song, HasDirty {}
+
 export interface Part {
   id: string;
-  pattern: keyof Pattern;
+  name: string;
+  rhymes: Rhyme[];
+}
+
+export interface Rhyme {
+  id: string;
+  pattern: Pattern;
   lines: string[];
+}
+
+export interface HasDirty {
+  dirty: boolean;
 }
 
 export interface HasCollectionId {
   collectionId: string;
+}
+
+export interface HasPartId {
+  partId: string;
 }
 
 export interface SourceDestination {
@@ -51,3 +68,15 @@ export interface SelectPhraserSongPayload {
 }
 
 export interface DeletePhraserSongPayload extends SelectPhraserSongPayload {}
+
+export interface UpdatePhraserSongTitlePayload extends Pick<Song, 'title'> {}
+
+export interface DeletePhraserSongPartPayload extends HasPartId {}
+
+export interface UpdatePhraserSongPartNamePayload extends HasPartId {
+  name: string;
+}
+
+export interface ReorderPhraserSongPartRhymePayload extends SourceDestination {}
+
+export interface MovePhraserSongPartRhymePayload extends SourceDestination {}
