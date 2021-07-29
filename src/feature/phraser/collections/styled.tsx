@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { noScrollbar } from '../../../scrollbar';
+
 export const SCollections = styled.div`
   position: relative;
 
@@ -15,13 +17,15 @@ export const SCollections = styled.div`
     margin: 0;
     padding: 0 0 1rem 0;
 
+    font-family: 'Mono', sans-serif;
+    font-weight: normal;
     font-size: 1.5rem;
     text-align: center;
   }
 
   .collections {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 3.5rem);
 
     overflow: hidden auto;
 
@@ -29,17 +33,7 @@ export const SCollections = styled.div`
       margin-bottom: 1rem;
     }
 
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    ::-webkit-scrollbar {
-      width: 0;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: transparent;
-    }
+    ${noScrollbar};
   }
 `;
 

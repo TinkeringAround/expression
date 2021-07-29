@@ -16,7 +16,12 @@ import { SCollectionFooter, SCollections } from './styled';
 
 const COLLECTION = 'collection';
 
-const Collections: FC = () => {
+interface Props {
+  // only for testing purpose as workaround for drag drop
+  testDrop?: DropResult;
+}
+
+const Collections: FC<Props> = ({ testDrop }) => {
   const { collections } = usePhraser();
 
   const addCollection = useCallback(() => {
@@ -48,7 +53,7 @@ const Collections: FC = () => {
   return (
     <DragDropContext onDragEnd={onDrop}>
       <SCollections>
-        <h1>Collections</h1>
+        <h1 {...(testDrop ? { onClick: () => onDrop(testDrop) } : {})}>Collections</h1>
         <Droppable droppableId={COLLECTION}>
           {({ placeholder, innerRef, droppableProps }) => (
             <div className="collections" ref={innerRef} {...droppableProps}>
