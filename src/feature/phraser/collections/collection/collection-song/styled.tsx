@@ -8,7 +8,6 @@ export const SCollectionSong = styled.div`
   width: 100%;
   height: 40px;
   padding: 0 1rem;
-  margin-bottom: 1rem;
 
   box-sizing: border-box;
   transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
