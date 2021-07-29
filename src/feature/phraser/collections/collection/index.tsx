@@ -10,9 +10,9 @@ import {
 
 import If from '../../../../component/if';
 import For from '../../../../component/for';
-import CollectionSong from './collection-song';
 import Icon, { IconType } from '../../../../component/icon';
 
+import CollectionSong from './collection-song';
 import { SCollection } from './styled';
 
 interface Props {
@@ -73,48 +73,46 @@ const Collection: FC<Props> = ({ collection: { title, songs, id }, index }) => {
 
   return (
     <Draggable draggableId={id} index={index}>
-      {({ innerRef, draggableProps, dragHandleProps }) => {
-        return (
-          <SCollection
-            className={`${expanded && 'expanded'}`}
-            style={{ height: expanded ? 120 + songs.length * 40 : 80 }}
-            ref={innerRef}
-            {...draggableProps}
-            {...dragHandleProps}
-          >
-            <div className="head" onClick={handleClick}>
-              <Icon title="Toggle Collection" iconType={icon} />
-              <input
-                className="title"
-                title={inputTitle}
-                value={inputTitle}
-                onChange={updateCollectionName}
-                onBlur={saveTitleChanges}
-              />
-              <Icon title="Delete Collection" iconType="trash" />
-            </div>
-            <If condition={expanded}>
-              <Droppable droppableId={id} type="SONG">
-                {({ placeholder, innerRef, droppableProps }) => (
-                  <div ref={innerRef} {...droppableProps}>
-                    <For
-                      values={songs}
-                      projector={(song, index) => (
-                        <CollectionSong key={song.id} song={song} index={index} />
-                      )}
-                    />
-                    {placeholder}
-                  </div>
-                )}
-              </Droppable>
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        <SCollection
+          className={`${expanded && 'expanded'}`}
+          style={{ height: expanded ? 120 + songs.length * 40 : 80 }}
+          ref={innerRef}
+          {...draggableProps}
+          {...dragHandleProps}
+        >
+          <div className="head" onClick={handleClick}>
+            <Icon title="Toggle Collection" iconType={icon} />
+            <input
+              className="title"
+              title={inputTitle}
+              value={inputTitle}
+              onChange={updateCollectionName}
+              onBlur={saveTitleChanges}
+            />
+            <Icon title="Delete Collection" iconType="trash" />
+          </div>
+          <If condition={expanded}>
+            <Droppable droppableId={id} type="SONG">
+              {({ placeholder, innerRef, droppableProps }) => (
+                <div ref={innerRef} {...droppableProps}>
+                  <For
+                    values={songs}
+                    projector={(song, index) => (
+                      <CollectionSong key={song.id} song={song} index={index} />
+                    )}
+                  />
+                  {placeholder}
+                </div>
+              )}
+            </Droppable>
 
-              <footer className="dummy">
-                <button onClick={addSong}>Add Song</button>
-              </footer>
-            </If>
-          </SCollection>
-        );
-      }}
+            <footer>
+              <button onClick={addSong}>Add Song</button>
+            </footer>
+          </If>
+        </SCollection>
+      )}
     </Draggable>
   );
 };

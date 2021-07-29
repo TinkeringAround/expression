@@ -38,12 +38,11 @@ export const SCollection = styled.div`
       border: none;
       border-radius: 3px;
 
-      outline: none;
-
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
+      outline: none;
       transition: all 0.15s ease-in-out;
       box-sizing: border-box;
 
@@ -77,7 +76,7 @@ export const SCollection = styled.div`
     }
   }
 
-  .dummy {
+  footer {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
