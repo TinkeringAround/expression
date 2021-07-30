@@ -1,4 +1,4 @@
-import { MusicCollection, Part, Pattern, Rhyme, Song } from '../store/phraser/types';
+import { MusicCollection, Part, Rhyme, Song } from '../store/phraser/types';
 
 export const getRhymeMock = (rhyme?: Partial<Rhyme>): Rhyme => ({
   id: '1111',
@@ -8,7 +8,6 @@ export const getRhymeMock = (rhyme?: Partial<Rhyme>): Rhyme => ({
     'Auch mal sowas wie „Digimon“ sagen oder so kaputte Schuhe.',
     "Es ist so, hahaha, es ist so geil, also ich feier' das so geisteskrank, sorry, ne"
   ],
-  pattern: Pattern.NONE,
   ...rhyme
 });
 
@@ -86,12 +85,10 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
             rhymes: [
               {
                 id: '1111',
-                pattern: Pattern.NONE,
                 lines: ['Ich habe ein geiles Haus', 'und du bist eine Maus.']
               },
               {
                 id: '1112',
-                pattern: Pattern.KREUZ,
                 lines: [
                   'Ich will Rapper sein, das ist mein Traum',
                   'Jeder pinkelt mit eleganz an einen Baum',
@@ -107,7 +104,6 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
             rhymes: [
               {
                 id: '1121',
-                pattern: Pattern.NONE,
                 lines: [
                   "Ey, sorry, ne, aber ich feier' das so krank, wenn du diese geilen lustigen Texte machst",
                   'Weißt du? Dieses Geile, Lustige einfach, du weißt schon',
@@ -117,7 +113,6 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
               },
               {
                 id: '1122',
-                pattern: Pattern.KREUZ,
                 lines: [
                   "Ich komm' mit Fucked-up Chucks, während du mit dein'n Schuhen protzt (Beastboy, oh, yeah)",
                   "Ich komm' mit Löchern in den Jeans, so wie Wеregarurumon (Swag, woah, yeah, yeah)",
