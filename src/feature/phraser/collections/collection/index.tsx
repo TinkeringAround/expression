@@ -30,9 +30,7 @@ const Collection: FC<Props> = ({ collection: { title, songs, id }, index }) => {
 
   const updateCollectionName = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      if (value !== inputTitle) {
-        setInputTitle(value);
-      }
+      setInputTitle(value);
     },
     [inputTitle, setInputTitle]
   );
