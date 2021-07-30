@@ -7,7 +7,7 @@ export const SRhyme = styled.div`
   flex-direction: column;
 
   width: 100%;
-  height: calc(100px + 6rem);
+  height: calc(100px + 6.25rem);
   padding: 1rem;
 
   border-radius: 3px;
@@ -19,12 +19,32 @@ export const SRhyme = styled.div`
     margin-bottom: 1rem;
   }
 
-  .pattern {
+  .editor-controls {
+    position: relative;
+
     width: 100%;
     height: 1rem;
     margin-bottom: 1rem;
 
     color: ${({ theme: { grey } }) => grey};
+
+    .icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      font-size: 1rem;
+
+      transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
+
+      &:not(:last-of-type) {
+        margin-right: 1rem;
+      }
+
+      &:hover {
+        color: ${({ theme: { yellow } }) => yellow};
+      }
+    }
   }
 
   .editor {

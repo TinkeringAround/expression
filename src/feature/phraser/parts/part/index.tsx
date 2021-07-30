@@ -34,9 +34,7 @@ const SongPart: FC<Props> = ({ part }) => {
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      if (value !== partName) {
-        setPartName(value);
-      }
+      setPartName(value);
     },
     [partName, setPartName]
   );

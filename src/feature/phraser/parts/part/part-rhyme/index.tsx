@@ -4,8 +4,13 @@ import { Draggable } from 'react-beautiful-dnd';
 import { Rhyme } from '../../../../../store/phraser/types';
 import { highlightVocals } from '../../../../../lib/rhyme';
 import { useRefCallback } from '../../../../../hook/useRefCallback';
+import {
+  deletePhraserSongPartRhyme,
+  updatePhraserSongPartRhyme
+} from '../../../../../store/phraser/actions';
 
 import For from '../../../../../component/for';
+import Icon from '../../../../../component/icon';
 
 import { SRhyme } from './styled';
 
@@ -31,6 +36,16 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
     [currentValue, setCurrentValue]
   );
 
+  const updateRhyme = useCallback(() => {
+    if (rhyme.lines.join('\n') !== currentValue) {
+      updatePhraserSongPartRhyme(rhyme.id, currentValue);
+    }
+  }, [rhyme, currentValue]);
+
+  const deleteRhyme = useCallback(() => {
+    deletePhraserSongPartRhyme(rhyme.id);
+  }, [rhyme, currentValue]);
+
   const onScroll = useCallback(
     ({ target }: React.UIEvent<HTMLTextAreaElement>) => {
       if (highlightArea) {
@@ -45,7 +60,9 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
     <Draggable draggableId={rhyme.id} index={index}>
       {({ innerRef, draggableProps, dragHandleProps }) => (
         <SRhyme ref={innerRef} {...draggableProps} {...dragHandleProps}>
-          <div className="pattern">Controls...</div>
+          <div className="editor-controls">
+            <Icon title="Delete Rhyme" iconType="trash" onClick={deleteRhyme} />
+          </div>
           <div className="editor">
             <textarea
               rows={4}
@@ -54,6 +71,7 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
               value={currentValue}
               onChange={onChange}
               onScroll={onScroll}
+              onBlur={updateRhyme}
             />
             <div className="highlighting" ref={setRef}>
               {currentValue.split('\n').map((line, index) => (

@@ -17,9 +17,7 @@ const Parts: FC = () => {
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
-      if (value !== songTitle) {
-        setSongTitle(value);
-      }
+      setSongTitle(value);
     },
     [songTitle, setSongTitle]
   );
