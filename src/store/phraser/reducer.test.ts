@@ -3,6 +3,7 @@ import {
   addPhraserCollectionRecipe,
   addPhraserCollectionSongRecipe,
   addPhraserSongPartRecipe,
+  addPhraserSongPartRhymeRecipe,
   deletePhraserCollectionRecipe,
   deletePhraserSongPartRecipe,
   movePhraserCollectionSongRecipe,
@@ -15,6 +16,7 @@ import {
   updatePhraserSongPartNameRecipe,
   updatePhraserSongTitleRecipe
 } from './reducer';
+import { Template } from './types';
 
 import { getPhraserMock } from '../../mock/store';
 import { getCollectionMock, getPartMock, getRhymeMock, getSongMock } from '../../mock/collection';
@@ -274,6 +276,36 @@ describe('phraser reducer', () => {
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
       updatePhraserSongPartNameRecipe(null, { partId: '11', name: 'new-name' });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong).toBeNull();
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('addPhraserSongPartRhymeRecipe', () => {
+    it('should add rhymes according to template when selected song is not null', () => {
+      const song = getSongMock({ parts: [getPartMock({ id: '1', rhymes: [] })] });
+      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+
+      addPhraserSongPartRhymeRecipe(null, {
+        template: Template.SINGLE,
+        destination: { index: 0, droppableId: '1' }
+      });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.parts[0].rhymes.length).toBe(1);
+    });
+
+    it('should ignore adding according to template when selected song is null', () => {
+      const updateMock = jest.fn();
+      usePhraser.setState({ selectedSong: null, update: updateMock });
+
+      addPhraserSongPartRhymeRecipe(null, {
+        template: Template.SINGLE,
+        destination: { index: 0, droppableId: '1' }
+      });
 
       const { selectedSong } = usePhraser.getState();
       expect(selectedSong).toBeNull();

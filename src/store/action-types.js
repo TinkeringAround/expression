@@ -29,6 +29,7 @@ const ACTION = Object.freeze({
   addPhraserSongPart: '[PHRASER] Add Song Part',
   deletePhraserSongPart: '[PHRASER] Delete Song Part',
   updatePhraserSongPartName: '[PHRASER] Update Song Part Name',
+  addPhraserSongPartRhyme: '[PHRASER] Add Song Part Rhyme',
   reorderPhraserSongPartRhyme: '[PHRASER] Reorder Song Part Rhyme',
   movePhraserSongPartRhyme: '[PHRASER] Move Song Part Rhyme',
 

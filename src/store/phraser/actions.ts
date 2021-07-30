@@ -1,7 +1,7 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 import { ACTION } from '../action-types';
-import { Song } from './types';
+import { Song, Template } from './types';
 
 const { trigger } = window.electron;
 
@@ -60,6 +60,9 @@ export const updatePhraserSongPartName = (partId: string, name: string) =>
     partId,
     name
   });
+
+export const addPhraserSongPartRhyme = (template: Template, destination: DraggableLocation) =>
+  trigger(ACTION.addPhraserSongPartRhyme, { template, destination });
 
 export const reorderPhraserSongPartRhyme = (
   source: DraggableLocation,

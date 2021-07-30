@@ -11,10 +11,13 @@ import {
   MovePhraserSongPartRhymePayload,
   UpdatePhraserSongTitlePayload,
   UpdatePhraserSongPartNamePayload,
-  DeletePhraserSongPartPayload
+  DeletePhraserSongPartPayload,
+  AddPhraserSongPartRhymePayload,
+  Rhyme
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
+import { createRhymesByTemplate } from '../../lib/rhyme';
 
 const { on } = window.electron;
 
@@ -133,13 +136,26 @@ export const selectPhraserSongRecipe = (_: null, { song }: SelectPhraserSongPayl
 };
 
 export const updatePhraserSongTitleRecipe = (_: null, { title }: UpdatePhraserSongTitlePayload) => {
-  const { update, selectedSong } = usePhraser.getState();
+  const { update, collections, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
+    let collectionIndex = -1,
+      songIndex = -1;
+    collections.some((collection, colIndex) => {
+      songIndex = collection.songs.findIndex(song => song.id === selectedSong.id);
+
+      if (songIndex >= 0) {
+        collectionIndex = colIndex;
+      }
+
+      return songIndex >= 0;
+    });
+
     selectedSong.dirty = true;
     selectedSong.title = title;
+    collections[collectionIndex].songs[songIndex].title = title;
 
-    update({ selectedSong });
+    update({ collections, selectedSong });
   }
 };
 
@@ -182,6 +198,23 @@ export const updatePhraserSongPartNameRecipe = (
 
     selectedSong.dirty = true;
     selectedSong.parts[partIndex].name = name;
+
+    update({ selectedSong });
+  }
+};
+
+export const addPhraserSongPartRhymeRecipe = (
+  _: null,
+  { template, destination }: AddPhraserSongPartRhymePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const rhymes: Rhyme[] = createRhymesByTemplate(template);
+    const partIndex = selectedSong.parts.findIndex(p => p.id === destination.droppableId);
+
+    selectedSong.dirty = true;
+    selectedSong.parts[partIndex].rhymes.splice(destination.index, 0, ...rhymes);
 
     update({ selectedSong });
   }
@@ -248,5 +281,6 @@ on(ACTION.deletePhraserSongPart, deletePhraserSongPartRecipe);
 
 // Song Rhyme Manipulation
 on(ACTION.updatePhraserSongPartName, updatePhraserSongPartNameRecipe);
+on(ACTION.addPhraserSongPartRhyme, addPhraserSongPartRhymeRecipe);
 on(ACTION.reorderPhraserSongPartRhyme, reorderPhraserSongPartRhymeRecipe);
 on(ACTION.movePhraserSongPartRhyme, movePhraserSongPartRhymeRecipe);
