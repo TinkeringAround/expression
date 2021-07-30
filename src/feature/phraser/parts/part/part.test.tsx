@@ -4,7 +4,6 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
 
 import { Part } from '../../../../store/phraser/types';
-import { toName } from '../../../../lib/rhyme';
 
 import SongPart from './index';
 
@@ -103,8 +102,6 @@ describe('SongPart', () => {
       });
     }
 
-    rhymes.forEach(r => {
-      expect(screen.getByText(toName(r.pattern))).toBeInTheDocument();
-    });
+    expect(document.querySelectorAll('.editor').length).toBe(rhymes.length);
   });
 });

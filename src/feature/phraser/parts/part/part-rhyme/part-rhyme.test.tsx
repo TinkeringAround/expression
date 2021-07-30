@@ -3,7 +3,6 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Rhyme } from '../../../../../store/phraser/types';
-import { toName } from '../../../../../lib/rhyme';
 
 import PartRhyme from './index';
 
@@ -23,7 +22,6 @@ describe('PartRhyme', () => {
     const rhyme = getRhymeMock();
     render(PartRhymeInApp(rhyme));
 
-    expect(screen.getByText(toName(rhyme.pattern))).toBeInTheDocument();
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 

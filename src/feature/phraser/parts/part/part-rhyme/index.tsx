@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { Rhyme } from '../../../../../store/phraser/types';
-import { toName, highlightVocals } from '../../../../../lib/rhyme';
+import { highlightVocals } from '../../../../../lib/rhyme';
 import { useRefCallback } from '../../../../../hook/useRefCallback';
 
 import For from '../../../../../component/for';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 export const RHYME_HEIGHT = 'calc(100px + 6.25rem)';
+const PLACEHOLDER = 'Type in Rhyme here...';
 
 const PartRhyme: FC<Props> = ({ rhyme, index }) => {
   const { ref: highlightArea, setRef } = useRefCallback();
@@ -44,11 +45,12 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
     <Draggable draggableId={rhyme.id} index={index}>
       {({ innerRef, draggableProps, dragHandleProps }) => (
         <SRhyme ref={innerRef} {...draggableProps} {...dragHandleProps}>
-          <div className="pattern">{toName(rhyme.pattern)}</div>
+          <div className="pattern">Controls...</div>
           <div className="editor">
             <textarea
               rows={4}
               spellCheck={false}
+              placeholder={PLACEHOLDER}
               value={currentValue}
               onChange={onChange}
               onScroll={onScroll}
