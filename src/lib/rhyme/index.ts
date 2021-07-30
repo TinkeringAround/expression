@@ -1,5 +1,11 @@
-import { Pattern } from '../../store/phraser/types';
+import { HighlightedLine, Pattern, Rhyme, Template } from '../../store/phraser/types';
+import { generateId } from '../util';
 
+/**
+ * Transforms a pattern to a printable string
+ * @param pattern the pattern to transform
+ * @returns {string}
+ */
 export const toName = (pattern: Pattern): string => {
   switch (pattern) {
     case Pattern.NONE:
@@ -11,7 +17,63 @@ export const toName = (pattern: Pattern): string => {
   }
 };
 
-export const highlightVocals = (line: string) => {
+/**
+ * Transforms a template key to the Template enum value
+ * @param value the template key
+ * @returns {Template}
+ */
+export const toTemplate = (value: string): Template => {
+  const templateIndex = Object.keys(Template).findIndex(templateKey => templateKey === value);
+  return Object.values(Template)[templateIndex];
+};
+
+/**
+ * Rhyme Creation Helper based on different templates
+ * @param template the template
+ * @returns {Rhyme[]}
+ */
+export const createRhymesByTemplate = (template: Template): Rhyme[] => {
+  const createRhyme = () => ({
+    id: generateId(),
+    lines: []
+  });
+
+  switch (template) {
+    case Template.SINGLE:
+      return [createRhyme()];
+    case Template.DOUBLE:
+      return [createRhyme(), createRhyme()];
+    case Template.QUADROUPLE:
+      return [createRhyme(), createRhyme(), createRhyme(), createRhyme()];
+    case Template.SEXTUPLE:
+      return [
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme()
+      ];
+    case Template.OCTUPLE:
+      return [
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme(),
+        createRhyme()
+      ];
+  }
+};
+
+/**
+ * Highlighting Transformer to highlight all vocals in a line
+ * @param line the line the highlighter to transform
+ * @returns {HighlightedLine[]}
+ */
+export const highlightVocals = (line: string): HighlightedLine[] => {
   const vocals = ['a', 'e', 'o', 'u', 'i', 'ä', 'ü', 'ö'];
   const vocalsDict = Object.assign({}, ...vocals.map(c => ({ [c]: c })));
 
