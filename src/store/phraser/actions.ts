@@ -64,6 +64,12 @@ export const updatePhraserSongPartName = (partId: string, name: string) =>
 export const addPhraserSongPartRhyme = (template: Template, destination: DraggableLocation) =>
   trigger(ACTION.addPhraserSongPartRhyme, { template, destination });
 
+export const updatePhraserSongPartRhyme = (rhymeId: string, line: string) =>
+  trigger(ACTION.updatePhraserSongPartRhyme, { rhymeId, line });
+
+export const deletePhraserSongPartRhyme = (rhymeId: string) =>
+  trigger(ACTION.deletePhraserSongPartRhyme, { rhymeId });
+
 export const reorderPhraserSongPartRhyme = (
   source: DraggableLocation,
   destination: DraggableLocation

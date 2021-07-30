@@ -6,6 +6,7 @@ import {
   addPhraserSongPartRhymeRecipe,
   deletePhraserCollectionRecipe,
   deletePhraserSongPartRecipe,
+  deletePhraserSongPartRhymeRecipe,
   movePhraserCollectionSongRecipe,
   movePhraserSongPartRhymeRecipe,
   reorderPhraserCollectionRecipe,
@@ -14,6 +15,7 @@ import {
   selectPhraserSongRecipe,
   updatePhraserCollectionTitleRecipe,
   updatePhraserSongPartNameRecipe,
+  updatePhraserSongPartRhymeRecipe,
   updatePhraserSongTitleRecipe
 } from './reducer';
 import { Template } from './types';
@@ -306,6 +308,62 @@ describe('phraser reducer', () => {
         template: Template.SINGLE,
         destination: { index: 0, droppableId: '1' }
       });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong).toBeNull();
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('updatePhraserSongPartRhymeRecipe', () => {
+    it('should update song part rhyme line when selected song is not null', () => {
+      const line = 'Test\nTest\nTest';
+      const song = getSongMock({
+        parts: [getPartMock({ id: '1', rhymes: [getRhymeMock({ id: '11', lines: [] })] })]
+      });
+      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+
+      updatePhraserSongPartRhymeRecipe(null, { rhymeId: '11', line });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.parts[0].rhymes[0].lines.length).toBe(3);
+      line.split('\n').forEach((lineSplit, index) => {
+        expect(lineSplit).toBe(selectedSong?.parts[0].rhymes[0].lines[index]);
+      });
+    });
+
+    it('should not update song part rhyme line when selected song is null', () => {
+      const updateMock = jest.fn();
+      usePhraser.setState({ selectedSong: null, update: updateMock });
+
+      updatePhraserSongPartRhymeRecipe(null, { rhymeId: '11', line: '' });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong).toBeNull();
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deletePhraserSongPartRhymeRecipe', () => {
+    it('should delete song part rhyme line when selected song is not null', () => {
+      const song = getSongMock({
+        parts: [getPartMock({ id: '1', rhymes: [getRhymeMock({ id: '11' })] })]
+      });
+      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+
+      deletePhraserSongPartRhymeRecipe(null, { rhymeId: '11' });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.parts[0].rhymes.length).toBe(0);
+    });
+
+    it('should not delete song part rhyme line when selected song is null', () => {
+      const updateMock = jest.fn();
+      usePhraser.setState({ selectedSong: null, update: updateMock });
+
+      deletePhraserSongPartRhymeRecipe(null, { rhymeId: '11' });
 
       const { selectedSong } = usePhraser.getState();
       expect(selectedSong).toBeNull();

@@ -13,7 +13,9 @@ import {
   UpdatePhraserSongPartNamePayload,
   DeletePhraserSongPartPayload,
   AddPhraserSongPartRhymePayload,
-  Rhyme
+  Rhyme,
+  UpdatePhraserSongPartRhymePayload,
+  DeletePhraserSongPartRhymePayload
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
@@ -220,6 +222,58 @@ export const addPhraserSongPartRhymeRecipe = (
   }
 };
 
+export const updatePhraserSongPartRhymeRecipe = (
+  _: null,
+  { rhymeId, line }: UpdatePhraserSongPartRhymePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    let partIndex = -1,
+      rhymeIndex = -1;
+    selectedSong.parts.some((part, index) => {
+      rhymeIndex = part.rhymes.findIndex(rhyme => rhyme.id === rhymeId);
+
+      if (rhymeIndex >= 0) {
+        partIndex = index;
+      }
+
+      return rhymeIndex >= 0;
+    });
+
+    selectedSong.dirty = true;
+    selectedSong.parts[partIndex].rhymes[rhymeIndex].lines = line.split('\n');
+
+    update({ selectedSong });
+  }
+};
+
+export const deletePhraserSongPartRhymeRecipe = (
+  _: null,
+  { rhymeId }: DeletePhraserSongPartRhymePayload
+) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    let partIndex = -1,
+      rhymeIndex = -1;
+    selectedSong.parts.some((part, index) => {
+      rhymeIndex = part.rhymes.findIndex(rhyme => rhyme.id === rhymeId);
+
+      if (rhymeIndex >= 0) {
+        partIndex = index;
+      }
+
+      selectedSong.dirty = true;
+      selectedSong.parts[partIndex].rhymes.splice(rhymeIndex, 1);
+
+      update({ selectedSong });
+
+      return rhymeIndex >= 0;
+    });
+  }
+};
+
 export const reorderPhraserSongPartRhymeRecipe = (
   _: null,
   { source, destination }: ReorderPhraserSongPartRhymePayload
@@ -227,12 +281,12 @@ export const reorderPhraserSongPartRhymeRecipe = (
   const { update, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
-    const rhymeIndex = selectedSong.parts.findIndex(p => p.id === source.droppableId);
-    const rhyme = selectedSong.parts[rhymeIndex].rhymes[source.index];
+    const partIndex = selectedSong.parts.findIndex(p => p.id === source.droppableId);
+    const rhyme = selectedSong.parts[partIndex].rhymes[source.index];
 
     selectedSong.dirty = true;
-    selectedSong.parts[rhymeIndex].rhymes.splice(source.index, 1);
-    selectedSong.parts[rhymeIndex].rhymes.splice(destination.index, 0, rhyme);
+    selectedSong.parts[partIndex].rhymes.splice(source.index, 1);
+    selectedSong.parts[partIndex].rhymes.splice(destination.index, 0, rhyme);
 
     update({ selectedSong });
   }
@@ -282,5 +336,7 @@ on(ACTION.deletePhraserSongPart, deletePhraserSongPartRecipe);
 // Song Rhyme Manipulation
 on(ACTION.updatePhraserSongPartName, updatePhraserSongPartNameRecipe);
 on(ACTION.addPhraserSongPartRhyme, addPhraserSongPartRhymeRecipe);
+on(ACTION.updatePhraserSongPartRhyme, updatePhraserSongPartRhymeRecipe);
+on(ACTION.deletePhraserSongPartRhyme, deletePhraserSongPartRhymeRecipe);
 on(ACTION.reorderPhraserSongPartRhyme, reorderPhraserSongPartRhymeRecipe);
 on(ACTION.movePhraserSongPartRhyme, movePhraserSongPartRhymeRecipe);

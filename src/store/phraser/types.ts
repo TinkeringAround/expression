@@ -64,6 +64,10 @@ export interface HasPartId {
   partId: string;
 }
 
+export interface HasRhymeId {
+  rhymeId: string;
+}
+
 export interface HasSource {
   source: DraggableLocation;
 }
@@ -105,6 +109,12 @@ export interface UpdatePhraserSongPartNamePayload extends HasPartId {
 export interface AddPhraserSongPartRhymePayload extends HasDestination {
   template: Template;
 }
+
+export interface UpdatePhraserSongPartRhymePayload extends HasRhymeId {
+  line: string;
+}
+
+export interface DeletePhraserSongPartRhymePayload extends HasRhymeId {}
 
 export interface ReorderPhraserSongPartRhymePayload extends SourceDestination {}
 
