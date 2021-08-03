@@ -29,11 +29,11 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
       const rows = value.split('\n').length;
-      if (value !== currentValue && rows <= 4) {
+      if (rows <= 4) {
         setCurrentValue(value);
       }
     },
-    [currentValue, setCurrentValue]
+    [setCurrentValue]
   );
 
   const updateRhyme = useCallback(() => {
@@ -44,7 +44,7 @@ const PartRhyme: FC<Props> = ({ rhyme, index }) => {
 
   const deleteRhyme = useCallback(() => {
     deletePhraserSongPartRhyme(rhyme.id);
-  }, [rhyme, currentValue]);
+  }, [rhyme]);
 
   const onScroll = useCallback(
     ({ target }: React.UIEvent<HTMLTextAreaElement>) => {

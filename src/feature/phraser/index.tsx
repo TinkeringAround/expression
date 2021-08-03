@@ -1,0 +1,63 @@
+import React, { FC, useCallback } from 'react';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+
+import { usePhraser } from '../../store/phraser';
+import {
+  addPhraserSongPartRhyme,
+  movePhraserSongPartRhyme,
+  reorderPhraserSongPartRhyme
+} from '../../store/phraser/actions';
+import { toTemplate } from '../../lib/rhyme';
+
+import { Grid, GridContent, GridSidepane, GridTabs } from '../../component/grid';
+import If from '../../component/if';
+
+import Collections from './collections';
+import Templates, { TEMPLATES } from './templates';
+import Parts from './parts';
+
+const Phraser: FC = () => {
+  const { selectedSong } = usePhraser();
+
+  const onDrop = useCallback((dropResult: DropResult) => {
+    const { destination, source, draggableId } = dropResult;
+    console.log(dropResult);
+
+    if (destination) {
+      // CASE: ADD Template
+      if (source.droppableId === TEMPLATES && destination.droppableId !== TEMPLATES) {
+        addPhraserSongPartRhyme(toTemplate(draggableId), destination);
+        return;
+      }
+
+      // CASE: REORDER inside a part
+      if (destination.droppableId === source.droppableId) {
+        reorderPhraserSongPartRhyme(source, destination);
+        return;
+      }
+
+      // CASE: Move Rhyme to another Part
+      movePhraserSongPartRhyme(source, destination);
+    }
+  }, []);
+
+  return (
+    <Grid>
+      <GridSidepane minWidth={300} maxWidth={400}>
+        <Collections />
+      </GridSidepane>
+
+      <DragDropContext onDragEnd={onDrop}>
+        <GridContent>
+          <If condition={!!selectedSong}>
+            <Parts />
+          </If>
+        </GridContent>
+
+        <GridTabs tabs={[{ name: 'Templates', component: <Templates /> }]} />
+      </DragDropContext>
+    </Grid>
+  );
+};
+
+export default Phraser;

@@ -19,7 +19,7 @@ const Parts: FC = () => {
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setSongTitle(value);
     },
-    [songTitle, setSongTitle]
+    [setSongTitle]
   );
 
   const updateTitle = useCallback(() => {

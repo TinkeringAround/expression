@@ -36,7 +36,7 @@ const SongPart: FC<Props> = ({ part }) => {
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setPartName(value);
     },
-    [partName, setPartName]
+    [setPartName]
   );
 
   const updatePartName = useCallback(() => {

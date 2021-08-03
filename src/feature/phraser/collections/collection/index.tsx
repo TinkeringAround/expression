@@ -32,7 +32,7 @@ const Collection: FC<Props> = ({ collection: { title, songs, id }, index }) => {
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
       setInputTitle(value);
     },
-    [inputTitle, setInputTitle]
+    [setInputTitle]
   );
 
   const deleteCollection = useCallback(() => {
