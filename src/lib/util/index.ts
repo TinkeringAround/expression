@@ -1,5 +1,6 @@
 import { Features } from '../../features';
 import { v4 } from 'uuid';
+import { Snapshot } from '../../store/phraser/types';
 
 /**
  * Placeholder Type for any void Function
@@ -84,3 +85,12 @@ export const floatsDiffer = (float1: number, float2: number) =>
  * @return {string} the new id
  */
 export const generateId = (): string => v4().toString();
+
+/**
+ * Creates a Snapshot of a provided value
+ * excluding changes and id
+ * @param value
+ */
+export const toSnapshot = <T>(value: T): Snapshot<T> => {
+  return JSON.parse(JSON.stringify({ ...value, id: undefined, changes: undefined }));
+};
