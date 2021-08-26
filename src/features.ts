@@ -7,6 +7,7 @@ export enum Features {
 
 export const FeatureDescription: { [feature: string]: string } = {
   SLICER: 'Listen to Audio Files, Crop them to Slices and Export them easily.',
-  PHRASER: 'Coming soon...',
+  PHRASER:
+    'Write unique Songtexts using Phraser Rhyme Helper, Dictionary, Snippet Management and more.',
   FX: 'Coming soon...'
 };

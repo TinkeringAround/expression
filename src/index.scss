@@ -69,6 +69,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-arrow-double-down:before {
+  content: "\e904";
+}
+
+.icon-arrow-double-up:before {
+  content: "\e905";
+}
+
 .icon-arrow-double-left:before {
   content: "\e902";
 }
@@ -85,6 +93,14 @@ body {
   content: "\e901";
 }
 
+.icon-edit:before {
+  content: "\e906";
+}
+
+.icon-save-disc:before {
+  content: "\e962";
+}
+
 .icon-trash:before {
   content: "\e9ac";
 }
@@ -95,6 +111,14 @@ body {
 
 .icon-upload:before {
   content: "\e9c8";
+}
+
+.icon-plus:before {
+  content: "\ea0a";
+}
+
+.icon-minus:before {
+  content: "\ea0b";
 }
 
 .icon-info:before {
@@ -135,4 +159,8 @@ body {
 
 .icon-last:before {
   content: "\ea22";
+}
+
+.icon-reorder:before {
+  content: "\ea45";
 }

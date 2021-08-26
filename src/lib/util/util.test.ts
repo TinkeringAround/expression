@@ -6,7 +6,9 @@ import {
   asSeconds,
   delay,
   toValidFloat,
-  floatsDiffer
+  floatsDiffer,
+  generateId,
+  toSnapshot
 } from './index';
 
 describe('Utils', () => {
@@ -98,5 +100,21 @@ describe('Utils', () => {
     values.forEach(({ float1, float2 }, index) => {
       expect(floatsDiffer(float1, float2)).toBe(expectedValues[index]);
     });
+  });
+
+  test('generateId', () => {
+    const firstId = generateId(),
+      secondId = generateId();
+
+    expect(firstId).not.toBe(secondId);
+  });
+
+  test('toSnapshot', () => {
+    const value = { id: '1', changes: [], title: 'Test' };
+
+    const snapShot = toSnapshot(value);
+
+    expect(snapShot).toBeTruthy();
+    expect(snapShot.title).toBe('Test');
   });
 });

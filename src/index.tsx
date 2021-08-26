@@ -13,9 +13,11 @@ import Dashboard from './feature/dashboard';
 import Header from './component/header';
 import Content from './component/content';
 import Slicer from './feature/slicer';
+import Phraser from './feature/phraser';
 
 // Store
 import './store';
+import { loadPhraser, updatePhraser } from './store/phraser/actions';
 
 // ==========================================================
 ReactDOM.render(
@@ -30,6 +32,9 @@ ReactDOM.render(
           <Route path={Features.SLICER}>
             <Slicer />
           </Route>
+          <Route path={Features.PHRASER}>
+            <Phraser />
+          </Route>
           <Redirect to={Features.DASHBOARD} />
         </Switch>
       </Content>
@@ -38,3 +43,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 serviceWorker.unregister();
+
+// ==========================================================
+window.addEventListener('load', () => loadPhraser());
+window.addEventListener('beforeunload', () => updatePhraser());

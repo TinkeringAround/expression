@@ -98,8 +98,6 @@ export const SGridTabContent = styled.div`
   width: calc(100% - 2rem);
   height: 100%;
 
-  padding: 0.5rem;
-
   background: ${({ theme: { white } }) => white};
 
   box-sizing: border-box;

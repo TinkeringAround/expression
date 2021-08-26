@@ -73,12 +73,5 @@ export const SDropZoneFile = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .size {
-      display: flex;
-      width: 80%;
-
-      font-size: 0.85rem;
-    }
   }
 `;

@@ -33,15 +33,17 @@ describe('Dashboard', () => {
   });
 
   test('renders all enabled features with correct links', () => {
+    const links = [Features.SLICER, Features.PHRASER];
+
     render(DashboardInApp);
 
     Object.keys(Features)
-      .splice(1, 1) // slicer
-      .forEach(route => {
+      .splice(1, 2) // slicer && phraser
+      .forEach((route, index) => {
         const heading = screen.getByText(route) as HTMLHeadingElement;
         const link = heading.parentElement as HTMLLinkElement;
 
-        expect(link.href).toContain(Features.SLICER);
+        expect(link.href).toContain(links[index]);
         expect(link.classList).not.toContain('disabled');
       });
   });
@@ -50,7 +52,7 @@ describe('Dashboard', () => {
     render(DashboardInApp);
 
     Object.keys(Features)
-      .splice(2, 3) // phraser & fx
+      .splice(3, 1) // fx
       .forEach(route => {
         const heading = screen.getByText(route) as HTMLHeadingElement;
         const link = heading.parentElement as HTMLLinkElement;
