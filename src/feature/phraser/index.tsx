@@ -9,19 +9,21 @@ import {
 } from '../../store/phraser/actions';
 import { toTemplate } from '../../lib/rhyme';
 
+import { HasTestDrop } from '../../mock/components';
+
 import { Grid, GridContent, GridSidepane, GridTabs } from '../../component/grid';
 import If from '../../component/if';
 
 import Collections from './collections';
 import Templates, { TEMPLATES } from './templates';
 import Parts from './parts';
+import Changes from './changes';
 
-const Phraser: FC = () => {
+const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
   const { selectedSong } = usePhraser();
 
   const onDrop = useCallback((dropResult: DropResult) => {
     const { destination, source, draggableId } = dropResult;
-    console.log(dropResult);
 
     if (destination) {
       // CASE: ADD Template
@@ -42,7 +44,7 @@ const Phraser: FC = () => {
   }, []);
 
   return (
-    <Grid>
+    <Grid {...(testDrop ? { onClick: () => onDrop(testDrop) } : {})}>
       <GridSidepane minWidth={300} maxWidth={400}>
         <Collections />
       </GridSidepane>
@@ -54,7 +56,13 @@ const Phraser: FC = () => {
           </If>
         </GridContent>
 
-        <GridTabs tabs={[{ name: 'Templates', component: <Templates /> }]} />
+        <GridTabs
+          tabs={[
+            { name: 'Templates', component: <Templates /> },
+            { name: 'Changes', component: <Changes /> }
+          ]}
+          initialTab={0}
+        />
       </DragDropContext>
     </Grid>
   );

@@ -1,10 +1,10 @@
 import create, { State } from 'zustand';
 
-import { EditableSong, MusicCollection } from './types';
+import { Song, MusicCollection } from './types';
 
 export interface PhraserState extends State {
   readonly collections: MusicCollection[];
-  readonly selectedSong: EditableSong | null;
+  readonly selectedSong: Song | null;
   readonly update: (partial: Partial<PhraserState>) => void;
 }
 

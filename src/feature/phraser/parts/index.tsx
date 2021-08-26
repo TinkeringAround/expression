@@ -1,18 +1,16 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { usePhraser } from '../../../store/phraser';
-import { selectSelectedSongIsDirty } from '../../../store/phraser/selector';
 import { addPhraserSongPart, updatePhraserSongTitle } from '../../../store/phraser/actions';
 
 import For from '../../../component/for';
 import If from '../../../component/if';
 
 import SongPart from './part';
-import { SEdited, SParts } from './styled';
+import { SParts } from './styled';
 
 const Parts: FC = () => {
   const { selectedSong } = usePhraser();
-  const isDirty = usePhraser(selectSelectedSongIsDirty);
   const [songTitle, setSongTitle] = useState<string>(selectedSong?.title ?? '');
 
   const onChange = useCallback(
@@ -47,9 +45,6 @@ const Parts: FC = () => {
             onChange={onChange}
             onBlur={updateTitle}
           />
-          <If condition={isDirty}>
-            <SEdited>DRAFT</SEdited>
-          </If>
         </header>
       </If>
       <For

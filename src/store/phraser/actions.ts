@@ -2,10 +2,44 @@ import { DraggableLocation } from 'react-beautiful-dnd';
 
 import { ACTION } from '../action-types';
 import { Song, Template } from './types';
+import { usePhraser } from './index';
 
-const { trigger } = window.electron;
+const { dispatch, trigger } = window.electron;
 
 // ==============================================================
+export const loadPhraser = () => dispatch(ACTION.loadPhraser);
+
+export const updatePhraser = () => {
+  const { collections, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    let collectionIndex = -1,
+      songIndex = -1;
+
+    collections.some((collection, index) => {
+      collection.songs.some((song, songIdx) => {
+        if (song.id === selectedSong?.id) {
+          songIndex = songIdx;
+        }
+
+        return songIndex >= 0;
+      });
+
+      if (songIndex >= 0) {
+        collectionIndex = index;
+      }
+
+      return collectionIndex >= 0;
+    });
+
+    if (collectionIndex >= 0 && songIndex >= 0) {
+      collections[collectionIndex].songs[songIndex] = selectedSong;
+    }
+  }
+
+  dispatch(ACTION.updatePhraser, { phraser: { collections } });
+};
+
 export const addPhraserCollection = () => trigger(ACTION.addPhraserCollection);
 
 export const reorderPhraserCollection = (

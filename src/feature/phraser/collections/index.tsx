@@ -13,15 +13,11 @@ import For from '../../../component/for';
 import Collection from './collection';
 
 import { SCollectionFooter, SCollections } from './styled';
+import { HasTestDrop } from '../../../mock/components';
 
 const COLLECTION = 'collection';
 
-interface Props {
-  // only for testing purpose as workaround for drag drop
-  testDrop?: DropResult;
-}
-
-const Collections: FC<Props> = ({ testDrop }) => {
+const Collections: FC<HasTestDrop> = ({ testDrop }) => {
   const { collections } = usePhraser();
 
   const addCollection = useCallback(() => {

@@ -37,7 +37,7 @@ describe('Parts', () => {
 
   it('should render song title and add part footer', () => {
     const song = getSongMock();
-    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, dirty: false } }));
+    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, changes: [] } }));
 
     render(PartsInApp);
 
@@ -49,20 +49,11 @@ describe('Parts', () => {
     });
   });
 
-  it('should render draft tag when selected song is dirty', () => {
-    const song = getSongMock();
-    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, dirty: true } }));
-
-    render(PartsInApp);
-
-    expect(screen.getByText('DRAFT')).toBeInTheDocument();
-  });
-
-  it('should add song part and show draft tag when clicked on add part button', () => {
+  it('should add song part when clicked on add part button', () => {
     const song = getSongMock({ parts: [] });
 
     mockElectronTrigger(addPhraserSongPartRecipe);
-    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, dirty: false } }));
+    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, changes: [] } }));
 
     render(PartsInApp);
 
@@ -70,7 +61,6 @@ describe('Parts', () => {
       fireEvent.click(screen.getByText('Add Part'));
     });
 
-    expect(screen.getByText('DRAFT')).toBeInTheDocument();
     expect(screen.getByTitle('UNTITLED')).toBeInTheDocument();
   });
 
@@ -79,7 +69,7 @@ describe('Parts', () => {
     const song = getSongMock({ title: 'title' });
 
     mockElectronTrigger(updatePhraserSongTitleRecipe);
-    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, dirty: false } }));
+    usePhraser.setState(getPhraserMock({ selectedSong: { ...song, changes: [] } }));
 
     render(PartsInApp);
 
@@ -94,8 +84,6 @@ describe('Parts', () => {
     act(() => {
       fireEvent.blur(screen.getByTitle(newTitle));
     });
-
-    expect(screen.getByText('DRAFT')).toBeInTheDocument();
   });
 
   it('should not change song title when song title is unchanged changed', async () => {
@@ -105,7 +93,7 @@ describe('Parts', () => {
 
     mockElectronTrigger(updatePhraserSongTitleRecipe);
     usePhraser.setState(
-      getPhraserMock({ selectedSong: { ...song, dirty: false }, update: updatePhraseSongTitleMock })
+      getPhraserMock({ selectedSong: { ...song, changes: [] }, update: updatePhraseSongTitleMock })
     );
 
     render(PartsInApp);
@@ -114,7 +102,6 @@ describe('Parts', () => {
       fireEvent.blur(screen.getByTitle(title));
     });
 
-    expect(screen.queryByText('DRAFT')).not.toBeInTheDocument();
     expect(updatePhraseSongTitleMock).not.toHaveBeenCalled();
   });
 });

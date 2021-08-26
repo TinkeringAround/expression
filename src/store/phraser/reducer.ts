@@ -15,23 +15,29 @@ import {
   AddPhraserSongPartRhymePayload,
   Rhyme,
   UpdatePhraserSongPartRhymePayload,
-  DeletePhraserSongPartRhymePayload
+  DeletePhraserSongPartRhymePayload,
+  PhraserLoadedPayload
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
 import { createRhymesByTemplate } from '../../lib/rhyme';
+import { withSongChanges } from '../../lib/song';
 
 const { on } = window.electron;
 
 // ==============================================================
+export const loadPhraserRecipe = (_: null, { phraser }: PhraserLoadedPayload) => {
+  const { update } = usePhraser.getState();
+
+  if (phraser.collections) {
+    update({ collections: phraser.collections });
+  }
+};
+
 export const addPhraserCollectionRecipe = (_: null) => {
   const { update, collections } = usePhraser.getState();
 
-  collections.push({
-    id: generateId(),
-    title: 'UNTITLED',
-    songs: []
-  });
+  collections.push({ id: generateId(), title: 'UNTITLED', songs: [] });
 
   update({ collections });
 };
@@ -118,7 +124,8 @@ export const addPhraserCollectionSongRecipe = (
   collections[collectionIndex].songs.push({
     id: generateId(),
     title: 'UNTITLED',
-    parts: []
+    parts: [],
+    changes: []
   });
 
   update({ collections });
@@ -129,10 +136,7 @@ export const selectPhraserSongRecipe = (_: null, { song }: SelectPhraserSongPayl
 
   if (selectedSong?.id !== song.id) {
     update({
-      selectedSong: {
-        ...song,
-        dirty: false
-      }
+      selectedSong: { ...song }
     });
   }
 };
@@ -153,11 +157,10 @@ export const updatePhraserSongTitleRecipe = (_: null, { title }: UpdatePhraserSo
       return songIndex >= 0;
     });
 
-    selectedSong.dirty = true;
     selectedSong.title = title;
     collections[collectionIndex].songs[songIndex].title = title;
 
-    update({ collections, selectedSong });
+    update({ collections, selectedSong: withSongChanges('update', 'title', selectedSong) });
   }
 };
 
@@ -165,14 +168,9 @@ export const addPhraserSongPartRecipe = (_: null) => {
   const { update, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
-    selectedSong.dirty = true;
-    selectedSong.parts.push({
-      id: generateId(),
-      name: 'UNTITLED',
-      rhymes: []
-    });
-
-    update({ selectedSong });
+    selectedSong.parts.push({ id: generateId(), name: 'UNTITLED', rhymes: [] });
+    const withChanges = withSongChanges('add', 'part', selectedSong);
+    update({ selectedSong: withChanges });
   }
 };
 
@@ -182,10 +180,9 @@ export const deletePhraserSongPartRecipe = (_: null, { partId }: DeletePhraserSo
   if (selectedSong) {
     const partIndex = selectedSong.parts.findIndex(p => p.id === partId);
 
-    selectedSong.dirty = true;
     selectedSong.parts.splice(partIndex, 1);
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('remove', 'part', selectedSong) });
   }
 };
 
@@ -197,11 +194,9 @@ export const updatePhraserSongPartNameRecipe = (
 
   if (selectedSong) {
     const partIndex = selectedSong.parts.findIndex(p => p.id === partId);
-
-    selectedSong.dirty = true;
     selectedSong.parts[partIndex].name = name;
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('update', 'part', selectedSong) });
   }
 };
 
@@ -214,11 +209,9 @@ export const addPhraserSongPartRhymeRecipe = (
   if (selectedSong) {
     const rhymes: Rhyme[] = createRhymesByTemplate(template);
     const partIndex = selectedSong.parts.findIndex(p => p.id === destination.droppableId);
-
-    selectedSong.dirty = true;
     selectedSong.parts[partIndex].rhymes.splice(destination.index, 0, ...rhymes);
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('add', 'rhyme', selectedSong) });
   }
 };
 
@@ -241,10 +234,9 @@ export const updatePhraserSongPartRhymeRecipe = (
       return rhymeIndex >= 0;
     });
 
-    selectedSong.dirty = true;
     selectedSong.parts[partIndex].rhymes[rhymeIndex].lines = line.split('\n');
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('update', 'line', selectedSong) });
   }
 };
 
@@ -264,13 +256,12 @@ export const deletePhraserSongPartRhymeRecipe = (
         partIndex = index;
       }
 
-      selectedSong.dirty = true;
-      selectedSong.parts[partIndex].rhymes.splice(rhymeIndex, 1);
-
-      update({ selectedSong });
-
       return rhymeIndex >= 0;
     });
+
+    selectedSong.parts[partIndex].rhymes.splice(rhymeIndex, 1);
+
+    update({ selectedSong: withSongChanges('remove', 'rhyme', selectedSong) });
   }
 };
 
@@ -284,11 +275,10 @@ export const reorderPhraserSongPartRhymeRecipe = (
     const partIndex = selectedSong.parts.findIndex(p => p.id === source.droppableId);
     const rhyme = selectedSong.parts[partIndex].rhymes[source.index];
 
-    selectedSong.dirty = true;
     selectedSong.parts[partIndex].rhymes.splice(source.index, 1);
     selectedSong.parts[partIndex].rhymes.splice(destination.index, 0, rhyme);
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('reorder', 'rhyme', selectedSong) });
   }
 };
 
@@ -305,15 +295,17 @@ export const movePhraserSongPartRhymeRecipe = (
     );
     const rhyme = selectedSong.parts[sourcePartIndex].rhymes[source.index];
 
-    selectedSong.dirty = true;
     selectedSong.parts[sourcePartIndex].rhymes.splice(source.index, 1);
     selectedSong.parts[destinationPartIndex].rhymes.splice(destination.index, 0, rhyme);
 
-    update({ selectedSong });
+    update({ selectedSong: withSongChanges('move', 'rhyme', selectedSong) });
   }
 };
 
 // ==============================================================
+// Phraser Management
+on(ACTION.phraserLoaded, loadPhraserRecipe);
+
 // Collection Management
 on(ACTION.addPhraserCollection, addPhraserCollectionRecipe);
 on(ACTION.reorderPhraserCollection, reorderPhraserCollectionRecipe);

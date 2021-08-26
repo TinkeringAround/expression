@@ -1,4 +1,13 @@
-import { MusicCollection, Part, Rhyme, Song } from '../store/phraser/types';
+import { MusicCollection, Part, Rhyme, Song, SongChange } from '../store/phraser/types';
+import { toSnapshot } from '../lib/util';
+
+export const getSongChangeMock = (songChange?: Partial<SongChange>): SongChange => ({
+  date: '01. Jan 1970',
+  action: 'update',
+  kind: 'title',
+  snapshot: toSnapshot(getSongMock()),
+  ...songChange
+});
 
 export const getRhymeMock = (rhyme?: Partial<Rhyme>): Rhyme => ({
   id: '1111',
@@ -48,6 +57,7 @@ export const getSongMock = (song?: Partial<Song>): Song => ({
       ]
     }
   ],
+  changes: [],
   ...song
 });
 
@@ -122,42 +132,50 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
               }
             ]
           }
-        ]
+        ],
+        changes: []
       },
       {
         id: '12',
         title: 'BiG BRAiNS',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '13',
         title: 'MARiO KART',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '14',
         title: 'HELLA SEXY',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '15',
         title: 'YOUNG, WiLD & TRiLL',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '16',
         title: 'ACH KOMM',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '17',
         title: 'FRiDAY NiGHT',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '18',
         title: 'SATELLiT',
-        parts: []
+        parts: [],
+        changes: []
       }
     ]
   },
@@ -168,22 +186,26 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
       {
         id: '21',
         title: 'Alarm Code Red',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '22',
         title: 'PULL UP',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '23',
         title: '300 Words In A Minute',
-        parts: []
+        parts: [],
+        changes: []
       },
       {
         id: '24',
         title: '$WAG',
-        parts: []
+        parts: [],
+        changes: []
       }
     ]
   },

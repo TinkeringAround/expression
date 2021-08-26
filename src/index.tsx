@@ -17,6 +17,7 @@ import Phraser from './feature/phraser';
 
 // Store
 import './store';
+import { loadPhraser, updatePhraser } from './store/phraser/actions';
 
 // ==========================================================
 ReactDOM.render(
@@ -42,3 +43,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 serviceWorker.unregister();
+
+// ==========================================================
+window.addEventListener('load', () => loadPhraser());
+window.addEventListener('beforeunload', () => updatePhraser());

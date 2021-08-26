@@ -22,28 +22,26 @@ export const TemplateDescriptions = {
   [Template.OCTUPLE]: '8x4 Lines'
 };
 
-export interface MusicCollection {
-  id: string;
+export interface HasId {
+  readonly id: string;
+}
+
+export interface MusicCollection extends HasId {
   title: string;
   songs: Song[];
 }
 
-export interface Song {
-  id: string;
+export interface Song extends HasId, HasChanges {
   title: string;
   parts: Part[];
 }
 
-export interface EditableSong extends Song, HasDirty {}
-
-export interface Part {
-  id: string;
+export interface Part extends HasId {
   name: string;
   rhymes: Rhyme[];
 }
 
-export interface Rhyme {
-  id: string;
+export interface Rhyme extends HasId {
   lines: string[];
 }
 
@@ -52,8 +50,26 @@ export interface HighlightedLine {
   color?: string;
 }
 
-export interface HasDirty {
-  dirty: boolean;
+export interface Diff<T> {
+  from: T;
+  to: T;
+}
+
+export type Snapshot<T> = Omit<T, 'id' | 'changes'>;
+
+export type SongChangeAction = 'add' | 'update' | 'remove' | 'reorder' | 'move';
+
+export type SongElementKind = 'title' | 'part' | 'rhyme' | 'line';
+
+export interface SongChange {
+  action: SongChangeAction;
+  kind: SongElementKind;
+  date: string;
+  snapshot: Snapshot<Song>;
+}
+
+export interface HasChanges {
+  changes: SongChange[];
 }
 
 export interface HasCollectionId {
@@ -77,6 +93,12 @@ export interface HasDestination {
 }
 
 export interface SourceDestination extends HasSource, HasDestination {}
+
+export interface PhraserLoadedPayload {
+  phraser: {
+    collections?: MusicCollection[];
+  };
+}
 
 export interface ReorderPhraserCollectionRecipe extends SourceDestination {}
 

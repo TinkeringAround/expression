@@ -17,6 +17,7 @@ import { AppMock } from '../../../mock/components';
 import { getPhraserMock } from '../../../mock/store';
 import { mockElectronTrigger } from '../../../mock/electron';
 import { getCollectionMock, getSongMock } from '../../../mock/collection';
+import { getDropResultMock } from '../../../mock/window';
 
 describe('Collections', () => {
   const CollectionsInApp = (testDrop?: DropResult) => (
@@ -65,14 +66,12 @@ describe('Collections', () => {
     );
 
     render(
-      CollectionsInApp({
-        mode: 'FLUID',
-        type: 'DEFAULT',
-        reason: 'DROP',
-        draggableId: '',
-        source: { droppableId: 'collection', index: 0 }, // id must be 'collection'
-        destination: { droppableId: 'collection', index: 1 } // id must be 'collection'
-      })
+      CollectionsInApp(
+        getDropResultMock({
+          source: { droppableId: 'collection', index: 0 }, // id must be 'collection'
+          destination: { droppableId: 'collection', index: 1 } // id must be 'collection'
+        })
+      )
     );
 
     act(() => {

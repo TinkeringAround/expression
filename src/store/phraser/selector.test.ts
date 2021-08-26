@@ -1,28 +1,48 @@
-import { selectSelectedSongIsDirty } from './selector';
+import { selectSongChangeGroups } from './selector';
 
 import { getPhraserMock } from '../../mock/store';
-import { getSongMock } from '../../mock/collection';
+import { getSongChangeMock, getSongMock } from '../../mock/collection';
 
 describe('phraser selector', () => {
-  describe('selectSelectedSongIsDirty', () => {
-    it('should return false when song is null', () => {
-      const phraserState = getPhraserMock({ selectedSong: null });
+  describe('selectSongChangeGroups', () => {
+    test('should return empty object when selectedSong is null', () => {
+      const songChangeGroups = selectSongChangeGroups(getPhraserMock());
 
-      expect(selectSelectedSongIsDirty(phraserState)).toBeFalsy();
+      expect(songChangeGroups).toEqual({});
     });
 
-    it('should return false when song is not null but dirty is false', () => {
-      const song = getSongMock();
-      const phraserState = getPhraserMock({ selectedSong: { ...song, dirty: false } });
+    test('should return single group when selectedSong changes contain only one change', () => {
+      const songChangeMock = getSongChangeMock();
+      const songChangeGroups = selectSongChangeGroups(
+        getPhraserMock({
+          selectedSong: {
+            ...getSongMock(),
+            changes: [songChangeMock]
+          }
+        })
+      );
 
-      expect(selectSelectedSongIsDirty(phraserState)).toBeFalsy();
+      expect(songChangeGroups).toEqual({
+        [songChangeMock.date]: [songChangeMock]
+      });
     });
 
-    it('should return true when song is not null and dirty is true', () => {
-      const song = getSongMock();
-      const phraserState = getPhraserMock({ selectedSong: { ...song, dirty: true } });
+    test('should return grouped changes when selectedSong contains multiple changes in one day', () => {
+      const firstGroupSongChanges = [getSongChangeMock(), getSongChangeMock()];
+      const secondGroupSongChanges = [getSongChangeMock({ date: '02. Jan 1970' })];
+      const songChangeGroups = selectSongChangeGroups(
+        getPhraserMock({
+          selectedSong: {
+            ...getSongMock(),
+            changes: [...firstGroupSongChanges, ...secondGroupSongChanges]
+          }
+        })
+      );
 
-      expect(selectSelectedSongIsDirty(phraserState)).toBeTruthy();
+      expect(songChangeGroups).toEqual({
+        [getSongChangeMock().date]: firstGroupSongChanges,
+        '02. Jan 1970': secondGroupSongChanges
+      });
     });
   });
 });

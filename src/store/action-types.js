@@ -1,10 +1,6 @@
 const ACTION = Object.freeze({
   updateRoute: '[ROUTE] Update',
 
-  configLoaded: '[CONFIG] Loaded',
-  loadConfig: '[CONFIG] Load',
-  updateConfig: '[CONFIG] Update',
-
   addSlicerFiles: '[SLICER] Add Files',
   removeSlicerFile: '[SLICER] Remove File',
   loadSlicerFile: '[SLICER] Load File',
@@ -16,6 +12,9 @@ const ACTION = Object.freeze({
   slicerFileExported: '[SLICER] Slicer File Exported',
   slicerFileExportCancelled: '[SLICER] Slicer File Export Cancelled',
 
+  loadPhraser: '[PHRASER] Load',
+  phraserLoaded: '[PHRASER] Loaded',
+  updatePhraser: '[PHRASER] Update',
   addPhraserCollection: '[PHRASER] Add Music Collection',
   reorderPhraserCollection: '[PHRASER] Reorder Collection',
   deletePhraserCollection: '[PHRASER] Delete Music Collection',

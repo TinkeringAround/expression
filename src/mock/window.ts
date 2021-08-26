@@ -1,4 +1,5 @@
 import { anyFunction } from '../lib/util';
+import { DropResult } from 'react-beautiful-dnd';
 
 export const mockResizeObserver = () => {
   const observe = jest.fn(),
@@ -92,3 +93,13 @@ export const mockClipBoard = (resolve: boolean = true) => {
 
   return { writeText: writeTextMock };
 };
+
+export const getDropResultMock = (dropResult?: Partial<DropResult>): DropResult => ({
+  mode: 'FLUID',
+  type: 'DEFAULT',
+  reason: 'DROP',
+  draggableId: '',
+  source: { droppableId: '1', index: 0 }, // id must be 'collection'
+  destination: { droppableId: '2', index: 0 }, // id must be 'collection'
+  ...dropResult
+});

@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
 import { noScrollbar } from '../../../scrollbar';
-import { fadeIn } from '../../../animations';
-
-import Tag from '../../../component/tag';
 
 export const SParts = styled.div`
   position: relative;
@@ -95,22 +92,4 @@ export const SParts = styled.div`
       }
     }
   }
-`;
-
-export const SEdited = styled(Tag)`
-  height: 100%;
-  width: 6rem;
-  padding: 1rem;
-
-  font-family: 'Mono', sans-serif;
-  color: ${({ theme: { white } }) => white};
-  background: ${({ theme: { green } }) => green};
-  text-align: center;
-  border-radius: 3px;
-
-  box-sizing: border-box;
-
-  animation: fadeIn 0.15s ease-in-out;
-
-  ${fadeIn};
 `;

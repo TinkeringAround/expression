@@ -7,6 +7,7 @@ import {
   deletePhraserCollectionRecipe,
   deletePhraserSongPartRecipe,
   deletePhraserSongPartRhymeRecipe,
+  loadPhraserRecipe,
   movePhraserCollectionSongRecipe,
   movePhraserSongPartRhymeRecipe,
   reorderPhraserCollectionRecipe,
@@ -19,14 +20,52 @@ import {
   updatePhraserSongTitleRecipe
 } from './reducer';
 import { Template } from './types';
+import { toSnapshot } from '../../lib/util';
 
-import { getPhraserMock } from '../../mock/store';
-import { getCollectionMock, getPartMock, getRhymeMock, getSongMock } from '../../mock/collection';
+import {
+  getCollectionMock,
+  getCompleteCollectionsMock,
+  getPartMock,
+  getRhymeMock,
+  getSongMock
+} from '../../mock/collection';
+import { toDate } from '../../lib/time';
 
 describe('phraser reducer', () => {
+  const initialPhraserState = usePhraser.getState();
+
+  describe('loadPhraserRecipe', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should update collections when collections are not undefined', () => {
+      loadPhraserRecipe(null, {
+        phraser: {
+          collections: getCompleteCollectionsMock()
+        }
+      });
+
+      expect(usePhraser.getState().collections).toEqual(getCompleteCollectionsMock());
+    });
+
+    test('should not update collections when no collections are provided', () => {
+      const updateMock = jest.fn();
+      usePhraser.setState({ update: updateMock });
+
+      loadPhraserRecipe(null, { phraser: {} });
+
+      expect(updateMock).not.toHaveBeenCalled();
+    });
+  });
+
   describe('addPhraserCollectionRecipe', () => {
-    it('should add new collection to state', () => {
-      usePhraser.setState(getPhraserMock({ collections: [] }));
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should add new collection to state', () => {
+      usePhraser.setState({ collections: [] });
 
       addPhraserCollectionRecipe(null);
 
@@ -39,7 +78,11 @@ describe('phraser reducer', () => {
   });
 
   describe('reorderPhraserCollectionRecipe', () => {
-    it('should not reorder when order has not changed', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should not reorder when order has not changed', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ update: updateMock });
 
@@ -51,7 +94,7 @@ describe('phraser reducer', () => {
       expect(updateMock).not.toHaveBeenCalled();
     });
 
-    it('should reorder collections when order has changed', () => {
+    test('should reorder collections when order has changed', () => {
       const firstCollection = getCollectionMock({ id: '1' });
       const secondCollection = getCollectionMock({ id: '2' });
       usePhraser.setState({
@@ -69,7 +112,11 @@ describe('phraser reducer', () => {
   });
 
   describe('deletePhraserCollectionRecipe', () => {
-    it('should delete a collection', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should delete a collection', () => {
       const collection = getCollectionMock();
       usePhraser.setState({ collections: [collection] });
       expect(usePhraser.getState().collections.length).toBe(1);
@@ -81,7 +128,11 @@ describe('phraser reducer', () => {
   });
 
   describe('updatePhraserCollectionTitleRecipe', () => {
-    it('should update collection title when title differs', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should update collection title when title differs', () => {
       const collection = getCollectionMock({ title: 'title' });
       const newTitle = 'new-title';
       usePhraser.setState({ collections: [collection] });
@@ -92,7 +143,7 @@ describe('phraser reducer', () => {
       expect(collectionWithChangedTitle.title).toBe(newTitle);
     });
 
-    it('should not update collection title when title does not differs', () => {
+    test('should not update collection title when title does not differs', () => {
       const title = 'title';
       const collection = getCollectionMock({ title });
       const updateMock = jest.fn();
@@ -104,8 +155,12 @@ describe('phraser reducer', () => {
     });
   });
 
-  describe('updatePhraserCollectionTitleRecipe', () => {
-    it('should reorder songs inside a collection', () => {
+  describe('reorderPhraserCollectionSongsRecipe', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should reorder songs inside a collection', () => {
       const firstSong = getSongMock({ id: '11' });
       const secondSong = getSongMock({ id: '12' });
       const collection = getCollectionMock({ id: '1', songs: [firstSong, secondSong] });
@@ -123,7 +178,11 @@ describe('phraser reducer', () => {
   });
 
   describe('movePhraserCollectionSongRecipe', () => {
-    it('should move a song from one collectiont to anther', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should move a song from one collectiont to anther', () => {
       const song = getSongMock();
       const firstCollection = getCollectionMock({ id: '1', songs: [song] });
       const secondCollection = getCollectionMock({ id: '2', songs: [] });
@@ -144,7 +203,11 @@ describe('phraser reducer', () => {
   });
 
   describe('addPhraserCollectionSongRecipe', () => {
-    it('should add song to a collection', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should add song to a collection', () => {
       const collection = getCollectionMock({ id: '1', songs: [] });
       usePhraser.setState({ collections: [collection] });
 
@@ -157,27 +220,27 @@ describe('phraser reducer', () => {
   });
 
   describe('selectPhraserSongRecipe', () => {
-    it('should select song when ids differ', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should select song when ids differ', () => {
       const song = getSongMock({ id: '1' });
       const updateMock = jest.fn();
-      usePhraser.setState(
-        getPhraserMock({
-          update: updateMock,
-          selectedSong: { ...song, id: '2', dirty: false }
-        })
-      );
+      usePhraser.setState({
+        update: updateMock,
+        selectedSong: { ...song, id: '2', changes: [] }
+      });
 
       selectPhraserSongRecipe(null, { song });
 
-      expect(updateMock).toHaveBeenCalledWith({ selectedSong: { ...song, dirty: false } });
+      expect(updateMock).toHaveBeenCalledWith({ selectedSong: { ...song, changes: [] } });
     });
 
-    it('should not select song when song is selected yet', () => {
+    test('should not select song when song is selected yet', () => {
       const song = getSongMock();
       const updateMock = jest.fn();
-      usePhraser.setState(
-        getPhraserMock({ selectedSong: { ...song, dirty: false }, update: updateMock })
-      );
+      usePhraser.setState({ selectedSong: { ...song, changes: [] }, update: updateMock });
 
       selectPhraserSongRecipe(null, { song });
 
@@ -186,19 +249,38 @@ describe('phraser reducer', () => {
   });
 
   describe('updatePhraserSongTitleRecipe', () => {
-    it('should update song when title when song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should update song title when song is not null', () => {
       const song = getSongMock({ title: 'old-title' });
       const title = 'new-title';
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({
+        collections: [
+          getCollectionMock({
+            id: 'collection',
+            songs: [song]
+          })
+        ],
+        selectedSong: { ...song, changes: [] }
+      });
 
       updatePhraserSongTitleRecipe(null, { title });
 
       const { selectedSong } = usePhraser.getState();
       expect(selectedSong?.title).toBe(title);
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes).toEqual([
+        {
+          action: 'update',
+          kind: 'title',
+          date: toDate(Date.now()),
+          snapshot: toSnapshot({ ...song, title })
+        }
+      ]);
     });
 
-    it('should ignore update title when selected song is null', () => {
+    test('should ignore update title when selected song is null', () => {
       const title = 'new-title';
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
@@ -212,19 +294,23 @@ describe('phraser reducer', () => {
   });
 
   describe('addPhraserSongPartRecipe', () => {
-    it('should add new part to selected song when song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should add new part to selected song when song is not null', () => {
       const song = getSongMock({ parts: [] });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       addPhraserSongPartRecipe(null);
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
       expect(selectedSong?.parts.length).toBe(1);
       expect(selectedSong?.parts[0].name).toBe('UNTITLED');
+      expect(selectedSong?.changes.length).toBe(1);
     });
 
-    it('should ignore add part to a song when selected song is null', () => {
+    test('should ignore add part to a song when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -237,18 +323,22 @@ describe('phraser reducer', () => {
   });
 
   describe('deletePhraserSongPartRecipe', () => {
-    it('should delete a part when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should delete a part when selected song is not null', () => {
       const song = getSongMock({ parts: [getPartMock({ id: '11' })] });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       deletePhraserSongPartRecipe(null, { partId: '11' });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts.length).toBe(0);
     });
 
-    it('should ignore deleting a part when selected song is null', () => {
+    test('should ignore deleting a part when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -261,19 +351,23 @@ describe('phraser reducer', () => {
   });
 
   describe('updatePhraserSongPartNameRecipe', () => {
-    it('should update song part name when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should update song part name when selected song is not null', () => {
       const song = getSongMock({ parts: [getPartMock({ id: '11', name: 'old-name' })] });
       const name = 'new-name';
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       updatePhraserSongPartNameRecipe(null, { partId: '11', name });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].name).toBe(name);
     });
 
-    it('should ignore updating a part name when selected song is null', () => {
+    test('should ignore updating a part name when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -286,9 +380,13 @@ describe('phraser reducer', () => {
   });
 
   describe('addPhraserSongPartRhymeRecipe', () => {
-    it('should add rhymes according to template when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should add rhymes according to template when selected song is not null', () => {
       const song = getSongMock({ parts: [getPartMock({ id: '1', rhymes: [] })] });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       addPhraserSongPartRhymeRecipe(null, {
         template: Template.SINGLE,
@@ -296,11 +394,11 @@ describe('phraser reducer', () => {
       });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].rhymes.length).toBe(1);
     });
 
-    it('should ignore adding according to template when selected song is null', () => {
+    test('should ignore adding according to template when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -316,24 +414,28 @@ describe('phraser reducer', () => {
   });
 
   describe('updatePhraserSongPartRhymeRecipe', () => {
-    it('should update song part rhyme line when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should update song part rhyme line when selected song is not null', () => {
       const line = 'Test\nTest\nTest';
       const song = getSongMock({
         parts: [getPartMock({ id: '1', rhymes: [getRhymeMock({ id: '11', lines: [] })] })]
       });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       updatePhraserSongPartRhymeRecipe(null, { rhymeId: '11', line });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].rhymes[0].lines.length).toBe(3);
       line.split('\n').forEach((lineSplit, index) => {
         expect(lineSplit).toBe(selectedSong?.parts[0].rhymes[0].lines[index]);
       });
     });
 
-    it('should not update song part rhyme line when selected song is null', () => {
+    test('should not update song part rhyme line when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -346,20 +448,24 @@ describe('phraser reducer', () => {
   });
 
   describe('deletePhraserSongPartRhymeRecipe', () => {
-    it('should delete song part rhyme line when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should delete song part rhyme line when selected song is not null', () => {
       const song = getSongMock({
         parts: [getPartMock({ id: '1', rhymes: [getRhymeMock({ id: '11' })] })]
       });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       deletePhraserSongPartRhymeRecipe(null, { rhymeId: '11' });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].rhymes.length).toBe(0);
     });
 
-    it('should not delete song part rhyme line when selected song is null', () => {
+    test('should not delete song part rhyme line when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -372,7 +478,11 @@ describe('phraser reducer', () => {
   });
 
   describe('reorderPhraserSongPartRecipe', () => {
-    it('should reorder song part rhyme when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should reorder song part rhyme when selected song is not null', () => {
       const song = getSongMock({
         parts: [
           getPartMock({
@@ -381,7 +491,7 @@ describe('phraser reducer', () => {
           })
         ]
       });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       reorderPhraserSongPartRhymeRecipe(null, {
         source: { index: 0, droppableId: '11' },
@@ -389,11 +499,11 @@ describe('phraser reducer', () => {
       });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].rhymes[0].id).toBe('112');
     });
 
-    it('should ignore reordering part rhymes when selected song is null', () => {
+    test('should ignore reordering part rhymes when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
@@ -409,7 +519,11 @@ describe('phraser reducer', () => {
   });
 
   describe('movePhraserSongPartRhymeRecipe', () => {
-    it('should move song part rhyme when selected song is not null', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should move song part rhyme when selected song is not null', () => {
       const song = getSongMock({
         parts: [
           getPartMock({
@@ -422,7 +536,7 @@ describe('phraser reducer', () => {
           })
         ]
       });
-      usePhraser.setState({ selectedSong: { ...song, dirty: false } });
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       movePhraserSongPartRhymeRecipe(null, {
         source: { index: 0, droppableId: '11' },
@@ -430,13 +544,13 @@ describe('phraser reducer', () => {
       });
 
       const { selectedSong } = usePhraser.getState();
-      expect(selectedSong?.dirty).toBeTruthy();
+      expect(selectedSong?.changes.length).toBe(1);
       expect(selectedSong?.parts[0].rhymes.length).toBe(0);
       expect(selectedSong?.parts[1].rhymes.length).toBe(2);
       expect(selectedSong?.parts[1].rhymes[1].id).toBe('111');
     });
 
-    it('should ignore moving part rhymes when selected song is null', () => {
+    test('should ignore moving part rhymes when selected song is null', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
