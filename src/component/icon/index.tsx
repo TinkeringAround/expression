@@ -31,6 +31,10 @@ export type IconType =
   | 'trash'
   | 'foreward'
   | 'backward'
+  | 'edit'
+  | 'plus'
+  | 'minus'
+  | 'reorder'
   | NotificationType;
 
 interface Props {

@@ -93,6 +93,10 @@ body {
   content: "\e901";
 }
 
+.icon-edit:before {
+  content: "\e906";
+}
+
 .icon-save-disc:before {
   content: "\e962";
 }
@@ -107,6 +111,14 @@ body {
 
 .icon-upload:before {
   content: "\e9c8";
+}
+
+.icon-plus:before {
+  content: "\ea0a";
+}
+
+.icon-minus:before {
+  content: "\ea0b";
 }
 
 .icon-info:before {
@@ -147,4 +159,8 @@ body {
 
 .icon-last:before {
   content: "\ea22";
+}
+
+.icon-reorder:before {
+  content: "\ea45";
 }
