@@ -33,7 +33,7 @@ export const SRhyme = styled.div`
       top: 0;
       right: 0;
 
-      font-size: 1rem;
+      font-size: 1.25rem;
 
       transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
 

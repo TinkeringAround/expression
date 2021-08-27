@@ -4,6 +4,11 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect';
 
 import { usePhraser } from '../../../store/phraser';
+import {
+  addPhraserSongPartRecipe,
+  deletePhraserCollectionSongRecipe,
+  updatePhraserSongTitleRecipe
+} from '../../../store/phraser/reducer';
 
 import Parts from './index';
 
@@ -11,10 +16,6 @@ import { AppMock } from '../../../mock/components';
 import { getPhraserMock } from '../../../mock/store';
 import { getSongMock } from '../../../mock/collection';
 import { mockElectronTrigger } from '../../../mock/electron';
-import {
-  addPhraserSongPartRecipe,
-  updatePhraserSongTitleRecipe
-} from '../../../store/phraser/reducer';
 
 describe('Parts', () => {
   const PartsInApp = (
@@ -25,17 +26,19 @@ describe('Parts', () => {
     </AppMock>
   );
 
+  const initialPhraseState = getPhraserMock();
+
   beforeEach(() => {
-    usePhraser.setState(getPhraserMock());
+    usePhraser.setState(initialPhraseState);
   });
 
-  it('should render only footer when selected song is null', () => {
+  test('should render only footer when selected song is null', () => {
     render(PartsInApp);
 
     expect(screen.getByText('Add Part')).toBeInTheDocument();
   });
 
-  it('should render song title and add part footer', () => {
+  test('should render song title and add part footer', () => {
     const song = getSongMock();
     usePhraser.setState(getPhraserMock({ selectedSong: { ...song, changes: [] } }));
 
@@ -49,7 +52,7 @@ describe('Parts', () => {
     });
   });
 
-  it('should add song part when clicked on add part button', () => {
+  test('should add song part when clicked on add part button', () => {
     const song = getSongMock({ parts: [] });
 
     mockElectronTrigger(addPhraserSongPartRecipe);
@@ -64,7 +67,7 @@ describe('Parts', () => {
     expect(screen.getByTitle('UNTITLED')).toBeInTheDocument();
   });
 
-  it('should change song title when song title is changed', async () => {
+  test('should change song title when song title is changed', async () => {
     const newTitle = 'new-title';
     const song = getSongMock({ title: 'title' });
 
@@ -86,7 +89,7 @@ describe('Parts', () => {
     });
   });
 
-  it('should not change song title when song title is unchanged changed', async () => {
+  test('should not change song title when song title is unchanged changed', async () => {
     const title = 'title';
     const updatePhraseSongTitleMock = jest.fn();
     const song = getSongMock({ title });
@@ -103,5 +106,82 @@ describe('Parts', () => {
     });
 
     expect(updatePhraseSongTitleMock).not.toHaveBeenCalled();
+  });
+
+  test('should delete part when confirm deletion via confirmation dialog', async () => {
+    const updateMock = jest.fn();
+    const song = getSongMock();
+
+    mockElectronTrigger(deletePhraserCollectionSongRecipe);
+    usePhraser.setState(
+      getPhraserMock({
+        collections: [
+          {
+            id: '1',
+            title: '1',
+            songs: [song]
+          }
+        ],
+        selectedSong: { ...song, changes: [] },
+        update: updateMock
+      })
+    );
+
+    render(PartsInApp);
+
+    const trashIcon = document.querySelector('.icon-trash');
+    if (trashIcon) {
+      act(() => {
+        fireEvent.click(trashIcon);
+      });
+    }
+
+    await waitFor(() => {
+      expect(screen.getByText('Confirm')).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText('Confirm'));
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Confirm')).not.toBeInTheDocument();
+    });
+
+    expect(updateMock).toHaveBeenCalledWith({
+      collections: [{ id: '1', title: '1', songs: [] }],
+      selectedSong: null
+    });
+  });
+
+  test('should delete part when confirm deletion via confirmation dialog', async () => {
+    const song = getSongMock();
+
+    usePhraser.setState(
+      getPhraserMock({
+        selectedSong: { ...song, changes: [] }
+      })
+    );
+
+    render(PartsInApp);
+
+    const trashIcon = document.querySelector('.icon-trash');
+    if (trashIcon) {
+      act(() => {
+        fireEvent.click(trashIcon);
+      });
+    }
+
+    await waitFor(() => {
+      expect(screen.getByText('Confirm')).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByTitle('Cancel'));
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Confirm')).not.toBeInTheDocument();
+    });
   });
 });

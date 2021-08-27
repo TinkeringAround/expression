@@ -58,6 +58,16 @@ export const SParts = styled.div`
         border: 3px solid ${({ theme: { yellow } }) => yellow};
       }
     }
+
+    .icon {
+      font-size: 1.75rem;
+
+      transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
+
+      &:hover {
+        color: ${({ theme: { yellow } }) => yellow};
+      }
+    }
   }
 
   footer {

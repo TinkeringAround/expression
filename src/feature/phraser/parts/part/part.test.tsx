@@ -21,10 +21,10 @@ describe('SongPart', () => {
   );
 
   it('should render icons and song title', () => {
-    const part = getPartMock();
+    const part = getPartMock({ rhymes: [] });
     render(SongPartInApp(part));
 
-    const toggleIcon = document.querySelector('.icon-arrow-double-down');
+    const toggleIcon = document.querySelector('.icon-arrow-double-up');
     const deleteIcon = document.querySelector('.icon-trash');
     const textArea = screen.getByRole('textbox');
 
@@ -35,7 +35,7 @@ describe('SongPart', () => {
 
   it('should update song part name when song part name is changed', async () => {
     const partTitle = 'new-title';
-    const part = getPartMock();
+    const part = getPartMock({ rhymes: [] });
     const updatePhraserSongPartNameMock = jest.fn();
 
     mockElectronTrigger(updatePhraserSongPartNameMock);
@@ -60,7 +60,7 @@ describe('SongPart', () => {
   });
 
   it('should not update song part name when song part name does not differ', () => {
-    const part = getPartMock();
+    const part = getPartMock({ rhymes: [] });
     const updatePhraserSongPartNameMock = jest.fn();
 
     mockElectronTrigger(updatePhraserSongPartNameMock);
@@ -89,18 +89,32 @@ describe('SongPart', () => {
     });
   });
 
-  it('should render rhymes when song part is expanded', () => {
-    const part = getPartMock();
-    const { rhymes } = part;
+  test('should collapse part when click on toggle button', () => {
+    const part = getPartMock({
+      rhymes: [
+        {
+          id: '1',
+          lines: ['line']
+        }
+      ]
+    });
     render(SongPartInApp(part));
 
-    const toggleIcon = document.querySelector('.icon-arrow-double-down');
+    const toggleIcon = document.querySelector('.icon-arrow-double-up');
 
     if (toggleIcon) {
       act(() => {
         fireEvent.click(toggleIcon);
       });
     }
+
+    expect(screen.queryByText('line')).not.toBeInTheDocument();
+  });
+
+  it('should render rhymes when song part is expanded', () => {
+    const part = getPartMock();
+    const { rhymes } = part;
+    render(SongPartInApp(part));
 
     expect(document.querySelectorAll('.editor').length).toBe(rhymes.length);
   });

@@ -52,7 +52,7 @@ describe('Collection', () => {
     expect(screen.getByText(/Add Song/)).toBeInTheDocument();
   });
 
-  it('should delete collection when clicked on delete button', () => {
+  test('should delete collection when clicked on delete icon and confirmation', async () => {
     const deletePhraserCollectionMock = jest.fn();
     mockElectronTrigger(deletePhraserCollectionMock);
     render(CollectionInApp(collection));
@@ -65,10 +65,41 @@ describe('Collection', () => {
       });
     }
 
-    expect(deletePhraserCollectionMock).toHaveBeenCalledWith(null, { collectionId: collection.id });
+    await waitFor(() => {
+      expect(screen.getByText('Confirm')).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText('Confirm'));
+    });
+
+    await waitFor(() => {
+      expect(deletePhraserCollectionMock).toHaveBeenCalledWith(null, {
+        collectionId: collection.id
+      });
+    });
   });
 
-  it('should update collection name when input value changes and focus is lost', async () => {
+  test('should cancel collection deletion when clicked on delete icon and cancel in confirmation dialog', async () => {
+    render(CollectionInApp(collection));
+
+    const deleteButton = document.querySelector('.icon-trash');
+    if (deleteButton) {
+      act(() => {
+        fireEvent.click(deleteButton);
+      });
+    }
+
+    await waitFor(() => {
+      expect(screen.getByText('Confirm')).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByTitle('Cancel'));
+    });
+  });
+
+  test('should update collection name when input value changes and focus is lost', async () => {
     const title = 'new-title';
     const updatePhraserCollectionTitleMock = jest.fn();
     mockElectronTrigger(updatePhraserCollectionTitleMock);
@@ -103,7 +134,7 @@ describe('Collection', () => {
       });
     });
 
-    it('should add song to collection when clicked on add song button', () => {
+    test('should add song to collection when clicked on add song button', () => {
       const addPhraserCollectionSongMock = jest.fn();
       mockElectronTrigger(addPhraserCollectionSongMock);
 

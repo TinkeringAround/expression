@@ -21,7 +21,7 @@ interface Props {
 const BASE_HEIGHT = 'calc(6px + 6.5rem)';
 
 const SongPart: FC<Props> = ({ part }) => {
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(true);
   const [partName, setPartName] = useState<string>(part.name);
 
   const toggle = useCallback(() => {

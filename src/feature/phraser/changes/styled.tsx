@@ -41,6 +41,10 @@ export const SChanges = styled.div`
 
     width: 100%;
 
+    &:not(:first-of-type) {
+      margin-top: 1.5rem;
+    }
+
     h2 {
       margin: 0 0 0.25rem;
 
