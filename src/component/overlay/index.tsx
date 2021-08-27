@@ -7,13 +7,17 @@ import { delay } from '../../lib/util';
 import If from '../if';
 
 const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
-  position: absolute;
+  --height: 450px;
+
+  position: fixed;
   top: 30%;
-  left: 30%;
+  left: calc((100% - var(--height)) / 2);
 
-  height: 40%;
-  width: 40%;
+  width: var(--height);
+  height: fit-content;
+  padding: 2rem;
 
+  box-sizing: border-box;
   z-index: ${({ visible }) => (visible ? 100 : -1)};
 
   ${({ leaving }) =>
@@ -31,7 +35,7 @@ const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
     position: relative;
 
     width: 100%;
-    height: 100%;
+    height: inherit;
 
     background: ${({ theme: { white } }) => white};
 

@@ -41,6 +41,10 @@ export const SPart = styled.div`
 
       transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
 
+      &.icon-trash {
+        font-size: 1.5rem;
+      }
+
       &:not(:last-of-type) {
         margin-right: 1rem;
       }

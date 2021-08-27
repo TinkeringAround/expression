@@ -1,10 +1,16 @@
 import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { usePhraser } from '../../../store/phraser';
-import { addPhraserSongPart, updatePhraserSongTitle } from '../../../store/phraser/actions';
+import {
+  addPhraserSongPart,
+  deletePhraserCollectionSong,
+  updatePhraserSongTitle
+} from '../../../store/phraser/actions';
 
 import For from '../../../component/for';
 import If from '../../../component/if';
+import Icon from '../../../component/icon';
+import Confirmation from '../../../component/confirmation';
 
 import SongPart from './part';
 import { SParts } from './styled';
@@ -12,6 +18,7 @@ import { SParts } from './styled';
 const Parts: FC = () => {
   const { selectedSong } = usePhraser();
   const [songTitle, setSongTitle] = useState<string>(selectedSong?.title ?? '');
+  const [confirmation, setConfirmation] = useState(false);
 
   const onChange = useCallback(
     ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +33,18 @@ const Parts: FC = () => {
     }
   }, [selectedSong, songTitle]);
 
+  const requestSongDeletion = useCallback(() => {
+    setConfirmation(true);
+  }, [setConfirmation]);
+
+  const confirmSongDeletion = useCallback(() => {
+    deletePhraserCollectionSong();
+  }, []);
+
+  const cancelSongDeletion = useCallback(() => {
+    setConfirmation(false);
+  }, [setConfirmation]);
+
   const addPart = useCallback(() => {
     addPhraserSongPart();
   }, []);
@@ -36,6 +55,12 @@ const Parts: FC = () => {
 
   return (
     <SParts>
+      <Confirmation
+        visible={confirmation}
+        content="Delete song?"
+        onConfirmation={confirmSongDeletion}
+        onCancel={cancelSongDeletion}
+      />
       <If condition={!!selectedSong}>
         <header>
           <input
@@ -45,6 +70,7 @@ const Parts: FC = () => {
             onChange={onChange}
             onBlur={updateTitle}
           />
+          <Icon iconType="trash" title="Delete Song" onClick={requestSongDeletion} />
         </header>
       </If>
       <For
