@@ -131,6 +131,32 @@ export const addPhraserCollectionSongRecipe = (
   update({ collections });
 };
 
+export const deletePhraserCollectionSongRecipe = (_: null) => {
+  const { update, collections, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    let collectionIndex = -1,
+      songIndex = -1;
+
+    collections.some((collection, index) => {
+      collection.songs.some((song, songIdx) => {
+        if (song.id === selectedSong.id) {
+          collectionIndex = index;
+          songIndex = songIdx;
+        }
+
+        return songIndex >= 0;
+      });
+
+      return collectionIndex >= 0;
+    });
+
+    collections[collectionIndex].songs.splice(songIndex, 1);
+
+    update({ collections, selectedSong: null });
+  }
+};
+
 export const selectPhraserSongRecipe = (_: null, { song }: SelectPhraserSongPayload) => {
   const { update, selectedSong } = usePhraser.getState();
 
@@ -316,6 +342,7 @@ on(ACTION.updatePhraserCollectionTitle, updatePhraserCollectionTitleRecipe);
 on(ACTION.reorderPhraserCollectionSongs, reorderPhraserCollectionSongsRecipe);
 on(ACTION.movePhraserCollectionSong, movePhraserCollectionSongRecipe);
 on(ACTION.addPhraserCollectionSong, addPhraserCollectionSongRecipe);
+on(ACTION.deletePhraserCollectionSong, deletePhraserCollectionSongRecipe);
 
 // Song Management
 on(ACTION.selectPhraserSong, selectPhraserSongRecipe);

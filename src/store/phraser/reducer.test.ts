@@ -5,6 +5,7 @@ import {
   addPhraserSongPartRecipe,
   addPhraserSongPartRhymeRecipe,
   deletePhraserCollectionRecipe,
+  deletePhraserCollectionSongRecipe,
   deletePhraserSongPartRecipe,
   deletePhraserSongPartRhymeRecipe,
   loadPhraserRecipe,
@@ -74,6 +75,48 @@ describe('phraser reducer', () => {
       const collection = usePhraser.getState().collections[0];
       expect(collection.title).toBe('UNTITLED');
       expect(collection.songs.length).toBe(0);
+    });
+  });
+
+  describe('addPhraserCollectionSongRecipe', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should delete selectedSong in collection when selectedSong is not null', () => {
+      const song = getSongMock();
+      const collection = getCollectionMock({ songs: [song] });
+      usePhraser.setState({ collections: [collection], selectedSong: song });
+
+      deletePhraserCollectionSongRecipe(null);
+
+      const { collections, selectedSong } = usePhraser.getState();
+      expect(selectedSong).toBeNull();
+      expect(collections[0].songs.length).toBe(0);
+    });
+
+    test('should delete right collection song when selectedSong is not null', () => {
+      const firstSong = getSongMock({ id: '1' });
+      const secondSong = getSongMock({ id: '2' });
+      const collection = getCollectionMock({ songs: [secondSong, firstSong] });
+      usePhraser.setState({ collections: [collection], selectedSong: firstSong });
+
+      deletePhraserCollectionSongRecipe(null);
+
+      const { collections, selectedSong } = usePhraser.getState();
+      expect(selectedSong).toBeNull();
+      expect(collections[0].songs.length).toBe(1);
+      expect(collections[0].songs[0].id).toBe(secondSong.id);
+    });
+
+    test('should not delete collection song when selectedSong is null', () => {
+      const collection = getCollectionMock();
+      const updateMock = jest.fn();
+      usePhraser.setState({ collections: [collection], update: updateMock });
+
+      deletePhraserCollectionSongRecipe(null);
+
+      expect(updateMock).not.toHaveBeenCalled();
     });
   });
 

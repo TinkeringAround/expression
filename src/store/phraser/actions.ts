@@ -79,6 +79,8 @@ export const movePhraserCollectionSong = (
 export const addPhraserCollectionSong = (collectionId: string) =>
   trigger(ACTION.addPhraserCollectionSong, { collectionId });
 
+export const deletePhraserCollectionSong = () => trigger(ACTION.deletePhraserCollectionSong);
+
 export const selectPhraserSong = (song: Song) => trigger(ACTION.selectPhraserSong, { song });
 
 export const updatePhraserSongTitle = (title: string) =>
