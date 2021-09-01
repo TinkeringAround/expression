@@ -12,6 +12,7 @@ require('./src/audio');
 const { logError } = require('./src/logger');
 const { createWindow } = require('./src/window');
 require('./src/phraser');
+require('./src/snippets');
 require('./src/menu');
 
 // ==============================================================
