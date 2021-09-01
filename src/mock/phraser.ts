@@ -1,5 +1,6 @@
 import { MusicCollection, Part, Rhyme, Song, SongChange } from '../store/phraser/types';
 import { toSnapshot } from '../lib/util';
+import { PhraserState, usePhraser } from '../store/phraser';
 
 export const getSongChangeMock = (songChange?: Partial<SongChange>): SongChange => ({
   date: '01. Jan 1970',
@@ -215,3 +216,13 @@ export const getCompleteCollectionsMock = (): MusicCollection[] => [
     songs: []
   }
 ];
+export const getPhraserMock = (phraserState?: Partial<PhraserState>): PhraserState => {
+  const { update } = usePhraser.getState();
+
+  return {
+    collections: [getCollectionMock()],
+    selectedSong: null,
+    update,
+    ...phraserState
+  } as PhraserState;
+};

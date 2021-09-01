@@ -8,7 +8,7 @@ import { Part } from '../../../../store/phraser/types';
 import SongPart from './index';
 
 import { AppMock } from '../../../../mock/components';
-import { getPartMock } from '../../../../mock/collection';
+import { getPartMock } from '../../../../mock/phraser';
 import { mockElectronTrigger } from '../../../../mock/electron';
 
 describe('SongPart', () => {

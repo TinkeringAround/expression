@@ -7,7 +7,7 @@ import { Rhyme } from '../../../../../store/phraser/types';
 import PartRhyme from './index';
 
 import { AppMock, DragDropDroppableWrapper } from '../../../../../mock/components';
-import { getRhymeMock } from '../../../../../mock/collection';
+import { getRhymeMock } from '../../../../../mock/phraser';
 import { mockElectronTrigger } from '../../../../../mock/electron';
 
 describe('PartRhyme', () => {

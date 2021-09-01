@@ -13,8 +13,7 @@ import {
 import Parts from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getPhraserMock } from '../../../mock/store';
-import { getSongMock } from '../../../mock/collection';
+import { getPhraserMock, getSongMock } from '../../../mock/phraser';
 import { mockElectronTrigger } from '../../../mock/electron';
 
 describe('Parts', () => {

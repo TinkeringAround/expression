@@ -14,9 +14,8 @@ import {
 import Collections from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getPhraserMock } from '../../../mock/store';
 import { mockElectronTrigger } from '../../../mock/electron';
-import { getCollectionMock, getSongMock } from '../../../mock/collection';
+import { getCollectionMock, getPhraserMock, getSongMock } from '../../../mock/phraser';
 import { getDropResultMock } from '../../../mock/window';
 
 describe('Collections', () => {

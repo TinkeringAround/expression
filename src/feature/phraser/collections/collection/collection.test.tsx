@@ -7,7 +7,7 @@ import { MusicCollection } from '../../../../store/phraser/types';
 import Collection from './index';
 
 import { AppMock, DragDropDroppableWrapper } from '../../../../mock/components';
-import { getCollectionMock } from '../../../../mock/collection';
+import { getCollectionMock } from '../../../../mock/phraser';
 import { mockElectronTrigger } from '../../../../mock/electron';
 
 describe('Collection', () => {

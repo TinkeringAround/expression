@@ -1,6 +1,6 @@
 import { Features } from '../../features';
 import { v4 } from 'uuid';
-import { Snapshot } from '../../store/phraser/types';
+import { Snapshot } from '../../store/types';
 
 /**
  * Placeholder Type for any void Function
