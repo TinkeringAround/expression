@@ -7,7 +7,6 @@ import {
   movePhraserSongPartRhyme,
   reorderPhraserSongPartRhyme
 } from '../../store/phraser/actions';
-import { toTemplate } from '../../lib/rhyme';
 
 import { HasTestDrop } from '../../mock/components';
 
@@ -18,6 +17,7 @@ import Collections from './collections';
 import Templates, { TEMPLATES } from './templates';
 import Parts from './parts';
 import Changes from './changes';
+import Snippets, { SNIPPETS } from './snippets';
 
 const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
   const { selectedSong } = usePhraser();
@@ -28,7 +28,13 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
     if (destination) {
       // CASE: ADD Template
       if (source.droppableId === TEMPLATES && destination.droppableId !== TEMPLATES) {
-        addPhraserSongPartRhyme(toTemplate(draggableId), destination);
+        addPhraserSongPartRhyme({ templateId: draggableId }, destination);
+        return;
+      }
+
+      // CASE: Add Snippet
+      if (source.droppableId === SNIPPETS && destination.droppableId !== SNIPPETS) {
+        addPhraserSongPartRhyme({ snippetId: draggableId }, destination);
         return;
       }
 
@@ -59,6 +65,7 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
         <GridTabs
           tabs={[
             { name: 'Templates', component: <Templates /> },
+            { name: 'Snippets', component: <Snippets /> },
             { name: 'Changes', component: <Changes /> }
           ]}
           initialTab={0}

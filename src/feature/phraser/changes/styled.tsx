@@ -1,39 +1,9 @@
 import styled from 'styled-components';
 
+import { SGridTab } from '../../../component/grid/grid-tabs/styled';
 import { noScrollbar } from '../../../scrollbar';
 
-export const SChanges = styled.div`
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-  padding: 0 0 1rem 0;
-
-  background: ${({ theme: { white } }) => white};
-
-  box-sizing: border-box;
-  overflow: hidden auto;
-
-  h1 {
-    position: sticky;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    margin: 0;
-    padding: 2rem 0 1rem 0;
-
-    font-family: 'Mono', sans-serif;
-    font-weight: normal;
-    font-size: 1.5rem;
-    text-align: center;
-    background: ${({ theme: { white } }) => white};
-  }
-
+export const SChanges = styled(SGridTab)`
   section {
     display: flex;
     flex-direction: column;

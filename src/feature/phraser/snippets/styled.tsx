@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 import { SGridTab } from '../../../component/grid/grid-tabs/styled';
+import { noScrollbar } from '../../../scrollbar';
 
-export const STemplates = styled(SGridTab)``;
+export const SSnippets = styled(SGridTab)`
+  ${noScrollbar};
+`;
 
-export const STemplate = styled.div`
+export const SSnippet = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,16 +28,20 @@ export const STemplate = styled.div`
     background: ${({ theme: { yellow } }) => yellow};
   }
 
-  h4 {
-    margin: 0;
-  }
-
   p {
     margin: 0.25rem 0 0;
 
     font-size: 0.8rem;
-    text-align: center;
+    text-align: start;
     color: ${({ theme: { second } }) => second};
+
+    span {
+      display: block;
+
+      &:not(:first-of-type) {
+        margin-top: 0.5rem;
+      }
+    }
   }
 
   &:not(:last-of-type) {
