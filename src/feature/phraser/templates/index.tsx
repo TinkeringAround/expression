@@ -18,7 +18,7 @@ const Templates: FC = () => {
       {({ placeholder, innerRef, droppableProps }) => (
         <STemplates ref={innerRef} {...droppableProps}>
           <h1>Templates</h1>
-          <p>Add Templates of Rhyme blocks to parts of a selected song.</p>
+          <p>Drag Templates of Rhyme blocks to parts of a selected song.</p>
           <For
             values={templates}
             projector={(template, index) => (

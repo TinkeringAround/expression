@@ -48,6 +48,7 @@ export const SDashboard = styled.div`
       right: 0;
 
       margin: 0.5rem 0 0;
+      padding-right: 2rem;
 
       font-size: 1rem;
       font-family: 'Roboto', sans-serif;

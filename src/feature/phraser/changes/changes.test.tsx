@@ -7,8 +7,7 @@ import { usePhraser } from '../../../store/phraser';
 import Changes from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getPhraserMock } from '../../../mock/store';
-import { getSongChangeMock, getSongMock } from '../../../mock/collection';
+import { getPhraserMock, getSongChangeMock, getSongMock } from '../../../mock/phraser';
 
 describe('Changes', () => {
   const ChangesInApp = (

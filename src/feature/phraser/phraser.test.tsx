@@ -4,10 +4,10 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { usePhraser } from '../../store/phraser';
-import { Template } from '../../store/phraser/types';
 
 import Phraser from './index';
 import { TEMPLATES } from './templates';
+import { SNIPPETS } from './snippets';
 
 import { AppMock } from '../../mock/components';
 import { getDropResultMock } from '../../mock/window';
@@ -59,7 +59,34 @@ describe('Phraser', () => {
     });
 
     expect(addPhraserSongPartRhymeMock).toHaveBeenCalledWith(null, {
-      template: Template.SINGLE,
+      templateId: 'SINGLE',
+      snippetId: undefined,
+      destination
+    });
+  });
+
+  test('should add song when template is dropped on part', () => {
+    const addPhraserSongPartRhymeMock = jest.fn();
+    const destination = { index: 0, droppableId: '' };
+    mockElectronTrigger(addPhraserSongPartRhymeMock);
+
+    render(
+      PhraserInApp(
+        getDropResultMock({
+          draggableId: '1',
+          destination,
+          source: { index: 0, droppableId: SNIPPETS }
+        })
+      )
+    );
+
+    act(() => {
+      fireEvent.click(screen.getByText(/Collections/));
+    });
+
+    expect(addPhraserSongPartRhymeMock).toHaveBeenCalledWith(null, {
+      templateId: undefined,
+      snippetId: '1',
       destination
     });
   });

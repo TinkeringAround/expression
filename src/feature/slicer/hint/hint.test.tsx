@@ -6,7 +6,7 @@ import { useSlicer } from '../../../store/slicer';
 
 import Hint from './index';
 
-import { getSlicerStoreMock } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/slicer';
 
 describe('Hint', () => {
   test('should display upload files hint when files is empty', () => {

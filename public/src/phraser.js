@@ -22,7 +22,7 @@ function loadPhraser(event) {
   } catch (error) {
     const errorMsg = `${ACTION.phraserLoaded}, raising ${error}`;
     logError(errorMsg);
-    event.reply(ACTION.phraserLoaded, { config: {}, error: errorMsg });
+    event.reply(ACTION.phraserLoaded, { phraser: {}, error: errorMsg });
   }
 }
 
@@ -32,8 +32,8 @@ function updatePhraser(event, { phraser }) {
 
     if (fs.existsSync(PHRASER_PATH)) fs.unlinkSync(PHRASER_PATH);
 
-    const jsonConfig = JSON.stringify(phraser);
-    fs.writeFileSync(PHRASER_PATH, jsonConfig);
+    const jsonPhraser = JSON.stringify(phraser);
+    fs.writeFileSync(PHRASER_PATH, jsonPhraser);
   } catch (error) {
     const errorMsg = `${ACTION.updatePhraser}, raising ${error}`;
     logError(errorMsg);

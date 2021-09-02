@@ -9,9 +9,8 @@ import { usePhraser } from '../../../../../store/phraser';
 import CollectionSong from './index';
 
 import { AppMock, DragDropDroppableWrapper } from '../../../../../mock/components';
-import { getSongMock } from '../../../../../mock/collection';
+import { getPhraserMock, getSongMock } from '../../../../../mock/phraser';
 import { mockElectronTrigger } from '../../../../../mock/electron';
-import { getPhraserMock } from '../../../../../mock/store';
 
 describe('CollectionSong', () => {
   const song = getSongMock({ id: '1', title: 'song', parts: [] });

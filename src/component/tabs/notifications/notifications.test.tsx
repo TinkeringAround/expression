@@ -7,9 +7,9 @@ import { resetNotificationsRecipe } from '../../../store/notification/reducer';
 
 import Notifications from './index';
 
-import { getNotificationMock, getNotificationStoreMock } from '../../../mock/store';
 import { AppMock } from '../../../mock/components';
 import { mockElectronTrigger } from '../../../mock/electron';
+import { getNotificationMock, getNotificationStoreMock } from '../../../mock/notification';
 
 describe('Notifications', () => {
   const notification = getNotificationMock();

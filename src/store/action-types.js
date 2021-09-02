@@ -36,7 +36,13 @@ const ACTION = Object.freeze({
   movePhraserSongPartRhyme: '[PHRASER] Move Song Part Rhyme',
 
   addNotification: '[NOTIFICATION] Add Notification',
-  resetNotifications: '[NOTIFICATION] Reset Notifications'
+  resetNotifications: '[NOTIFICATION] Reset Notifications',
+
+  loadSnippets: '[SNIPPETS] Load Snippets',
+  snippetsLoaded: '[SNIPPETS] Snippets Loaded',
+  updateSnippets: '[SNIPPETS] Update Snippets',
+  addSnippet: '[SNIPPET] Add Snippet',
+  deleteSnippet: '[SNIPPET] Delete Snippet'
 });
 
 module.exports = {

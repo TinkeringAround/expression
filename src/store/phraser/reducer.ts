@@ -20,14 +20,22 @@ import {
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
-import { createRhymesByTemplate } from '../../lib/rhyme';
+import { createRhymesByTemplate, toTemplate } from '../../lib/rhyme';
 import { withSongChanges } from '../../lib/song';
+import { useNotification } from '../notification';
+import { useSnippet } from '../snippet';
 
 const { on } = window.electron;
 
 // ==============================================================
-export const loadPhraserRecipe = (_: null, { phraser }: PhraserLoadedPayload) => {
+export const phraserLoadedRecipe = (_: null, { phraser, error }: PhraserLoadedPayload) => {
   const { update } = usePhraser.getState();
+
+  if (error) {
+    const { update: updateNotifications, notifications } = useNotification.getState();
+    notifications.push({ type: 'error', content: error });
+    updateNotifications({ notifications });
+  }
 
   if (phraser.collections) {
     update({ collections: phraser.collections });
@@ -228,12 +236,23 @@ export const updatePhraserSongPartNameRecipe = (
 
 export const addPhraserSongPartRhymeRecipe = (
   _: null,
-  { template, destination }: AddPhraserSongPartRhymePayload
+  { templateId, snippetId, destination }: AddPhraserSongPartRhymePayload
 ) => {
   const { update, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
-    const rhymes: Rhyme[] = createRhymesByTemplate(template);
+    const rhymes: Rhyme[] = [];
+
+    if (templateId) {
+      rhymes.push(...createRhymesByTemplate(toTemplate(templateId)));
+    }
+
+    if (snippetId) {
+      const { snippets } = useSnippet.getState();
+      const snippet = snippets.find(snippet => snippet.id === snippetId);
+      rhymes.push({ id: generateId(), lines: snippet?.lines ?? [] });
+    }
+
     const partIndex = selectedSong.parts.findIndex(p => p.id === destination.droppableId);
     selectedSong.parts[partIndex].rhymes.splice(destination.index, 0, ...rhymes);
 
@@ -330,7 +349,7 @@ export const movePhraserSongPartRhymeRecipe = (
 
 // ==============================================================
 // Phraser Management
-on(ACTION.phraserLoaded, loadPhraserRecipe);
+on(ACTION.phraserLoaded, phraserLoadedRecipe);
 
 // Collection Management
 on(ACTION.addPhraserCollection, addPhraserCollectionRecipe);

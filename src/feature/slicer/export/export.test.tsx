@@ -7,7 +7,7 @@ import { useSlicer } from '../../../store/slicer';
 import Export from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getSlicerStoreMock } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/slicer';
 import { mockElectronDispatch } from '../../../mock/electron';
 
 describe('Export', () => {

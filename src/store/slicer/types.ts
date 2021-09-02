@@ -1,5 +1,6 @@
 import { ToneAudioBuffer } from 'tone';
 import { Seconds } from 'tone/build/esm/core/type/Units';
+import { HasError } from '../types';
 
 export type SlicerAudioFile = AudioFile & SlicerAudioFileExtension;
 
@@ -24,10 +25,6 @@ export type AudioFile = {
   path: string;
   size: number;
   type: string;
-};
-
-export type HasError = {
-  error?: string;
 };
 
 export type AddSlicerFilesPayload = {

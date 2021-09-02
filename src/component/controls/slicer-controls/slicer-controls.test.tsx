@@ -9,7 +9,7 @@ import { updateSlicerIsPlaying } from '../../../store/slicer/actions';
 import SlicerControls from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getMockSelection, getSlicerStoreMock } from '../../../mock/store';
+import { getMockSelection, getSlicerStoreMock } from '../../../mock/slicer';
 import { mockElectronTrigger } from '../../../mock/electron';
 import { getAudioFileMock } from '../../../mock/types';
 import { getChannelDataMock } from '../../../mock/audio';

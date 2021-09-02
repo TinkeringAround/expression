@@ -1,7 +1,7 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 import { ACTION } from '../action-types';
-import { Song, Template } from './types';
+import { Song } from './types';
 import { usePhraser } from './index';
 
 const { dispatch, trigger } = window.electron;
@@ -97,8 +97,10 @@ export const updatePhraserSongPartName = (partId: string, name: string) =>
     name
   });
 
-export const addPhraserSongPartRhyme = (template: Template, destination: DraggableLocation) =>
-  trigger(ACTION.addPhraserSongPartRhyme, { template, destination });
+export const addPhraserSongPartRhyme = (
+  { templateId, snippetId }: { templateId?: string; snippetId?: string },
+  destination: DraggableLocation
+) => trigger(ACTION.addPhraserSongPartRhyme, { templateId, snippetId, destination });
 
 export const updatePhraserSongPartRhyme = (rhymeId: string, line: string) =>
   trigger(ACTION.updatePhraserSongPartRhyme, { rhymeId, line });

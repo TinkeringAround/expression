@@ -1,4 +1,5 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
+import { HasError, HasId, Snapshot } from '../types';
 
 export enum Pattern {
   NONE = '',
@@ -21,10 +22,6 @@ export const TemplateDescriptions = {
   [Template.SEXTUPLE]: '6x4 Lines',
   [Template.OCTUPLE]: '8x4 Lines'
 };
-
-export interface HasId {
-  readonly id: string;
-}
 
 export interface MusicCollection extends HasId {
   title: string;
@@ -54,8 +51,6 @@ export interface Diff<T> {
   from: T;
   to: T;
 }
-
-export type Snapshot<T> = Omit<T, 'id' | 'changes'>;
 
 export type SongChangeAction = 'add' | 'update' | 'remove' | 'reorder' | 'move';
 
@@ -94,7 +89,7 @@ export interface HasDestination {
 
 export interface SourceDestination extends HasSource, HasDestination {}
 
-export interface PhraserLoadedPayload {
+export interface PhraserLoadedPayload extends HasError {
   phraser: {
     collections?: MusicCollection[];
   };
@@ -129,7 +124,8 @@ export interface UpdatePhraserSongPartNamePayload extends HasPartId {
 }
 
 export interface AddPhraserSongPartRhymePayload extends HasDestination {
-  template: Template;
+  templateId?: string;
+  snippetId?: string;
 }
 
 export interface UpdatePhraserSongPartRhymePayload extends HasRhymeId {

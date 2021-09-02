@@ -4,7 +4,7 @@ import { Song } from '../../store/phraser/types';
 import { withSongChanges } from './index';
 import { toDate } from '../time';
 
-import { getSongMock } from '../../mock/collection';
+import { getSongMock } from '../../mock/phraser';
 
 describe('song', () => {
   describe('withSongChanges', () => {

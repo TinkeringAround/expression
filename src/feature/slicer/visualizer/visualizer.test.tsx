@@ -10,7 +10,7 @@ import Visualizer from './index';
 
 import { AppMock } from '../../../mock/components';
 import { mockUseClientRect, mockUseDrag } from '../../../mock/hook';
-import { getSlicerStoreMock } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/slicer';
 import { mockElectronTrigger } from '../../../mock/electron';
 
 describe('Visualizer', () => {
