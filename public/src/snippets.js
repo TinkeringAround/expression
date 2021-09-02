@@ -17,12 +17,12 @@ function loadSnippets(event) {
       event.reply(ACTION.snippetsLoaded, { snippets });
     } else {
       logInfo(`${ACTION.snippetsLoaded}, no snippets file found`);
-      event.reply(ACTION.snippetsLoaded, { snippets: {} });
+      event.reply(ACTION.snippetsLoaded, { snippets: [] });
     }
   } catch (error) {
     const errorMsg = `${ACTION.snippetsLoaded}, raising ${error}`;
     logError(errorMsg);
-    event.reply(ACTION.snippetsLoaded, { snippets: {}, error: errorMsg });
+    event.reply(ACTION.snippetsLoaded, { snippets: [], error: errorMsg });
   }
 }
 
