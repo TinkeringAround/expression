@@ -10,7 +10,7 @@ import Drawing from './index';
 import { AppMock } from '../../../../mock/components';
 import { mockProperties, unMockProperties } from '../../../../mock/html';
 import { mockUseClientRect } from '../../../../mock/hook';
-import { getSlicerStoreMock } from '../../../../mock/store';
+import { getSlicerStoreMock } from '../../../../mock/slicer';
 import { mockElectronTrigger } from '../../../../mock/electron';
 
 describe('Drawing', () => {

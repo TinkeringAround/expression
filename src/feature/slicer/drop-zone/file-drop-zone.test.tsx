@@ -9,7 +9,7 @@ import { removeAudioFileTypeFromName } from '../../../lib/audio';
 
 import DropZone from './index';
 
-import { getSlicerStoreMock } from '../../../mock/store';
+import { getSlicerStoreMock } from '../../../mock/slicer';
 import { mockElectronDispatch, mockElectronTrigger } from '../../../mock/electron';
 import { getFileMock } from '../../../mock/types';
 import { AppMock } from '../../../mock/components';

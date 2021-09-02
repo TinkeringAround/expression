@@ -7,7 +7,7 @@ import { useSlicer } from '../../../../store/slicer';
 import Loading from './index';
 
 import { AppMock } from '../../../../mock/components';
-import { getSlicerStoreMock } from '../../../../mock/store';
+import { getSlicerStoreMock } from '../../../../mock/slicer';
 
 describe('Loading', () => {
   const LoadingInApp = (

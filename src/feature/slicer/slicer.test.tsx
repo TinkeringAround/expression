@@ -7,7 +7,7 @@ import { useSlicer } from '../../store/slicer';
 import Slicer from '.';
 
 import { AppMock } from '../../mock/components';
-import { getSlicerStoreMock } from '../../mock/store';
+import { getSlicerStoreMock } from '../../mock/slicer';
 import { mockUseClientRect, mockUseDrag } from '../../mock/hook';
 
 describe('Slicer', () => {

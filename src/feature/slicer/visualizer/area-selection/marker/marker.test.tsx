@@ -8,7 +8,7 @@ import { useSlicer } from '../../../../../store/slicer';
 
 import Marker from './index';
 
-import { getSlicerStoreMock } from '../../../../../mock/store';
+import { getSlicerStoreMock } from '../../../../../mock/slicer';
 import Transport from '../../../../../mock/transport';
 
 describe('marker', () => {
