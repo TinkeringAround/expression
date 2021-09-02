@@ -3,7 +3,7 @@ import React, { FC, useCallback, useState } from 'react';
 import For from '../../for';
 import If from '../../if';
 
-import { SGridTab, SGridTabContent, SGridTabs } from './styled';
+import { SGridTabIndicator, SGridTabContent, SGridTabs } from './styled';
 
 export interface GridTab {
   name: string;
@@ -37,7 +37,7 @@ const GridTabs: FC<Props> = ({ tabs, initialTab = NO_TAB }) => {
         <For
           values={tabs}
           projector={({ name, count }, index) => (
-            <SGridTab
+            <SGridTabIndicator
               key={`tab-${name}`}
               active={selectedTab === index}
               onClick={() => toggleTab(index)}
@@ -46,7 +46,7 @@ const GridTabs: FC<Props> = ({ tabs, initialTab = NO_TAB }) => {
               <If condition={selectedTab !== index && !!count && count > 0}>
                 <span className="count">{count}</span>
               </If>
-            </SGridTab>
+            </SGridTabIndicator>
           )}
         />
       </div>

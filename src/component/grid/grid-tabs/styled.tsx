@@ -26,7 +26,7 @@ export const SGridTabs = styled.aside<{ expanded: boolean }>`
   }
 `;
 
-export const SGridTab = styled.span<{ active: boolean }>`
+export const SGridTabIndicator = styled.span<{ active: boolean }>`
   position: relative;
 
   display: flex;
@@ -104,4 +104,46 @@ export const SGridTabContent = styled.div`
   animation: fadeIn 0.35s ease-in-out;
 
   ${fadeIn};
+`;
+
+export const SGridTab = styled.div`
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  padding: 0 0 1rem 0;
+
+  background: ${({ theme: { white } }) => white};
+
+  box-sizing: border-box;
+  overflow: hidden auto;
+
+  h1 {
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    margin: 0;
+    padding: 2rem 0 1rem 0;
+
+    font-family: 'Mono', sans-serif;
+    font-weight: normal;
+    font-size: 1.5rem;
+    text-align: center;
+    background: ${({ theme: { white } }) => white};
+  }
+
+  p {
+    width: 80%;
+    margin: 0 0 2rem;
+
+    font-size: 0.9rem;
+    text-align: center;
+    color: ${({ theme: { second } }) => second};
+  }
 `;
