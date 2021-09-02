@@ -18,6 +18,7 @@ import Phraser from './feature/phraser';
 // Store
 import './store';
 import { loadPhraser, updatePhraser } from './store/phraser/actions';
+import { loadSnippets, updateSnippets } from './store/snippet/actions';
 
 // ==========================================================
 ReactDOM.render(
@@ -45,5 +46,12 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 // ==========================================================
-window.addEventListener('load', () => loadPhraser());
-window.addEventListener('beforeunload', () => updatePhraser());
+window.addEventListener('load', () => {
+  loadPhraser();
+  loadSnippets();
+});
+
+window.addEventListener('beforeunload', () => {
+  updatePhraser();
+  updateSnippets();
+});

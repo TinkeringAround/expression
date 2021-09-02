@@ -1,7 +1,6 @@
 import { selectSongChangeGroups } from './selector';
 
-import { getPhraserMock } from '../../mock/store';
-import { getSongChangeMock, getSongMock } from '../../mock/collection';
+import { getPhraserMock, getSongChangeMock, getSongMock } from '../../mock/phraser';
 
 describe('phraser selector', () => {
   describe('selectSongChangeGroups', () => {

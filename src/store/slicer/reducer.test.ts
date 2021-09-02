@@ -13,7 +13,7 @@ import {
 } from './reducer';
 import { Notification } from '../notification/types';
 
-import { getSlicerStoreMock } from '../../mock/store';
+import { getSlicerStoreMock } from '../../mock/slicer';
 import { getAudioFileMock } from '../../mock/types';
 import { getChannelDataMock } from '../../mock/audio';
 import { mockElectronTrigger } from '../../mock/electron';

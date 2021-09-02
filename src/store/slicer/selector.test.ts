@@ -1,4 +1,4 @@
-import { getSlicerStoreMock } from '../../mock/store';
+import { getSlicerStoreMock } from '../../mock/slicer';
 
 import { selectSlicerFile, selectSlicerIsProcessing, selectSlicerSelection } from './selector';
 

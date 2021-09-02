@@ -8,7 +8,7 @@ import {
   deletePhraserCollectionSongRecipe,
   deletePhraserSongPartRecipe,
   deletePhraserSongPartRhymeRecipe,
-  loadPhraserRecipe,
+  phraserLoadedRecipe,
   movePhraserCollectionSongRecipe,
   movePhraserSongPartRhymeRecipe,
   reorderPhraserCollectionRecipe,
@@ -29,19 +29,19 @@ import {
   getPartMock,
   getRhymeMock,
   getSongMock
-} from '../../mock/collection';
+} from '../../mock/phraser';
 import { toDate } from '../../lib/time';
 
 describe('phraser reducer', () => {
   const initialPhraserState = usePhraser.getState();
 
-  describe('loadPhraserRecipe', () => {
+  describe('phraserLoadedRecipe', () => {
     beforeEach(() => {
       usePhraser.setState(initialPhraserState);
     });
 
     test('should update collections when collections are not undefined', () => {
-      loadPhraserRecipe(null, {
+      phraserLoadedRecipe(null, {
         phraser: {
           collections: getCompleteCollectionsMock()
         }
@@ -54,7 +54,7 @@ describe('phraser reducer', () => {
       const updateMock = jest.fn();
       usePhraser.setState({ update: updateMock });
 
-      loadPhraserRecipe(null, { phraser: {} });
+      phraserLoadedRecipe(null, { phraser: {} });
 
       expect(updateMock).not.toHaveBeenCalled();
     });

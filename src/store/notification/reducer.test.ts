@@ -1,7 +1,7 @@
 import { useNotification } from './index';
 import { addNotificationRecipe, resetNotificationsRecipe } from './reducer';
 
-import { getNotificationMock, getNotificationStoreMock } from '../../mock/store';
+import { getNotificationMock, getNotificationStoreMock } from '../../mock/notification';
 
 describe('notifications reducer', () => {
   describe('addNotificationRecipe', () => {
