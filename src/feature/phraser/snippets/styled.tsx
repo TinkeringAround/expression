@@ -8,6 +8,8 @@ export const SSnippets = styled(SGridTab)`
 `;
 
 export const SSnippet = styled.div`
+  position: relative;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,10 +24,24 @@ export const SSnippet = styled.div`
   box-sizing: border-box;
   transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
 
-  &:hover,
-  &:active {
+  &:hover {
     color: ${({ theme: { second } }) => second};
     background: ${({ theme: { yellow } }) => yellow};
+
+    .icon {
+      opacity: 1;
+    }
+  }
+
+  .icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+
+    font-size: 1rem;
+
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
   }
 
   p {

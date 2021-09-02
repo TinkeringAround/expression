@@ -20,7 +20,6 @@ import {
   updatePhraserSongPartRhymeRecipe,
   updatePhraserSongTitleRecipe
 } from './reducer';
-import { Template } from './types';
 import { toSnapshot } from '../../lib/util';
 
 import {
@@ -31,6 +30,8 @@ import {
   getSongMock
 } from '../../mock/phraser';
 import { toDate } from '../../lib/time';
+import { useNotification } from '../notification';
+import { useSnippet } from '../snippet';
 
 describe('phraser reducer', () => {
   const initialPhraserState = usePhraser.getState();
@@ -52,11 +53,16 @@ describe('phraser reducer', () => {
 
     test('should not update collections when no collections are provided', () => {
       const updateMock = jest.fn();
+      const notificationsUpdateMock = jest.fn();
       usePhraser.setState({ update: updateMock });
+      useNotification.setState({ update: notificationsUpdateMock });
 
-      phraserLoadedRecipe(null, { phraser: {} });
+      phraserLoadedRecipe(null, { phraser: {}, error: 'error' });
 
       expect(updateMock).not.toHaveBeenCalled();
+      expect(notificationsUpdateMock).toHaveBeenCalledWith({
+        notifications: [{ type: 'error', content: 'error' }]
+      });
     });
   });
 
@@ -432,7 +438,39 @@ describe('phraser reducer', () => {
       usePhraser.setState({ selectedSong: { ...song, changes: [] } });
 
       addPhraserSongPartRhymeRecipe(null, {
-        template: Template.SINGLE,
+        templateId: 'SINGLE',
+        destination: { index: 0, droppableId: '1' }
+      });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong?.changes.length).toBe(1);
+      expect(selectedSong?.parts[0].rhymes.length).toBe(1);
+    });
+
+    test('should add lines according to snippet when selected song is not null', () => {
+      const song = getSongMock({ parts: [getPartMock({ id: '1', rhymes: [] })] });
+      const rhyme = getRhymeMock();
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
+      useSnippet.setState({ snippets: [rhyme] });
+
+      addPhraserSongPartRhymeRecipe(null, {
+        snippetId: rhyme.id,
+        destination: { index: 0, droppableId: '1' }
+      });
+
+      const { selectedSong } = usePhraser.getState();
+      expect(selectedSong?.changes.length).toBe(1);
+      expect(selectedSong?.parts[0].rhymes.length).toBe(1);
+    });
+
+    test('should add empty lines of snippet when selected song is not null but no snippet is found', () => {
+      const song = getSongMock({ parts: [getPartMock({ id: '1', rhymes: [] })] });
+      const rhyme = getRhymeMock();
+      usePhraser.setState({ selectedSong: { ...song, changes: [] } });
+      useSnippet.setState({ snippets: [] });
+
+      addPhraserSongPartRhymeRecipe(null, {
+        snippetId: rhyme.id,
         destination: { index: 0, droppableId: '1' }
       });
 
@@ -446,7 +484,8 @@ describe('phraser reducer', () => {
       usePhraser.setState({ selectedSong: null, update: updateMock });
 
       addPhraserSongPartRhymeRecipe(null, {
-        template: Template.SINGLE,
+        templateId: 'SINGLE',
+        snippetId: undefined,
         destination: { index: 0, droppableId: '1' }
       });
 
