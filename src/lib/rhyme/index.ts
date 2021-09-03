@@ -40,31 +40,15 @@ export const createRhymesByTemplate = (template: Template): Rhyme[] => {
 
   switch (template) {
     case Template.SINGLE:
-      return [createRhyme()];
+      return Array(1).fill(createRhyme());
     case Template.DOUBLE:
-      return [createRhyme(), createRhyme()];
+      return Array(2).fill(createRhyme());
     case Template.QUADROUPLE:
-      return [createRhyme(), createRhyme(), createRhyme(), createRhyme()];
+      return Array(4).fill(createRhyme());
     case Template.SEXTUPLE:
-      return [
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme()
-      ];
+      return Array(6).fill(createRhyme());
     case Template.OCTUPLE:
-      return [
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme(),
-        createRhyme()
-      ];
+      return Array(8).fill(createRhyme());
   }
 };
 
