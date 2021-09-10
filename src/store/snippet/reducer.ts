@@ -1,5 +1,11 @@
 import { ACTION } from '../action-types';
-import { AddSnippetPayload, DeleteSnippetPayload, Snippet, SnippetsLoadedPayload } from './types';
+import {
+  AddSnippetPayload,
+  DeleteSnippetPayload,
+  ReorderSnippetPayload,
+  Snippet,
+  SnippetsLoadedPayload
+} from './types';
 import { useSnippet } from './index';
 import { generateId } from '../../lib/util';
 import { useNotification } from '../notification';
@@ -40,7 +46,20 @@ export const deleteSnippetRecipe = (_: null, { id }: DeleteSnippetPayload) => {
   update({ snippets });
 };
 
+export const reorderSnippetRecipe = (_: null, { source, destination }: ReorderSnippetPayload) => {
+  const { update, snippets } = useSnippet.getState();
+
+  if (source.index !== destination.index) {
+    const snippet = snippets[source.index];
+    snippets.splice(source.index, 1);
+    snippets.splice(destination.index, 0, snippet);
+
+    update({ snippets });
+  }
+};
+
 // ==============================================================
 on(ACTION.snippetsLoaded, snippetsLoadedRecipe);
 on(ACTION.addSnippet, addSnippetRecipe);
 on(ACTION.deleteSnippet, deleteSnippetRecipe);
+on(ACTION.reorderSnippet, reorderSnippetRecipe);

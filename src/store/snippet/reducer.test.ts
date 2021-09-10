@@ -1,5 +1,10 @@
 import { useSnippet } from './index';
-import { addSnippetRecipe, deleteSnippetRecipe, snippetsLoadedRecipe } from './reducer';
+import {
+  addSnippetRecipe,
+  deleteSnippetRecipe,
+  reorderSnippetRecipe,
+  snippetsLoadedRecipe
+} from './reducer';
 import { useNotification } from '../notification';
 
 import { getSnippetMock, getSnippetsMock } from '../../mock/snippet';
@@ -50,6 +55,34 @@ describe('snippets reducer', () => {
       deleteSnippetRecipe(null, { id: snippetMock.id });
 
       expect(useSnippet.getState().snippets.length).toBe(0);
+    });
+  });
+
+  describe('reorderSnippetRecipe', () => {
+    test('should reorder snippet', () => {
+      const firstSnippetMock = getSnippetMock({ id: '1', lines: ['Eins'] });
+      const secondSnippetMock = getSnippetMock({ id: '2', lines: ['Zwei'] });
+      useSnippet.setState({ snippets: [firstSnippetMock, secondSnippetMock] });
+
+      reorderSnippetRecipe(null, {
+        source: { droppableId: '', index: 0 },
+        destination: { droppableId: '', index: 1 }
+      });
+
+      expect(useSnippet.getState().snippets).toEqual([secondSnippetMock, firstSnippetMock]);
+    });
+
+    test('should not reorder snippet when indices match', () => {
+      const firstSnippetMock = getSnippetMock({ id: '1', lines: ['Eins'] });
+      const secondSnippetMock = getSnippetMock({ id: '2', lines: ['Zwei'] });
+      useSnippet.setState({ snippets: [firstSnippetMock, secondSnippetMock] });
+
+      reorderSnippetRecipe(null, {
+        source: { droppableId: '', index: 0 },
+        destination: { droppableId: '', index: 0 }
+      });
+
+      expect(useSnippet.getState().snippets).toEqual([firstSnippetMock, secondSnippetMock]);
     });
   });
 });

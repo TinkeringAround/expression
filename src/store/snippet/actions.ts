@@ -1,3 +1,5 @@
+import { DraggableLocation } from 'react-beautiful-dnd';
+
 import { ACTION } from '../action-types';
 import { useSnippet } from './index';
 
@@ -13,3 +15,9 @@ export const updateSnippets = () => {
 export const addSnippet = (lines: string[]) => trigger(ACTION.addSnippet, { lines });
 
 export const deleteSnippet = (id: string) => trigger(ACTION.deleteSnippet, { id });
+
+export const reorderSnippet = (source: DraggableLocation, destination: DraggableLocation) =>
+  trigger(ACTION.reorderSnippet, {
+    source,
+    destination
+  });

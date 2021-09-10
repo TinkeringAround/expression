@@ -120,4 +120,19 @@ describe('Phraser', () => {
 
     expect(movePhraserSongPartRhyme).toHaveBeenCalledWith(null, { source, destination });
   });
+
+  test('should reorder snippet when snippet is reordered', () => {
+    const reorderSnippetMock = jest.fn();
+    const destination = { index: 0, droppableId: SNIPPETS };
+    const source = { index: 1, droppableId: SNIPPETS };
+    mockElectronTrigger(reorderSnippetMock);
+
+    render(PhraserInApp(getDropResultMock({ destination, source })));
+
+    act(() => {
+      fireEvent.click(screen.getByText(/Collections/));
+    });
+
+    expect(reorderSnippetMock).toHaveBeenCalledWith(null, { source, destination });
+  });
 });

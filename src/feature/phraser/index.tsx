@@ -8,6 +8,7 @@ import {
   movePhraserSongPartRhyme,
   reorderPhraserSongPartRhyme
 } from '../../store/phraser/actions';
+import { reorderSnippet } from '../../store/snippet/actions';
 
 import { HasTestDrop } from '../../mock/components';
 
@@ -41,6 +42,12 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
         return;
       }
 
+      // CASE: REORDER snippet
+      if (source.droppableId === SNIPPETS && destination.droppableId === SNIPPETS) {
+        reorderSnippet(source, destination);
+        return;
+      }
+
       // CASE: REORDER inside a song-part
       if (
         destination.droppableId === source.droppableId &&
@@ -51,7 +58,7 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
         return;
       }
 
-      // CASE: Move Rhyme to another Part
+      // CASE: Move Rhyme from one part to another Part
       if (
         destination.droppableId !== SNIPPETS &&
         destination.droppableId !== TEMPLATES &&
