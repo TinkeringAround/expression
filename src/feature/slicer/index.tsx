@@ -31,7 +31,7 @@ const Slicer: FC = () => {
 
       <GridTabs
         tabs={[
-          { name: 'Export', component: <Export /> },
+          { name: 'Exporter', component: <Export /> },
           { name: 'Notifications', component: <Notifications />, count: notifications.length }
         ]}
         initialTab={0}

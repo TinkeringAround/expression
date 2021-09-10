@@ -22,7 +22,7 @@ const Export: FC = () => {
 
   return (
     <SExport>
-      <h1>Export Audio Slice</h1>
+      <h1>Exporter</h1>
       <p>
         Using Slicer one can load wav-files, visualize them and export slices of these audio files
         using the interactive editor.

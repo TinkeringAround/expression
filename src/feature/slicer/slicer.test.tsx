@@ -29,7 +29,7 @@ describe('Slicer', () => {
 
     const sections = document.querySelectorAll('section');
     expect(file).not.toBeNull();
-    expect(sections.length).toBe(2);
+    expect(sections.length).toBe(3);
   });
 
   test('should render hint when file is null', () => {
