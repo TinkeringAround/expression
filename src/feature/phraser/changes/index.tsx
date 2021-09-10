@@ -19,18 +19,20 @@ const Changes: FC = () => {
       <If condition={hasChanges}>
         <p>No changes yet, start working.</p>
       </If>
-      <For
-        values={Object.keys(songChangeGroups)}
-        projector={(key: string, index: number) => (
-          <section key={index}>
-            <h2>{key}</h2>
-            <For
-              values={songChangeGroups[key]}
-              projector={(change, index) => <Change key={`change-${index}`} change={change} />}
-            />
-          </section>
-        )}
-      />
+      <div className="content">
+        <For
+          values={Object.keys(songChangeGroups)}
+          projector={(key: string, index: number) => (
+            <section key={index}>
+              <h2>{key}</h2>
+              <For
+                values={songChangeGroups[key]}
+                projector={(change, index) => <Change key={`change-${index}`} change={change} />}
+              />
+            </section>
+          )}
+        />
+      </div>
     </SChanges>
   );
 };

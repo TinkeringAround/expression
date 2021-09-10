@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
+import { useNotification } from '../../store/notification';
 import { usePhraser } from '../../store/phraser';
 import {
   addPhraserSongPartRhyme,
@@ -11,16 +12,18 @@ import {
 import { HasTestDrop } from '../../mock/components';
 
 import { Grid, GridContent, GridSidepane, GridTabs } from '../../component/grid';
+import { Notifications } from '../../component/tabs';
 import If from '../../component/if';
 
 import Collections from './collections';
 import Templates, { TEMPLATES } from './templates';
-import Parts from './parts';
+import SongParts from './song-parts';
 import Changes from './changes';
 import Snippets, { SNIPPETS } from './snippets';
 
 const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
   const { selectedSong } = usePhraser();
+  const { notifications } = useNotification();
 
   const onDrop = useCallback((dropResult: DropResult) => {
     const { destination, source, draggableId } = dropResult;
@@ -38,14 +41,25 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
         return;
       }
 
-      // CASE: REORDER inside a part
-      if (destination.droppableId === source.droppableId) {
+      // CASE: REORDER inside a song-part
+      if (
+        destination.droppableId === source.droppableId &&
+        source.droppableId !== SNIPPETS &&
+        source.droppableId !== TEMPLATES
+      ) {
         reorderPhraserSongPartRhyme(source, destination);
         return;
       }
 
       // CASE: Move Rhyme to another Part
-      movePhraserSongPartRhyme(source, destination);
+      if (
+        destination.droppableId !== SNIPPETS &&
+        destination.droppableId !== TEMPLATES &&
+        source.droppableId !== SNIPPETS &&
+        source.droppableId !== TEMPLATES
+      ) {
+        movePhraserSongPartRhyme(source, destination);
+      }
     }
   }, []);
 
@@ -58,7 +72,7 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
       <DragDropContext onDragEnd={onDrop}>
         <GridContent>
           <If condition={!!selectedSong}>
-            <Parts />
+            <SongParts />
           </If>
         </GridContent>
 
@@ -66,7 +80,8 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
           tabs={[
             { name: 'Templates', component: <Templates /> },
             { name: 'Snippets', component: <Snippets /> },
-            { name: 'Changes', component: <Changes /> }
+            { name: 'Changes', component: <Changes /> },
+            { name: 'Notifications', component: <Notifications />, count: notifications.length }
           ]}
           initialTab={0}
         />

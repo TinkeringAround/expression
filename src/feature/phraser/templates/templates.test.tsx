@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Template, TemplateDescriptions } from '../../../store/phraser/types';
-import { toTemplate } from '../../../lib/rhyme';
+import { RhymeTransform } from '../../../lib/rhyme/transform';
 
 import Templates from './index';
 
@@ -26,7 +26,9 @@ describe('Templates', () => {
 
     templates.every(template => {
       expect(screen.getByText(template)).toBeInTheDocument();
-      expect(screen.getByText(TemplateDescriptions[toTemplate(template)])).toBeInTheDocument();
+      expect(
+        screen.getByText(TemplateDescriptions[RhymeTransform.toTemplate(template)])
+      ).toBeInTheDocument();
     });
   });
 });

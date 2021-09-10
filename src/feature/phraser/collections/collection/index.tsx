@@ -100,6 +100,7 @@ const Collection: FC<Props> = ({ collection: { title, songs, id }, index }) => {
               <Icon title="Toggle Collection" iconType={icon} />
               <input
                 className="title"
+                spellCheck={false}
                 title={inputTitle}
                 value={inputTitle}
                 onChange={updateCollectionName}
