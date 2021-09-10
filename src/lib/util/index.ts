@@ -94,3 +94,11 @@ export const generateId = (): string => v4().toString();
 export const toSnapshot = <T>(value: T): Snapshot<T> => {
   return JSON.parse(JSON.stringify({ ...value, id: undefined, changes: undefined }));
 };
+
+/**
+ * Utility Function to flatten an array in one dimension
+ * @param array
+ */
+export const flatten = <T>(array: Array<T[]>): T[] => {
+  return array.reduce((a, b) => a.concat(b), []);
+};
