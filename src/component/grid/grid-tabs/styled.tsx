@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { fadeIn, scaleUpDown } from '../../../animations';
+import { noScrollbar } from '../../../scrollbar';
 
 export const SGridTabs = styled.aside<{ expanded: boolean }>`
   position: relative;
@@ -106,7 +107,7 @@ export const SGridTabContent = styled.div`
   ${fadeIn};
 `;
 
-export const SGridTab = styled.div`
+export const SGridTab = styled.section`
   position: relative;
 
   display: flex;
@@ -121,6 +122,8 @@ export const SGridTab = styled.div`
 
   box-sizing: border-box;
   overflow: hidden auto;
+
+  ${noScrollbar};
 
   h1 {
     position: sticky;
@@ -145,5 +148,35 @@ export const SGridTab = styled.div`
     font-size: 0.9rem;
     text-align: center;
     color: ${({ theme: { second } }) => second};
+  }
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    min-height: 80%;
+
+    overflow: hidden auto;
+
+    ::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: ${({ theme: { yellow } }) => yellow};
+      border-right: transparent solid 5px;
+
+      background-clip: padding-box;
+
+      &:hover {
+        background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
+      }
+    }
   }
 `;

@@ -15,11 +15,11 @@ const Notifications: FC = () => {
   return (
     <SNotifications>
       <h1>Notifications</h1>
+      <If condition={notifications.length === 0}>
+        <p>No Notifications yet...</p>
+      </If>
       <Icon iconType="trash" title="Clear Notifications" onClick={() => resetNotifications()} />
-      <div>
-        <If condition={notifications.length === 0}>
-          <p>No Notifications yet...</p>
-        </If>
+      <div className="content">
         <For
           values={notifications}
           projector={(notification, index) => (
@@ -32,7 +32,7 @@ const Notifications: FC = () => {
               }}
             >
               <Icon iconType={notification.type} />
-              <p>{notification.content}</p>
+              <span className="content">{notification.content}</span>
             </SNotification>
           )}
         />
