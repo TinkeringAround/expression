@@ -20,10 +20,10 @@ import {
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
-import { createRhymesByTemplate, toTemplate } from '../../lib/rhyme';
 import { withSongChanges } from '../../lib/song';
 import { useNotification } from '../notification';
 import { useSnippet } from '../snippet';
+import { RhymeTransform } from '../../lib/rhyme/transform';
 
 const { on } = window.electron;
 
@@ -244,7 +244,7 @@ export const addPhraserSongPartRhymeRecipe = (
     const rhymes: Rhyme[] = [];
 
     if (templateId) {
-      rhymes.push(...createRhymesByTemplate(toTemplate(templateId)));
+      rhymes.push(...RhymeTransform.toRhymes(RhymeTransform.toTemplate(templateId)));
     }
 
     if (snippetId) {

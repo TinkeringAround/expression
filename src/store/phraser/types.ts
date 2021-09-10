@@ -42,11 +42,6 @@ export interface Rhyme extends HasId {
   lines: string[];
 }
 
-export interface HighlightedLine {
-  text: string;
-  color?: string;
-}
-
 export interface Diff<T> {
   from: T;
   to: T;
