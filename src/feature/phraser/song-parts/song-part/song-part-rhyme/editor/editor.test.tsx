@@ -2,39 +2,34 @@ import React from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { Rhyme } from '../../../../../store/phraser/types';
+import { Rhyme } from '../../../../../../store/phraser/types';
+import { HighlightingType } from '../../../../../../lib/rhyme/types';
 
-import PartRhyme from './index';
+import Editor from './index';
 
-import { AppMock, DragDropDroppableWrapper } from '../../../../../mock/components';
-import { getRhymeMock } from '../../../../../mock/phraser';
-import { mockElectronTrigger } from '../../../../../mock/electron';
+import { AppMock } from '../../../../../../mock/components';
+import { getRhymeMock } from '../../../../../../mock/phraser';
+import { mockElectronTrigger } from '../../../../../../mock/electron';
 
-describe('PartRhyme', () => {
-  const PartRhymeInApp = (rhyme: Rhyme, index: number = 0) => (
+describe('Editor', () => {
+  const EditorInApp = (rhyme: Rhyme, highlighting: HighlightingType | null) => (
     <AppMock>
-      <DragDropDroppableWrapper>
-        <PartRhyme rhyme={rhyme} index={index} />
-      </DragDropDroppableWrapper>
+      <Editor rhyme={rhyme} highlighting={highlighting} />
     </AppMock>
   );
 
-  it('should render editor-controls, textarea and highlighting overlay', () => {
+  test('should render textarea and highlighting overlay', () => {
     const rhyme = getRhymeMock();
-    render(PartRhymeInApp(rhyme));
-
-    expect(document.querySelector('.editor-controls')).toBeInTheDocument();
-    expect(document.querySelector('.icon-trash')).toBeInTheDocument();
+    render(EditorInApp(rhyme, null));
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
-
     expect(document.querySelector('.highlighting')).toBeInTheDocument();
   });
 
-  it('should update textarea value when input changes and is below 4 rows', () => {
+  test('should update textarea value when input changes and is below 4 rows', () => {
     const rhyme = getRhymeMock();
     const value = 'Test';
-    render(PartRhymeInApp(rhyme));
+    render(EditorInApp(rhyme, null));
 
     act(() => {
       fireEvent.change(screen.getByRole('textbox'), { target: { value } });
@@ -43,13 +38,13 @@ describe('PartRhyme', () => {
     expect(screen.getByText(value)).toBeInTheDocument();
   });
 
-  it('should update rhyme value in state when input changes and is below 4 rows', async () => {
+  test('should update rhyme value in state when input changes and is below 4 rows', async () => {
     const rhyme = getRhymeMock();
     const value = 'Test';
     const updatePhraserSongPartRhymeMock = jest.fn();
     mockElectronTrigger(updatePhraserSongPartRhymeMock);
 
-    render(PartRhymeInApp(rhyme));
+    render(EditorInApp(rhyme, null));
 
     const textArea = screen.getByRole('textbox');
 
@@ -69,22 +64,22 @@ describe('PartRhyme', () => {
     });
   });
 
-  it('should not update rhyme line in state when input changes and is below 4 rows', () => {
+  test('should not update rhyme line in state when input changes and is below 4 rows', () => {
     const rhyme = getRhymeMock();
     const updatePhraserSongPartRhymeMock = jest.fn();
     mockElectronTrigger(updatePhraserSongPartRhymeMock);
 
-    render(PartRhymeInApp(rhyme));
+    render(EditorInApp(rhyme, null));
 
     fireEvent.blur(screen.getByRole('textbox'));
 
     expect(updatePhraserSongPartRhymeMock).not.toHaveBeenCalled();
   });
 
-  it('should not update textarea value when input changes and is more than 4 rows', () => {
+  test('should not update textarea value when input changes and is more than 4 rows', () => {
     const rhyme = getRhymeMock();
     const value = 'Eins\nZwei\nDrei\nVier\nFünf';
-    render(PartRhymeInApp(rhyme));
+    render(EditorInApp(rhyme, null));
 
     const textArea = screen.getByRole('textbox') as HTMLTextAreaElement;
 
@@ -95,9 +90,9 @@ describe('PartRhyme', () => {
     expect(textArea.value.includes('Eins')).toBeFalsy();
   });
 
-  it('should mirror textarea scroll values when textare is overflown and scrolled', () => {
+  test('should mirror textarea scroll values when textare is overflown and scrolled', () => {
     const rhyme = getRhymeMock();
-    render(PartRhymeInApp(rhyme));
+    render(EditorInApp(rhyme, null));
 
     const textArea = screen.getByRole('textbox') as HTMLTextAreaElement;
 
@@ -109,23 +104,5 @@ describe('PartRhyme', () => {
 
     expect(highlightingDiv.scrollLeft).toBe(100);
     expect(highlightingDiv.scrollTop).toBe(200);
-  });
-
-  it('should delete rhyme in state when trash icon is clicked', () => {
-    const rhyme = getRhymeMock();
-    const deletePhraserSongPartRhymeMock = jest.fn();
-    mockElectronTrigger(deletePhraserSongPartRhymeMock);
-
-    render(PartRhymeInApp(rhyme));
-
-    const trashIcon = document.querySelector('.icon-trash');
-
-    if (trashIcon) {
-      fireEvent.click(trashIcon);
-    }
-
-    expect(deletePhraserSongPartRhymeMock).toHaveBeenCalledWith(null, {
-      rhymeId: rhyme.id
-    });
   });
 });

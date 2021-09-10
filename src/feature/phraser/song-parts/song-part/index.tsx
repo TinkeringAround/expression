@@ -11,7 +11,7 @@ import For from '../../../../component/for';
 import If from '../../../../component/if';
 import Icon, { IconType } from '../../../../component/icon';
 
-import PartRhyme, { RHYME_HEIGHT } from './part-rhyme';
+import SongPartRhyme, { RHYME_HEIGHT } from './song-part-rhyme';
 import { SPart } from './styled';
 
 interface Props {
@@ -65,6 +65,7 @@ const SongPart: FC<Props> = ({ part }) => {
           </div>
           <input
             className="part-name"
+            spellCheck={false}
             title={partName}
             value={partName}
             onChange={onChange}
@@ -73,7 +74,9 @@ const SongPart: FC<Props> = ({ part }) => {
           <If condition={expanded}>
             <For
               values={part.rhymes}
-              projector={(rhyme, index) => <PartRhyme key={rhyme.id} rhyme={rhyme} index={index} />}
+              projector={(rhyme, index) => (
+                <SongPartRhyme key={rhyme.id} rhyme={rhyme} index={index} />
+              )}
             />
           </If>
           {placeholder}

@@ -33,7 +33,7 @@ describe('SongPart', () => {
     expect(textArea).toBeInTheDocument();
   });
 
-  it('should update song part name when song part name is changed', async () => {
+  it('should update song song-part name when song song-part name is changed', async () => {
     const partTitle = 'new-title';
     const part = getPartMock({ rhymes: [] });
     const updatePhraserSongPartNameMock = jest.fn();
@@ -59,7 +59,7 @@ describe('SongPart', () => {
     });
   });
 
-  it('should not update song part name when song part name does not differ', () => {
+  it('should not update song song-part name when song song-part name does not differ', () => {
     const part = getPartMock({ rhymes: [] });
     const updatePhraserSongPartNameMock = jest.fn();
 
@@ -71,7 +71,7 @@ describe('SongPart', () => {
     expect(updatePhraserSongPartNameMock).not.toHaveBeenCalled();
   });
 
-  it('should delete part when delete part icon is clicked', () => {
+  it('should delete song-part when delete song-part icon is clicked', () => {
     const part = getPartMock();
     const deletePhraserSongPartMock = jest.fn();
 
@@ -89,7 +89,7 @@ describe('SongPart', () => {
     });
   });
 
-  test('should collapse part when click on toggle button', () => {
+  test('should collapse song-part when click on toggle button', () => {
     const part = getPartMock({
       rhymes: [
         {
@@ -111,11 +111,10 @@ describe('SongPart', () => {
     expect(screen.queryByText('line')).not.toBeInTheDocument();
   });
 
-  it('should render rhymes when song part is expanded', () => {
+  it('should render rhymes when song song-part is expanded', () => {
     const part = getPartMock();
-    const { rhymes } = part;
     render(SongPartInApp(part));
 
-    expect(document.querySelectorAll('.editor').length).toBe(rhymes.length);
+    expect(document.querySelectorAll('textarea').length).toBe(part.rhymes.length);
   });
 });
