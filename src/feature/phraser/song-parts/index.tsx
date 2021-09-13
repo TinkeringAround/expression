@@ -76,7 +76,9 @@ const SongParts: FC = () => {
       </If>
       <For
         values={selectedSong?.parts ?? []}
-        projector={part => <SongPart key={part.id} part={part} />}
+        projector={part => (
+          <SongPart key={`${part.id}${selectedSong?.changes.length}`} part={part} />
+        )}
       />
       <footer>
         <button onClick={addPart}>Add Part</button>

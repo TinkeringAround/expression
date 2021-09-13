@@ -16,12 +16,15 @@ describe('highlighting', () => {
     test('should apply group highlighting when highlighting is group', () => {
       const highlightedLines = Highlighting.apply(['Hi', 'Team'], HighlightingType.GROUPS);
       expect(highlightedLines).toEqual([
-        [{ text: 'H' }, { text: 'i', ...Highlighting.WITH_COLOR }],
         [
-          { text: 'T' },
+          { text: 'H', ...Highlighting.WITH_COLOR },
+          { text: 'i', ...Highlighting.WITH_COLOR }
+        ],
+        [
+          { text: 'T', ...Highlighting.WITH_COLOR },
           { text: 'e', ...Highlighting.WITH_COLOR },
           { text: 'a', ...Highlighting.WITH_COLOR },
-          { text: 'm' }
+          { text: 'm', ...Highlighting.WITH_COLOR }
         ]
       ]);
     });

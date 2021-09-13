@@ -15,11 +15,12 @@ const PLACEHOLDER = 'Type in Rhyme here...';
 interface Props {
   rhyme: Rhyme;
   highlighting: HighlightingType | null;
+  value: string;
+  setValue: (value: string) => void;
 }
 
-const Editor: FC<Props> = ({ rhyme, highlighting }) => {
+const Editor: FC<Props> = ({ rhyme, highlighting, value, setValue }) => {
   const { ref: highlightArea, setRef } = useRefCallback();
-  const [value, setValue] = useState<string>(rhyme.lines.join('\n'));
   const [highlightedLineBlocks, setHighlightedLineBlocks] = useState(
     Highlighting.apply(value.split('\n'), highlighting)
   );
@@ -35,9 +36,7 @@ const Editor: FC<Props> = ({ rhyme, highlighting }) => {
   );
 
   const updateRhyme = useCallback(() => {
-    if (rhyme.lines.join('\n') !== value) {
-      updatePhraserSongPartRhyme(rhyme.id, value);
-    }
+    updatePhraserSongPartRhyme(rhyme.id, value);
   }, [rhyme, value]);
 
   const onScroll = useCallback(

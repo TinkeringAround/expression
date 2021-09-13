@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Rhyme } from '../../../../../../store/phraser/types';
@@ -12,15 +12,22 @@ import { getRhymeMock } from '../../../../../../mock/phraser';
 import { mockElectronTrigger } from '../../../../../../mock/electron';
 
 describe('Editor', () => {
-  const EditorInApp = (rhyme: Rhyme, highlighting: HighlightingType | null) => (
+  const EditorInApp = (
+    rhyme: Rhyme,
+    highlighting: HighlightingType | null,
+    value: string,
+    setValue: (value: string) => void
+  ) => (
     <AppMock>
-      <Editor rhyme={rhyme} highlighting={highlighting} />
+      <Editor rhyme={rhyme} highlighting={highlighting} value={value} setValue={setValue} />
     </AppMock>
   );
 
+  const noopFunction = () => {};
+
   test('should render textarea and highlighting overlay', () => {
     const rhyme = getRhymeMock();
-    render(EditorInApp(rhyme, null));
+    render(EditorInApp(rhyme, null, '', noopFunction));
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(document.querySelector('.highlighting')).toBeInTheDocument();
@@ -29,13 +36,29 @@ describe('Editor', () => {
   test('should update textarea value when input changes and is below 4 rows', () => {
     const rhyme = getRhymeMock();
     const value = 'Test';
-    render(EditorInApp(rhyme, null));
+    const setValue = jest.fn();
+    render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), setValue));
 
     act(() => {
       fireEvent.change(screen.getByRole('textbox'), { target: { value } });
     });
 
-    expect(screen.getByText(value)).toBeInTheDocument();
+    expect(setValue).toHaveBeenCalledWith(value);
+  });
+
+  test('should not update textarea value when input changes and is more than 4 rows', () => {
+    const rhyme = getRhymeMock();
+    const value = 'Eins\nZwei\nDrei\nVier\nFünf';
+    const setValue = jest.fn();
+    render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), setValue));
+
+    const textArea = screen.getByRole('textbox') as HTMLTextAreaElement;
+
+    act(() => {
+      fireEvent.change(textArea, { target: { value } });
+    });
+
+    expect(setValue).not.toHaveBeenCalled();
   });
 
   test('should update rhyme value in state when input changes and is below 4 rows', async () => {
@@ -44,17 +67,9 @@ describe('Editor', () => {
     const updatePhraserSongPartRhymeMock = jest.fn();
     mockElectronTrigger(updatePhraserSongPartRhymeMock);
 
-    render(EditorInApp(rhyme, null));
+    render(EditorInApp(rhyme, null, value, noopFunction));
 
     const textArea = screen.getByRole('textbox');
-
-    act(() => {
-      fireEvent.change(textArea, { target: { value } });
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(value)).toBeInTheDocument();
-    });
 
     fireEvent.blur(textArea);
 
@@ -64,35 +79,9 @@ describe('Editor', () => {
     });
   });
 
-  test('should not update rhyme line in state when input changes and is below 4 rows', () => {
-    const rhyme = getRhymeMock();
-    const updatePhraserSongPartRhymeMock = jest.fn();
-    mockElectronTrigger(updatePhraserSongPartRhymeMock);
-
-    render(EditorInApp(rhyme, null));
-
-    fireEvent.blur(screen.getByRole('textbox'));
-
-    expect(updatePhraserSongPartRhymeMock).not.toHaveBeenCalled();
-  });
-
-  test('should not update textarea value when input changes and is more than 4 rows', () => {
-    const rhyme = getRhymeMock();
-    const value = 'Eins\nZwei\nDrei\nVier\nFünf';
-    render(EditorInApp(rhyme, null));
-
-    const textArea = screen.getByRole('textbox') as HTMLTextAreaElement;
-
-    act(() => {
-      fireEvent.change(textArea, { target: { value } });
-    });
-
-    expect(textArea.value.includes('Eins')).toBeFalsy();
-  });
-
   test('should mirror textarea scroll values when textare is overflown and scrolled', () => {
     const rhyme = getRhymeMock();
-    render(EditorInApp(rhyme, null));
+    render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), noopFunction));
 
     const textArea = screen.getByRole('textbox') as HTMLTextAreaElement;
 

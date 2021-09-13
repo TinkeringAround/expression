@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { Rhyme } from '../../../../../../store/phraser/types';
@@ -15,34 +15,34 @@ describe('Editor-Controls', () => {
   const EditorControlsInApp = (
     rhyme: Rhyme,
     highlighting: HighlightingType | null,
-    selectHighlighting: any
+    selectHighlighting: any,
+    formatRhyme: any
   ) => (
     <AppMock>
       <EditorControls
         rhyme={rhyme}
         highlighting={highlighting}
         selectHighlighting={selectHighlighting}
+        formatRhyme={formatRhyme}
       />
     </AppMock>
   );
+  const noopFunction = () => {};
 
   test('should render all control buttons and trash icon', () => {
     const rhyme = getRhymeMock();
 
-    render(EditorControlsInApp(rhyme, null, () => {}));
+    render(EditorControlsInApp(rhyme, null, noopFunction, noopFunction));
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons.length).toBe(3);
-
-    const trashIcon = document.querySelector('.icon-trash');
-    expect(trashIcon).toBeInTheDocument();
+    const buttons = document.querySelectorAll('.button');
+    expect(buttons.length).toBe(5);
   });
 
   test('should select vocals highlighting when vocal highlighting button clicked', () => {
     const rhyme = getRhymeMock();
     const selectHighlightingMock = jest.fn();
 
-    render(EditorControlsInApp(rhyme, null, selectHighlightingMock));
+    render(EditorControlsInApp(rhyme, null, selectHighlightingMock, noopFunction));
 
     const textIcon = document.querySelector('.icon-text');
 
@@ -57,7 +57,7 @@ describe('Editor-Controls', () => {
     const rhyme = getRhymeMock();
     const selectHighlightingMock = jest.fn();
 
-    render(EditorControlsInApp(rhyme, null, selectHighlightingMock));
+    render(EditorControlsInApp(rhyme, null, selectHighlightingMock, noopFunction));
 
     const groupIcon = document.querySelector('.icon-group');
     if (groupIcon) {
@@ -70,11 +70,25 @@ describe('Editor-Controls', () => {
   test('should select button when highlighting matches with button highlighting type', () => {
     const rhyme = getRhymeMock();
 
-    render(EditorControlsInApp(rhyme, HighlightingType.VOCALS, () => {}));
+    render(EditorControlsInApp(rhyme, HighlightingType.VOCALS, noopFunction, noopFunction));
 
     const selectedButton = document.querySelector('.selected');
     expect(selectedButton).toBeInTheDocument();
     expect(selectedButton?.querySelector('.icon-text')).toBeInTheDocument();
+  });
+
+  test('should request format of current editor value', () => {
+    const rhyme = getRhymeMock();
+    const requestFormatMock = jest.fn();
+
+    render(EditorControlsInApp(rhyme, null, noopFunction, requestFormatMock));
+
+    const formatIcon = document.querySelector('.icon-format');
+    if (formatIcon) {
+      fireEvent.click(formatIcon);
+    }
+
+    expect(requestFormatMock).toHaveBeenCalled();
   });
 
   test('should export current rhyme to snippet', () => {
@@ -82,7 +96,7 @@ describe('Editor-Controls', () => {
     const addSnippetMock = jest.fn();
     mockElectronTrigger(addSnippetMock);
 
-    render(EditorControlsInApp(rhyme, null, () => {}));
+    render(EditorControlsInApp(rhyme, null, noopFunction, noopFunction));
 
     const templateIcon = document.querySelector('.icon-template');
     if (templateIcon) {
@@ -99,7 +113,7 @@ describe('Editor-Controls', () => {
     const deletePhraserSongPartRhymeMock = jest.fn();
     mockElectronTrigger(deletePhraserSongPartRhymeMock);
 
-    render(EditorControlsInApp(rhyme, null, () => {}));
+    render(EditorControlsInApp(rhyme, null, noopFunction, noopFunction));
 
     const trashIcon = document.querySelector('.icon-trash');
     if (trashIcon) {

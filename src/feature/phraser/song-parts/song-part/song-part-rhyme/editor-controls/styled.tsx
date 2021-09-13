@@ -12,11 +12,14 @@ export const SEditorControls = styled.div`
   color: ${({ theme: { grey } }) => grey};
 
   .control-groups {
+    display: flex;
+    flex-direction: row;
+
     width: calc(100% - 2rem);
     height: 100%;
 
     .group {
-      display: inline-block;
+      display: flex;
 
       height: 100%;
 
@@ -26,13 +29,16 @@ export const SEditorControls = styled.div`
         margin-left: 1rem;
       }
 
-      button {
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         height: 100%;
         padding: 0 0.75rem;
 
         background: ${({ theme: { grey } }) => grey};
-        border: none;
-        outline: none;
+        color: ${({ theme: { black } }) => black};
 
         transition: background 0.15s ease-in-out;
         cursor: pointer;
@@ -49,24 +55,6 @@ export const SEditorControls = styled.div`
           background: ${({ theme: { yellow } }) => yellow};
         }
       }
-    }
-  }
-
-  .icon-trash {
-    position: absolute;
-    top: 0.25rem;
-    right: 0;
-
-    font-size: 1.25rem;
-
-    transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
-
-    &:not(:last-of-type) {
-      margin-right: 1rem;
-    }
-
-    &:hover {
-      color: ${({ theme: { yellow } }) => yellow};
     }
   }
 `;

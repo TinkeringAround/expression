@@ -26,9 +26,9 @@ export namespace Highlighting {
 
     switch (highlighting) {
       case HighlightingType.VOCALS:
-        return forGroups(lines);
-      case HighlightingType.GROUPS:
         return forVocals(lines);
+      case HighlightingType.GROUPS:
+        return forGroups(lines);
     }
   };
 

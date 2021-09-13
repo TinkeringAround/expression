@@ -2,6 +2,7 @@ import React, { FC, useCallback, useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { Rhyme } from '../../../../../store/phraser/types';
+import { formatPhraserSongPartRhyme } from '../../../../../store/phraser/actions';
 import { HighlightingType } from '../../../../../lib/rhyme/types';
 
 import EditorControls from './editor-controls';
@@ -17,6 +18,7 @@ export const RHYME_HEIGHT = 'calc(100px + 8.25rem)';
 
 const SongPartRhyme: FC<Props> = ({ rhyme, index }) => {
   const [highlighting, setHighlighting] = useState<HighlightingType | null>(null);
+  const [value, setValue] = useState<string>(rhyme.lines.join('\n'));
 
   const selectHighlighting = useCallback(
     selectedHighlighting => {
@@ -30,6 +32,10 @@ const SongPartRhyme: FC<Props> = ({ rhyme, index }) => {
     [highlighting]
   );
 
+  const formatRhyme = useCallback(() => {
+    formatPhraserSongPartRhyme({ ...rhyme, lines: value.split('\n') });
+  }, [rhyme, value]);
+
   return (
     <Draggable draggableId={rhyme.id} index={index}>
       {({ innerRef, draggableProps, dragHandleProps }) => (
@@ -38,8 +44,9 @@ const SongPartRhyme: FC<Props> = ({ rhyme, index }) => {
             rhyme={rhyme}
             highlighting={highlighting}
             selectHighlighting={selectHighlighting}
+            formatRhyme={formatRhyme}
           />
-          <Editor rhyme={rhyme} highlighting={highlighting} />
+          <Editor rhyme={rhyme} highlighting={highlighting} value={value} setValue={setValue} />
         </SRhyme>
       )}
     </Draggable>

@@ -38,6 +38,7 @@ export type IconType =
   | 'group'
   | 'template'
   | 'text'
+  | 'format'
   | NotificationType;
 
 interface Props {
