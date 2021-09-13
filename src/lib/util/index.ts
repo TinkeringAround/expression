@@ -9,6 +9,13 @@ import { Snapshot } from '../../store/types';
 export type anyFunction = (...anyThing: any) => void;
 
 /**
+ * Dictionary Interface
+ */
+export interface Dict<T> {
+  [key: string]: T;
+}
+
+/**
  * Converts bytes size to mb size with 'MB' extension
  * @param {number} bytes count
  * @returns {string} the size in mb as string with 'MB' extension

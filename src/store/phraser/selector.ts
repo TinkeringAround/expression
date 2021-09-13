@@ -1,8 +1,9 @@
 import { PhraserState } from './index';
 import { SongChange } from './types';
+import { Dict } from '../../lib/util';
 
 export const selectSongChangeGroups = ({ selectedSong }: PhraserState) => {
-  const initialSongChangeGroups: { [key: string]: Array<SongChange> } = {};
+  const initialSongChangeGroups: Dict<SongChange[]> = {};
 
   return (selectedSong?.changes ?? []).reduce((prev, songChange) => {
     const songChangeGroups = { ...prev };

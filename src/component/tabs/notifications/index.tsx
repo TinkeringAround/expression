@@ -11,17 +11,22 @@ import { SNotification, SNotifications } from './styled';
 
 const Notifications: FC = () => {
   const { notifications } = useNotification();
+  const hasNoNotifications = notifications.length === 0;
 
   return (
     <SNotifications>
       <h1>Notifications</h1>
       <div className="controls">
-        <button title="Clear Notifications" onClick={resetNotifications}>
+        <button
+          title="Clear Notifications"
+          disabled={hasNoNotifications}
+          onClick={resetNotifications}
+        >
           <Icon iconType="trash" />
         </button>
       </div>
-      <If condition={notifications.length === 0}>
-        <p>No Notifications yet...</p>
+      <If condition={hasNoNotifications}>
+        <p>No Notifications here yet.</p>
       </If>
       <div className="content">
         <For

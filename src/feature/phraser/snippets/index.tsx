@@ -27,7 +27,11 @@ const Snippets: FC = () => {
           <h1>Snippets</h1>
           <p>
             <If condition={hasSnippets}>Drag Snippets of Rhymes to parts of a selected song.</If>
-            <If condition={!hasSnippets}>No Snippets yet.</If>
+            <If condition={!hasSnippets}>
+              No Snippets.
+              <br />
+              Create some when editing songs.
+            </If>
           </p>
           <div className="content">
             <For

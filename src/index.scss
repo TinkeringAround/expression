@@ -101,6 +101,14 @@ body {
   content: "\e962";
 }
 
+.icon-expand:before {
+  content: "\e98b";
+}
+
+.icon-collapse:before {
+  content: "\e98c";
+}
+
 .icon-trash:before {
   content: "\e9ac";
 }

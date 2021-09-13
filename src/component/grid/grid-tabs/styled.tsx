@@ -149,22 +149,13 @@ export const SGridTabTemplate = styled.section`
     background: ${({ theme: { white } }) => white};
   }
 
-  p {
-    width: 80%;
-    margin: 0 0 2rem;
-
-    font-size: 0.9rem;
-    text-align: center;
-    color: ${({ theme: { second } }) => second};
-  }
-
   .controls {
     display: flex;
     justify-content: flex-end;
 
     width: 85%;
 
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 
     > button {
       display: flex;
@@ -174,7 +165,6 @@ export const SGridTabTemplate = styled.section`
       height: 2rem;
       width: 2rem;
 
-      background: ${({ theme: { grey } }) => grey};
       color: ${({ theme: { black } }) => black};
       border-radius: 3px;
       outline: none;
@@ -187,42 +177,55 @@ export const SGridTabTemplate = styled.section`
         cursor: pointer;
       }
 
-      &:hover {
+      &:hover:not(:disabled) {
         background: ${({ theme: { yellow } }) => yellow};
+      }
+
+      &:not(:first-of-type) {
+        margin-left: 0.25rem;
       }
     }
   }
-}
 
-> .content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  > p {
+    width: 80%;
+    margin: 0 0 2rem;
 
-  width: 100%;
-  min-height: 80%;
-
-  overflow: hidden auto;
-
-  ::-webkit-scrollbar-track {
-    display: none;
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.5;
+    color: ${({ theme: { darkGrey } }) => darkGrey};
   }
 
-  ::-webkit-scrollbar {
-    width: 15px;
-  }
+  > .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-  ::-webkit-scrollbar-thumb {
-    background-color: ${({ theme: { yellow } }) => yellow};
-    border-right: transparent solid 5px;
+    width: 100%;
+    min-height: 70%;
 
-    background-clip: padding-box;
+    overflow: hidden auto;
 
-    &:hover {
-      background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
+    ::-webkit-scrollbar-track {
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 15px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: ${({ theme: { yellow } }) => yellow};
+      border-right: transparent solid 5px;
+
+      background-clip: padding-box;
+
+      &:hover {
+        background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
+      }
     }
   }
-}
 `;
 
 export const SGridTabItemTemplate = styled.div`
