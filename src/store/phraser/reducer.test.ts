@@ -273,6 +273,59 @@ describe('phraser reducer', () => {
       usePhraser.setState(initialPhraserState);
     });
 
+    test('should update selectedSong in collection when another song gets selected', () => {
+      const song = getSongMock({ id: '1' });
+      const currentlySelectedSong = { ...song, id: '2', changes: [] };
+      const currentlySelectedAndChangedSong = { ...currentlySelectedSong, title: 'new-title' };
+      const updateMock = jest.fn();
+      usePhraser.setState({
+        update: updateMock,
+        collections: [
+          {
+            id: '1',
+            title: '',
+            songs: [song, { ...currentlySelectedSong, title: 'CurrentlySelectedSong' }]
+          }
+        ],
+        selectedSong: currentlySelectedAndChangedSong
+      });
+
+      selectPhraserSongRecipe(null, { song });
+
+      expect(updateMock).toHaveBeenCalledWith({
+        collections: [
+          {
+            id: '1',
+            title: '',
+            songs: [song, currentlySelectedAndChangedSong]
+          }
+        ],
+        selectedSong: { ...song, changes: [] }
+      });
+    });
+
+    test('should not update selectedSong in collection when selected Song is null', () => {
+      const song = getSongMock({ id: '1' });
+      const collection = {
+        id: '1',
+        title: '',
+        songs: [song, { ...song, id: '2', changes: [] }]
+      };
+      const updateMock = jest.fn();
+      usePhraser.setState({
+        update: updateMock,
+        collections: [collection],
+        selectedSong: null
+      });
+
+      selectPhraserSongRecipe(null, { song });
+
+      expect(updateMock).toHaveBeenCalledWith({
+        collections: [collection],
+        selectedSong: { ...song, changes: [] }
+      });
+    });
+
     test('should select song when ids differ', () => {
       const song = getSongMock({ id: '1' });
       const updateMock = jest.fn();
@@ -283,7 +336,10 @@ describe('phraser reducer', () => {
 
       selectPhraserSongRecipe(null, { song });
 
-      expect(updateMock).toHaveBeenCalledWith({ selectedSong: { ...song, changes: [] } });
+      expect(updateMock).toHaveBeenCalledWith({
+        collections: [],
+        selectedSong: { ...song, changes: [] }
+      });
     });
 
     test('should not select song when song is selected yet', () => {

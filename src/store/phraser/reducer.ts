@@ -24,6 +24,7 @@ import { withSongChanges } from '../../lib/song';
 import { useNotification } from '../notification';
 import { useSnippet } from '../snippet';
 import { RhymeTransform } from '../../lib/rhyme/transform';
+import { selectSelectedSongIndices } from './selector';
 
 const { on } = window.electron;
 
@@ -143,21 +144,7 @@ export const deletePhraserCollectionSongRecipe = (_: null) => {
   const { update, collections, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
-    let collectionIndex = -1,
-      songIndex = -1;
-
-    collections.some((collection, index) => {
-      collection.songs.some((song, songIdx) => {
-        if (song.id === selectedSong.id) {
-          collectionIndex = index;
-          songIndex = songIdx;
-        }
-
-        return songIndex >= 0;
-      });
-
-      return collectionIndex >= 0;
-    });
+    const { collectionIndex, songIndex } = selectSelectedSongIndices(usePhraser.getState());
 
     collections[collectionIndex].songs.splice(songIndex, 1);
 
@@ -166,10 +153,19 @@ export const deletePhraserCollectionSongRecipe = (_: null) => {
 };
 
 export const selectPhraserSongRecipe = (_: null, { song }: SelectPhraserSongPayload) => {
-  const { update, selectedSong } = usePhraser.getState();
+  const { update, collections, selectedSong } = usePhraser.getState();
+
+  if (selectedSong) {
+    const { collectionIndex, songIndex } = selectSelectedSongIndices(usePhraser.getState());
+
+    if (collectionIndex >= 0 && songIndex >= 0) {
+      collections[collectionIndex].songs[songIndex] = selectedSong;
+    }
+  }
 
   if (selectedSong?.id !== song.id) {
     update({
+      collections,
       selectedSong: { ...song }
     });
   }
@@ -179,17 +175,7 @@ export const updatePhraserSongTitleRecipe = (_: null, { title }: UpdatePhraserSo
   const { update, collections, selectedSong } = usePhraser.getState();
 
   if (selectedSong) {
-    let collectionIndex = -1,
-      songIndex = -1;
-    collections.some((collection, colIndex) => {
-      songIndex = collection.songs.findIndex(song => song.id === selectedSong.id);
-
-      if (songIndex >= 0) {
-        collectionIndex = colIndex;
-      }
-
-      return songIndex >= 0;
-    });
+    const { collectionIndex, songIndex } = selectSelectedSongIndices(usePhraser.getState());
 
     selectedSong.title = title;
     collections[collectionIndex].songs[songIndex].title = title;

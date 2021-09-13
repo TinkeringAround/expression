@@ -3,6 +3,7 @@ import { DraggableLocation } from 'react-beautiful-dnd';
 import { ACTION } from '../action-types';
 import { Rhyme, Song } from './types';
 import { usePhraser } from './index';
+import { selectSelectedSongIndices } from './selector';
 
 const { dispatch, trigger } = window.electron;
 
@@ -11,30 +12,10 @@ export const loadPhraser = () => dispatch(ACTION.loadPhraser);
 
 export const updatePhraser = () => {
   const { collections, selectedSong } = usePhraser.getState();
+  const { collectionIndex, songIndex } = selectSelectedSongIndices(usePhraser.getState());
 
-  if (selectedSong) {
-    let collectionIndex = -1,
-      songIndex = -1;
-
-    collections.some((collection, index) => {
-      collection.songs.some((song, songIdx) => {
-        if (song.id === selectedSong?.id) {
-          songIndex = songIdx;
-        }
-
-        return songIndex >= 0;
-      });
-
-      if (songIndex >= 0) {
-        collectionIndex = index;
-      }
-
-      return collectionIndex >= 0;
-    });
-
-    if (collectionIndex >= 0 && songIndex >= 0) {
-      collections[collectionIndex].songs[songIndex] = selectedSong;
-    }
+  if (selectedSong && collectionIndex >= 0 && songIndex >= 0) {
+    collections[collectionIndex].songs[songIndex] = selectedSong;
   }
 
   dispatch(ACTION.updatePhraser, { phraser: { collections } });
