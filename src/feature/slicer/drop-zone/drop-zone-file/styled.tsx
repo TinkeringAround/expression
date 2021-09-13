@@ -36,6 +36,8 @@ export const SDropZoneFile = styled.div`
 
     font-size: 1.75rem;
 
+    cursor: pointer;
+
     &[class*='trash'] {
       position: absolute;
       right: 20px;
@@ -50,7 +52,7 @@ export const SDropZoneFile = styled.div`
       transition: opacity 0.3s ease-in-out 0.1s, color 0.2s ease-in-out;
 
       &:hover {
-        color: ${({ theme: { orange } }) => orange};
+        color: ${({ theme: { white } }) => white};
       }
     }
   }

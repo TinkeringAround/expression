@@ -51,6 +51,8 @@ const DropZone: FC = () => {
 
   return (
     <SDropZone role="dropzone" {...getRootProps()}>
+      <h1>Audio Files</h1>
+
       {/* White Overlay when dragged */}
       <If condition={isDragActive}>
         <SResizableOverlay role="overlay" />

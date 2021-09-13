@@ -60,12 +60,17 @@ export const SParts = styled.div`
     }
 
     .icon {
-      font-size: 1.75rem;
+      width: 3rem;
+      height: 3rem;
 
-      transition: opacity 0.15s ease-in-out 0.15s, color 0.15s ease-in-out;
+      font-size: 1.5rem;
+      background: ${({ theme: { grey } }) => grey};
+      border-radius: 3px;
+
+      transition: background 0.2s ease-in-out;
 
       &:hover {
-        color: ${({ theme: { yellow } }) => yellow};
+        background: ${({ theme: { yellow } }) => yellow};
       }
     }
   }

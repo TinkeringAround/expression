@@ -1,47 +1,44 @@
 import styled from 'styled-components';
 
-import { SGridTab } from '../../../component/grid/grid-tabs/styled';
+import { SGridTabTemplate, SGridTabItemTemplate } from '../../../component/grid/grid-tabs/styled';
 
-export const SSnippets = styled(SGridTab)``;
+export const SSnippets = styled(SGridTabTemplate)``;
 
-export const SSnippet = styled.div`
-  position: relative;
-
-  display: flex;
+export const SSnippet = styled(SGridTabItemTemplate)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   width: 80%;
-  padding: 1rem 0.5rem;
+  padding: 1.25rem 1.25rem;
 
-  background: ${({ theme: { light } }) => light};
-  border-radius: 3px;
-
-  box-sizing: border-box;
-  transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
-
-  &:hover {
-    color: ${({ theme: { second } }) => second};
-    background: ${({ theme: { yellow } }) => yellow};
-
+  &:hover,
+  :active {
     .icon {
       opacity: 1;
+
+      color: ${({ theme: { black } }) => black};
     }
   }
 
   .icon {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    width: 2rem;
+    height: 2rem;
 
     font-size: 1rem;
+    background: ${({ theme: { light } }) => light};
+    border-radius: 3px;
 
     opacity: 0;
     transition: opacity 0.15s ease-in-out;
   }
 
   p {
+    width: 100%;
     margin: 0.25rem 0 0;
 
     font-size: 0.8rem;

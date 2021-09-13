@@ -27,7 +27,11 @@ const Snippets: FC = () => {
           <h1>Snippets</h1>
           <p>
             <If condition={hasSnippets}>Drag Snippets of Rhymes to parts of a selected song.</If>
-            <If condition={!hasSnippets}>No Snippets yet.</If>
+            <If condition={!hasSnippets}>
+              No Snippets.
+              <br />
+              Create some when editing songs.
+            </If>
           </p>
           <div className="content">
             <For
@@ -36,7 +40,11 @@ const Snippets: FC = () => {
                 <Draggable key={snippet.id} draggableId={snippet.id} index={index}>
                   {({ innerRef, draggableProps, dragHandleProps }) => (
                     <SSnippet ref={innerRef} {...draggableProps} {...dragHandleProps}>
-                      <Icon iconType="trash" onClick={() => onDelete(snippet.id)} />
+                      <Icon
+                        title="Delete Snippet"
+                        iconType="trash"
+                        onClick={() => onDelete(snippet.id)}
+                      />
                       <p>
                         {snippet.lines.map((line, lineIndex) => (
                           <span key={`line-${lineIndex}`}>{line}</span>

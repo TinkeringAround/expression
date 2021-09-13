@@ -39,6 +39,8 @@ export type IconType =
   | 'template'
   | 'text'
   | 'format'
+  | 'collapse'
+  | 'expand'
   | NotificationType;
 
 interface Props {

@@ -35,7 +35,9 @@ const Info: FC = () => {
     <SInfo>
       <div className="aboutFileName" onClick={onCopy}>
         <Icon iconType={getAudioType(type)} />
-        <h1 title={removeAudioFileTypeFromName(name)}>{removeAudioFileTypeFromName(name)}</h1>
+        <h1 title={`Copy File Path for '${removeAudioFileTypeFromName(name)}' to Clipboard`}>
+          {removeAudioFileTypeFromName(name)}
+        </h1>
       </div>
 
       <div className="aboutFileSize">

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const SRhyme = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 
   width: 100%;
   height: calc(100px + 8.25rem);

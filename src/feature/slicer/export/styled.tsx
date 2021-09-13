@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { SGridTab } from '../../../component/grid/grid-tabs/styled';
+import { SGridTabTemplate } from '../../../component/grid/grid-tabs/styled';
 
-export const SExport = styled(SGridTab)`
+export const SExport = styled(SGridTabTemplate)`
   p {
     text-align: justify;
   }
