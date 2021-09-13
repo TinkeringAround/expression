@@ -10,7 +10,7 @@ export const SSnippet = styled(SGridTabItemTemplate)`
   align-items: center;
 
   width: 80%;
-  padding: 1rem 0.5rem;
+  padding: 1.25rem 1.25rem;
 
   &:hover,
   :active {
@@ -23,16 +23,22 @@ export const SSnippet = styled(SGridTabItemTemplate)`
 
   .icon {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 0.75rem;
+    right: 0.75rem;
+
+    width: 2rem;
+    height: 2rem;
 
     font-size: 1rem;
+    background: ${({ theme: { light } }) => light};
+    border-radius: 3px;
 
     opacity: 0;
     transition: opacity 0.15s ease-in-out;
   }
 
   p {
+    width: 100%;
     margin: 0.25rem 0 0;
 
     font-size: 0.8rem;
