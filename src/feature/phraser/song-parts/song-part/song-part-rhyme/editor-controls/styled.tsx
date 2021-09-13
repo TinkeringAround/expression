@@ -7,7 +7,6 @@ export const SEditorControls = styled.div`
 
   width: 100%;
   height: var(--height);
-  margin-bottom: 1.25rem;
 
   color: ${({ theme: { grey } }) => grey};
 
@@ -54,6 +53,18 @@ export const SEditorControls = styled.div`
         &:hover {
           background: ${({ theme: { yellow } }) => yellow};
         }
+      }
+
+      > :first-child {
+        border-radius: 3px 0 0 3px;
+      }
+
+      > :last-child {
+        border-radius: 0 3px 3px 0;
+      }
+
+      > :only-child {
+        border-radius: 3px;
       }
     }
   }

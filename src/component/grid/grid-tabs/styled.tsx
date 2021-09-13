@@ -29,6 +29,7 @@ export const SGridTabs = styled.aside<{ expanded: boolean }>`
 
 export const SGridTabIndicator = styled.span<{ active: boolean }>`
   position: relative;
+  right: 0;
 
   display: flex;
   align-items: center;
@@ -43,7 +44,7 @@ export const SGridTabIndicator = styled.span<{ active: boolean }>`
 
   border-radius: 5px 0 0 5px;
 
-  transition: background 0.15s ease-in-out;
+  transition: background 0.15s ease-in-out, width 0.15s ease-in-out, right 0.15s ease-in-out;
   cursor: pointer;
 
   > .count {
@@ -83,9 +84,16 @@ export const SGridTabIndicator = styled.span<{ active: boolean }>`
     background: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.7')};
   }
 
-  ${({ active, theme: { hexToRgbA, orange } }) =>
+  ${({ active, theme: { hexToRgbA, orange, white } }) =>
     active &&
-    ` background: ${orange}; 
+    ` 
+      width: calc(100% + 0.5rem);
+      right: 0.5rem;
+      
+      background: ${orange};
+      color: ${white};
+      font-weight: bold;
+      
       &:hover {
         background: ${hexToRgbA(orange, '0.7')};
       }`}
@@ -107,7 +115,7 @@ export const SGridTabContent = styled.div`
   ${fadeIn};
 `;
 
-export const SGridTab = styled.section`
+export const SGridTabTemplate = styled.section`
   position: relative;
 
   display: flex;
@@ -150,33 +158,88 @@ export const SGridTab = styled.section`
     color: ${({ theme: { second } }) => second};
   }
 
-  > .content {
+  .controls {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-end;
 
-    width: 100%;
-    min-height: 80%;
+    width: 85%;
 
-    overflow: hidden auto;
+    margin-bottom: 1rem;
 
-    ::-webkit-scrollbar-track {
-      display: none;
-    }
+    > button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    ::-webkit-scrollbar {
-      width: 15px;
-    }
+      height: 2rem;
+      width: 2rem;
 
-    ::-webkit-scrollbar-thumb {
-      background-color: ${({ theme: { yellow } }) => yellow};
-      border-right: transparent solid 5px;
+      background: ${({ theme: { grey } }) => grey};
+      color: ${({ theme: { black } }) => black};
+      border-radius: 3px;
+      outline: none;
+      border: none;
 
-      background-clip: padding-box;
+      transition: background 0.15s ease-in-out;
+      cursor: pointer;
+
+      .icon {
+        cursor: pointer;
+      }
 
       &:hover {
-        background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
+        background: ${({ theme: { yellow } }) => yellow};
       }
     }
+  }
+}
+
+> .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  min-height: 80%;
+
+  overflow: hidden auto;
+
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme: { yellow } }) => yellow};
+    border-right: transparent solid 5px;
+
+    background-clip: padding-box;
+
+    &:hover {
+      background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
+    }
+  }
+}
+`;
+
+export const SGridTabItemTemplate = styled.div`
+  position: relative;
+
+  display: flex;
+
+  background: ${({ theme: { light } }) => light};
+  border-radius: 3px;
+  box-shadow: rgb(206 206 206) 2px 2px 3px 0;
+
+  box-sizing: border-box;
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
+
+  &:hover,
+  &:active {
+    color: ${({ theme: { white } }) => white};
+    background: ${({ theme: { yellow } }) => yellow};
   }
 `;

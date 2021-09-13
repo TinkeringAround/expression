@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
-import { SGridTab } from '../../../component/grid/grid-tabs/styled';
+import { SGridTabTemplate, SGridTabItemTemplate } from '../../../component/grid/grid-tabs/styled';
 
-export const SSnippets = styled(SGridTab)``;
+export const SSnippets = styled(SGridTabTemplate)``;
 
-export const SSnippet = styled.div`
-  position: relative;
-
-  display: flex;
+export const SSnippet = styled(SGridTabItemTemplate)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -15,18 +12,12 @@ export const SSnippet = styled.div`
   width: 80%;
   padding: 1rem 0.5rem;
 
-  background: ${({ theme: { light } }) => light};
-  border-radius: 3px;
-
-  box-sizing: border-box;
-  transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
-
-  &:hover {
-    color: ${({ theme: { second } }) => second};
-    background: ${({ theme: { yellow } }) => yellow};
-
+  &:hover,
+  :active {
     .icon {
       opacity: 1;
+
+      color: ${({ theme: { black } }) => black};
     }
   }
 

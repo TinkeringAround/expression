@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { SGridTab } from '../../../component/grid/grid-tabs/styled';
+import { SGridTabTemplate } from '../../../component/grid/grid-tabs/styled';
 import { noScrollbar } from '../../../scrollbar';
 
-export const SChanges = styled(SGridTab)`
+export const SChanges = styled(SGridTabTemplate)`
   section {
     display: flex;
     flex-direction: column;
