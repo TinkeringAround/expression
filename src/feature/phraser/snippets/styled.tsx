@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 
 import { SGridTab } from '../../../component/grid/grid-tabs/styled';
-import { noScrollbar } from '../../../scrollbar';
 
-export const SSnippets = styled(SGridTab)`
-  ${noScrollbar};
-`;
+export const SSnippets = styled(SGridTab)``;
 
 export const SSnippet = styled.div`
   position: relative;

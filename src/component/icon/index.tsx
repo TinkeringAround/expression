@@ -35,6 +35,10 @@ export type IconType =
   | 'plus'
   | 'minus'
   | 'reorder'
+  | 'group'
+  | 'template'
+  | 'text'
+  | 'format'
   | NotificationType;
 
 interface Props {

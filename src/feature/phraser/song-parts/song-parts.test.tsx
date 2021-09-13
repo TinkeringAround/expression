@@ -10,17 +10,17 @@ import {
   updatePhraserSongTitleRecipe
 } from '../../../store/phraser/reducer';
 
-import Parts from './index';
+import SongParts from './index';
 
 import { AppMock } from '../../../mock/components';
 import { getPhraserMock, getSongMock } from '../../../mock/phraser';
 import { mockElectronTrigger } from '../../../mock/electron';
 
-describe('Parts', () => {
+describe('SongParts', () => {
   const PartsInApp = (
     <AppMock>
       <DragDropContext onDragEnd={() => {}}>
-        <Parts />
+        <SongParts />
       </DragDropContext>
     </AppMock>
   );
@@ -37,7 +37,7 @@ describe('Parts', () => {
     expect(screen.getByText('Add Part')).toBeInTheDocument();
   });
 
-  test('should render song title and add part footer', () => {
+  test('should render song title and add song-part footer', () => {
     const song = getSongMock();
     usePhraser.setState(getPhraserMock({ selectedSong: { ...song, changes: [] } }));
 
@@ -51,7 +51,7 @@ describe('Parts', () => {
     });
   });
 
-  test('should add song part when clicked on add part button', () => {
+  test('should add song song-part when clicked on add song-part button', () => {
     const song = getSongMock({ parts: [] });
 
     mockElectronTrigger(addPhraserSongPartRecipe);
@@ -107,7 +107,7 @@ describe('Parts', () => {
     expect(updatePhraseSongTitleMock).not.toHaveBeenCalled();
   });
 
-  test('should delete part when confirm deletion via confirmation dialog', async () => {
+  test('should delete song-part when confirm deletion via confirmation dialog', async () => {
     const updateMock = jest.fn();
     const song = getSongMock();
 
@@ -153,7 +153,7 @@ describe('Parts', () => {
     });
   });
 
-  test('should delete part when confirm deletion via confirmation dialog', async () => {
+  test('should delete song-part when confirm deletion via confirmation dialog', async () => {
     const song = getSongMock();
 
     usePhraser.setState(

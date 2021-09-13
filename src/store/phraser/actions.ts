@@ -1,7 +1,7 @@
 import { DraggableLocation } from 'react-beautiful-dnd';
 
 import { ACTION } from '../action-types';
-import { Song } from './types';
+import { Rhyme, Song } from './types';
 import { usePhraser } from './index';
 
 const { dispatch, trigger } = window.electron;
@@ -125,3 +125,8 @@ export const movePhraserSongPartRhyme = (
     source,
     destination
   });
+
+export const formatPhraserSongPartRhyme = ({ id, lines }: Rhyme) => {
+  const formattedLines = lines.map(line => line.trim()).join('\n');
+  updatePhraserSongPartRhyme(id, formattedLines);
+};

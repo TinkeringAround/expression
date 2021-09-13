@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { Template, TemplateDescriptions } from '../../../store/phraser/types';
-import { toTemplate } from '../../../lib/rhyme';
+import { RhymeTransform } from '../../../lib/rhyme/transform';
 
 import For from '../../../component/for';
 
@@ -26,7 +26,7 @@ const Templates: FC = () => {
                 {({ innerRef, draggableProps, dragHandleProps }) => (
                   <STemplate ref={innerRef} {...draggableProps} {...dragHandleProps}>
                     <h4>{template}</h4>
-                    <p>{TemplateDescriptions[toTemplate(template)]}</p>
+                    <p>{TemplateDescriptions[RhymeTransform.toTemplate(template)]}</p>
                   </STemplate>
                 )}
               </Draggable>

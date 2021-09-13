@@ -1,5 +1,4 @@
-import { DraggableLocation } from 'react-beautiful-dnd';
-import { HasError, HasId, Snapshot } from '../types';
+import { HasDestination, HasError, HasId, HasSource, Snapshot } from '../types';
 
 export enum Pattern {
   NONE = '',
@@ -42,11 +41,6 @@ export interface Rhyme extends HasId {
   lines: string[];
 }
 
-export interface HighlightedLine {
-  text: string;
-  color?: string;
-}
-
 export interface Diff<T> {
   from: T;
   to: T;
@@ -77,14 +71,6 @@ export interface HasPartId {
 
 export interface HasRhymeId {
   rhymeId: string;
-}
-
-export interface HasSource {
-  source: DraggableLocation;
-}
-
-export interface HasDestination {
-  destination: DraggableLocation;
 }
 
 export interface SourceDestination extends HasSource, HasDestination {}

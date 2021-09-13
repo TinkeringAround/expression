@@ -1,34 +1,11 @@
 import styled from 'styled-components';
 
-export const SNotifications = styled.section`
-  position: relative;
+import { SGridTab } from '../../grid/grid-tabs/styled';
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-  padding: 1rem 0 2rem;
-
-  overflow: hidden;
-  box-sizing: border-box;
-
-  h1 {
-    width: 100%;
-    margin: 0;
-    padding: 1rem 0;
-
-    font-size: 1.5rem;
-    background: ${({ theme: { white } }) => white};
-    text-align: center;
-
-    z-index: 2;
-  }
-
+export const SNotifications = styled(SGridTab)`
   .icon-trash {
     position: absolute;
-    top: 2.25rem;
+    top: 2.5rem;
     right: 1rem;
 
     color: ${({ theme: { black } }) => black};
@@ -38,44 +15,7 @@ export const SNotifications = styled.section`
     z-index: 3;
 
     &:hover {
-      color: ${({ theme: { orange } }) => orange};
-    }
-  }
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    width: 100%;
-    min-height: 80%;
-
-    overflow: hidden auto;
-
-    > p {
-      margin: auto;
-
-      font-size: 0.8rem;
-      color: ${({ theme: { grey } }) => grey};
-    }
-
-    ::-webkit-scrollbar-track {
-      display: none;
-    }
-
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: ${({ theme: { yellow } }) => yellow};
-      border-radius: 2px;
-
-      background-clip: padding-box;
-
-      &:hover {
-        background-color: ${({ theme: { hexToRgbA, yellow } }) => hexToRgbA(yellow, '0.8')};
-      }
+      color: ${({ theme: { yellow } }) => yellow};
     }
   }
 `;
@@ -86,7 +26,7 @@ export const SNotification = styled.div`
 
   width: 90%;
 
-  padding: 0.5rem 1.25rem;
+  padding: 1rem 1.25rem;
   margin-bottom: 1rem;
 
   border-radius: 2px;
@@ -129,7 +69,7 @@ export const SNotification = styled.div`
     }
   }
 
-  p {
+  span.content {
     display: flex;
     align-items: center;
 

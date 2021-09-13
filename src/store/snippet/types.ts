@@ -1,5 +1,5 @@
 import { Rhyme } from '../phraser/types';
-import { HasError, HasId } from '../types';
+import { HasDestination, HasError, HasId, HasSource } from '../types';
 
 export interface Snippet extends Rhyme {}
 
@@ -12,3 +12,5 @@ export interface AddSnippetPayload {
 }
 
 export interface DeleteSnippetPayload extends HasId {}
+
+export interface ReorderSnippetPayload extends HasSource, HasDestination {}

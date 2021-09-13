@@ -29,23 +29,25 @@ const Snippets: FC = () => {
             <If condition={hasSnippets}>Drag Snippets of Rhymes to parts of a selected song.</If>
             <If condition={!hasSnippets}>No Snippets yet.</If>
           </p>
-          <For
-            values={snippets}
-            projector={(snippet, index) => (
-              <Draggable key={snippet.id} draggableId={snippet.id} index={index}>
-                {({ innerRef, draggableProps, dragHandleProps }) => (
-                  <SSnippet ref={innerRef} {...draggableProps} {...dragHandleProps}>
-                    <Icon iconType="trash" onClick={() => onDelete(snippet.id)} />
-                    <p>
-                      {snippet.lines.map((line, lineIndex) => (
-                        <span key={`line-${lineIndex}`}>{line}</span>
-                      ))}
-                    </p>
-                  </SSnippet>
-                )}
-              </Draggable>
-            )}
-          />
+          <div className="content">
+            <For
+              values={snippets}
+              projector={(snippet, index) => (
+                <Draggable key={snippet.id} draggableId={snippet.id} index={index}>
+                  {({ innerRef, draggableProps, dragHandleProps }) => (
+                    <SSnippet ref={innerRef} {...draggableProps} {...dragHandleProps}>
+                      <Icon iconType="trash" onClick={() => onDelete(snippet.id)} />
+                      <p>
+                        {snippet.lines.map((line, lineIndex) => (
+                          <span key={`line-${lineIndex}`}>{line}</span>
+                        ))}
+                      </p>
+                    </SSnippet>
+                  )}
+                </Draggable>
+              )}
+            />
+          </div>
           {placeholder}
         </SSnippets>
       )}
