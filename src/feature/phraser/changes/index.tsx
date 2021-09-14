@@ -86,7 +86,7 @@ const Changes: FC = () => {
         <For
           values={Object.keys(changeGroups)}
           projector={(key: string, index: number) => (
-            <section key={index}>
+            <section key={`${index}-${collapsedChangeGroups[key]}`}>
               <h2
                 title="Show/Hide Changes for this Date"
                 onClick={() => toggleCollapseStateForChangeGroup(key)}
