@@ -36,7 +36,9 @@ const Editor: FC<Props> = ({ rhyme, highlighting, value, setValue }) => {
   );
 
   const updateRhyme = useCallback(() => {
-    updatePhraserSongPartRhyme(rhyme.id, value);
+    if (rhyme.lines.join('\n') !== value) {
+      updatePhraserSongPartRhyme(rhyme.id, value);
+    }
   }, [rhyme, value]);
 
   const onScroll = useCallback(

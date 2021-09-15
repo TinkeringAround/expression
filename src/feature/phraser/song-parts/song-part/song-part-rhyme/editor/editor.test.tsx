@@ -79,6 +79,18 @@ describe('Editor', () => {
     });
   });
 
+  test('should not update rhyme value in state when textArea blurs but does not differ', () => {
+    const rhyme = getRhymeMock();
+    const updatePhraserSongPartRhymeMock = jest.fn();
+    mockElectronTrigger(updatePhraserSongPartRhymeMock);
+
+    render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), noopFunction));
+
+    fireEvent.blur(screen.getByRole('textbox'));
+
+    expect(updatePhraserSongPartRhymeMock).not.toHaveBeenCalled();
+  });
+
   test('should mirror textarea scroll values when textare is overflown and scrolled', () => {
     const rhyme = getRhymeMock();
     render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), noopFunction));
