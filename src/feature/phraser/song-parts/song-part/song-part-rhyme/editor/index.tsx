@@ -5,6 +5,7 @@ import { updatePhraserSongPartRhyme } from '../../../../../../store/phraser/acti
 import { useRefCallback } from '../../../../../../hook/useRefCallback';
 import { HighlightingType } from '../../../../../../lib/rhyme/types';
 import { Highlighting } from '../../../../../../lib/rhyme/highlighting';
+import { Syllables } from '../../../../../../lib/rhyme/syllables';
 
 import For from '../../../../../../component/for';
 
@@ -57,6 +58,11 @@ const Editor: FC<Props> = ({ rhyme, highlighting, value, setValue }) => {
 
   return (
     <SEditor>
+      <div className="syllables">
+        {value.split('\n').map((line, index) => (
+          <b key={`line-${index}-syllable-count`}>{Syllables.fromLine(line).length}</b>
+        ))}
+      </div>
       <textarea
         rows={4}
         spellCheck={false}
