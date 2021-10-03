@@ -5,7 +5,8 @@ export namespace Cores {
   const MATCHES: { [key: string]: string[] } = {
     a: ['a', 'ä'],
     e: ['e'],
-    o: ['o'],
+    o: ['o', 'oo'],
+    oo: ['oo', 'o'],
     u: ['u'],
     i: ['i', 'ie', 'ea'],
     ei: ['ei', 'ai'],
@@ -56,7 +57,7 @@ export namespace Cores {
       ) {
         const reversedCompareCores = flatten(fromLine(lines[compareLineIndex])).reverse();
 
-        const cancelComparison = reversedCores.some((core, index) => {
+        reversedCores.some((core, index) => {
           const coreCompare = reversedCompareCores[index];
 
           if (isMatching(core, coreCompare)) {
@@ -67,10 +68,6 @@ export namespace Cores {
             return true;
           }
         });
-
-        if (cancelComparison) {
-          break;
-        }
       }
     }
 
