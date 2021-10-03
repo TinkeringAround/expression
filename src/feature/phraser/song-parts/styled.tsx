@@ -27,7 +27,7 @@ export const SParts = styled.div`
     background: ${({ theme: { light } }) => light};
 
     box-sizing: border-box;
-    z-index: 3;
+    z-index: 5;
 
     .song-name {
       width: calc(100% - 8rem);

@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { Rhyme } from '../../../../../../store/phraser/types';
 import { HighlightingType } from '../../../../../../lib/rhyme/types';
+import { Syllables } from '../../../../../../lib/rhyme/syllables';
 
 import Editor from './index';
 
@@ -25,12 +26,23 @@ describe('Editor', () => {
 
   const noopFunction = () => {};
 
-  test('should render textarea and highlighting overlay', () => {
+  test('should render syllables, textarea and highlighting overlay', () => {
     const rhyme = getRhymeMock();
     render(EditorInApp(rhyme, null, '', noopFunction));
 
+    expect(document.querySelectorAll('b').length).toBe(1);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
     expect(document.querySelector('.highlighting')).toBeInTheDocument();
+  });
+
+  test('should display syllable counts for all lines', () => {
+    const rhyme = getRhymeMock();
+    render(EditorInApp(rhyme, null, rhyme.lines.join('\n'), noopFunction));
+
+    const syllableCounts = document.querySelectorAll('b');
+    syllableCounts.forEach((syllable, index) => {
+      expect(syllable.innerHTML).toBe(`${Syllables.fromLine(rhyme.lines[index]).length}`);
+    });
   });
 
   test('should update textarea value when input changes and is below 4 rows', () => {

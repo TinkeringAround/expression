@@ -12,42 +12,42 @@ export const SEditor = styled.div`
   width: 100%;
   height: var(--height);
 
-  textarea {
+  div.syllables {
     position: absolute;
-    bottom: 0;
-    left: 0;
     top: 0;
+    left: 0;
 
-    width: 100%;
+    width: 2rem;
     height: 100%;
-    padding: 1rem;
 
-    font-family: 'Roboto', sans-serif;
-    font-size: var(--fontSize);
-    line-height: var(--lineHeight);
-    color: ${({ theme: { black } }) => black};
-    background: transparent;
+    padding: 1rem 0 1rem 0.25rem;
+    margin: 0;
 
     border: 3px solid transparent;
-    outline: none;
-    border-radius: 3px;
-
-    white-space: pre;
-    overflow-wrap: normal;
-
     box-sizing: border-box;
-    resize: none;
-    overflow: auto hidden;
-    transition: border 0.15s ease-in-out;
-    z-index: 2;
+    z-index: 3;
 
     ${noScrollbar};
 
-    &:focus {
-      border: 3px solid ${({ theme: { yellow } }) => yellow};
+    & > b {
+      display: block;
+
+      height: calc(var(--fontSize) * 1.15);
+
+      font-family: 'Roboto', sans-serif;
+      font-size: calc(var(--fontSize) / 1.75);
+      line-height: var(--lineHeight);
+      color: ${({ theme: { yellow } }) => yellow};
+
+      text-align: center;
+      white-space: pre;
+      overflow-wrap: normal;
+
+      box-sizing: border-box;
     }
   }
 
+  textarea,
   div.highlighting {
     position: absolute;
     bottom: 0;
@@ -56,25 +56,46 @@ export const SEditor = styled.div`
 
     width: 100%;
     height: 100%;
+    padding: 1rem 2rem;
     margin: 0;
-    padding: 1rem;
 
     font-family: 'Roboto', sans-serif;
     font-size: var(--fontSize);
     line-height: var(--lineHeight);
+
+    white-space: pre;
+    overflow-wrap: normal;
+
+    border-radius: 3px;
+    overflow: auto hidden;
+    box-sizing: border-box;
+
+    ${noScrollbar};
+  }
+
+  textarea {
+    color: ${({ theme: { black } }) => black};
+    background: transparent;
+
+    border: 3px solid transparent;
+    outline: none;
+
+    resize: none;
+    transition: border 0.15s ease-in-out;
+    z-index: 2;
+
+    &:focus {
+      border: 3px solid ${({ theme: { yellow } }) => yellow};
+    }
+  }
+
+  div.highlighting {
     color: transparent;
     background: ${({ theme: { white } }) => white};
 
     border: 3px solid transparent;
 
-    white-space: pre;
-    overflow-wrap: normal;
-
-    overflow: auto hidden;
-    box-sizing: border-box;
     z-index: 0;
-
-    ${noScrollbar};
 
     span.yellow {
       color: transparent;
