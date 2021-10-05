@@ -1,15 +1,14 @@
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { useSnippet } from '../../../store/snippet';
-import { Snippet } from '../../../store/snippet/types';
 
 import Snippets from './index';
 
 import { AppMock } from '../../../mock/components';
-import { getSnippetsMock } from '../../../mock/snippet';
+import { getSnippetMock, getSnippetsMock } from '../../../mock/snippet';
 import { mockElectronTrigger } from '../../../mock/electron';
 
 describe('Snippets', () => {
@@ -20,6 +19,8 @@ describe('Snippets', () => {
       </DragDropContext>
     </AppMock>
   );
+  const firstSnippet = getSnippetMock({ lines: ['First Snippet'] });
+  const secondSnippet = getSnippetMock({ id: '1112', lines: ['Second Snippet'] });
 
   test('should render all snippets', () => {
     const snippetsState = getSnippetsMock();
@@ -34,10 +35,53 @@ describe('Snippets', () => {
     });
   });
 
+  test('should filter snippets when search input changes', async () => {
+    jest.useFakeTimers();
+    const snippetsState = getSnippetsMock({ snippets: [firstSnippet, secondSnippet] });
+    useSnippet.setState(snippetsState);
+
+    render(SnippetsInApp);
+
+    act(() => {
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'SECOND' } });
+      jest.advanceTimersByTime(500);
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText(firstSnippet.lines[0])).not.toBeInTheDocument();
+      expect(screen.getByText(secondSnippet.lines[0])).toBeInTheDocument();
+    });
+
+    jest.useRealTimers();
+  });
+
+  test('should show all snippets when reset search input', () => {
+    jest.useFakeTimers();
+    const snippetsState = getSnippetsMock({ snippets: [firstSnippet, secondSnippet] });
+    useSnippet.setState(snippetsState);
+
+    render(SnippetsInApp);
+
+    act(() => {
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'SECOND' } });
+      jest.advanceTimersByTime(500);
+
+      const crossIcon = document.querySelector('.icon-cross');
+      if (crossIcon) {
+        fireEvent.click(crossIcon);
+      }
+
+      jest.advanceTimersByTime(500);
+    });
+
+    expect(screen.getByText(firstSnippet.lines[0])).toBeInTheDocument();
+    expect(screen.getByText(secondSnippet.lines[0])).toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
   test('should delete snippet when trash icon clicked', () => {
-    const snippet: Snippet = { id: '1', lines: ['line'] };
     const deleteSnippetMock = jest.fn();
-    useSnippet.setState({ snippets: [snippet] });
+    useSnippet.setState({ snippets: [firstSnippet] });
     mockElectronTrigger(deleteSnippetMock);
 
     render(SnippetsInApp);
@@ -47,6 +91,6 @@ describe('Snippets', () => {
       fireEvent.click(trashIcon);
     }
 
-    expect(deleteSnippetMock).toHaveBeenCalledWith(null, { id: snippet.id });
+    expect(deleteSnippetMock).toHaveBeenCalledWith(null, { id: firstSnippet.id });
   });
 });
