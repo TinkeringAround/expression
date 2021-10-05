@@ -188,7 +188,7 @@ export const SGridTabTemplate = styled.section`
   }
 
   > p {
-    width: 80%;
+    width: 85%;
     margin: 0 0 2rem;
 
     font-size: 0.9rem;
