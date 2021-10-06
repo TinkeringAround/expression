@@ -15,6 +15,7 @@ const ACTION = Object.freeze({
   loadPhraser: '[PHRASER] Load',
   phraserLoaded: '[PHRASER] Loaded',
   updatePhraser: '[PHRASER] Update',
+  setKaraokeMode: '[PHRASER] Set Karaoke Mode',
   addPhraserCollection: '[PHRASER] Add Music Collection',
   reorderPhraserCollection: '[PHRASER] Reorder Collection',
   deletePhraserCollection: '[PHRASER] Delete Music Collection',
