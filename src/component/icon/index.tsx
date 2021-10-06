@@ -41,6 +41,7 @@ export type IconType =
   | 'format'
   | 'collapse'
   | 'expand'
+  | 'karaoke'
   | NotificationType;
 
 interface Props {
