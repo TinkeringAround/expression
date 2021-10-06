@@ -4,7 +4,7 @@ import { anyFunction } from '../../lib/util';
 
 import Button from '../button';
 import Icon from '../icon';
-import Overlay from '../overlay';
+import Dialog from '../dialog';
 
 import { SConfirmation } from './styled';
 
@@ -16,13 +16,13 @@ interface Props {
 }
 
 const Confirmation: FC<Props> = ({ visible, content, onConfirmation, onCancel }) => (
-  <Overlay visible={visible}>
+  <Dialog visible={visible}>
     <SConfirmation>
       <Icon iconType="cross" title="Cancel" onClick={onCancel} />
       <p>{content}</p>
       <Button onClick={onConfirmation}>Confirm</Button>
     </SConfirmation>
-  </Overlay>
+  </Dialog>
 );
 
 export default Confirmation;

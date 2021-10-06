@@ -6,7 +6,7 @@ import { delay } from '../../lib/util';
 
 import If from '../if';
 
-const SOverlay = styled.div<HasVisible & { leaving: boolean }>`
+const SDialog = styled.div<HasVisible & { leaving: boolean }>`
   --height: 450px;
 
   position: fixed;
@@ -71,7 +71,7 @@ export interface HasVisible {
   visible: boolean;
 }
 
-const Overlay: FC<HasVisible> = ({ visible, children }) => {
+const Dialog: FC<HasVisible> = ({ visible, children }) => {
   const [show, setShow] = useState<boolean>(visible);
 
   useEffect(() => {
@@ -84,13 +84,13 @@ const Overlay: FC<HasVisible> = ({ visible, children }) => {
   }, [visible, setShow]);
 
   return (
-    <SOverlay visible={show} leaving={!visible && show}>
+    <SDialog visible={show} leaving={!visible && show}>
       <If condition={show}>
         <div className="content">{children}</div>
         <div className="background" />
       </If>
-    </SOverlay>
+    </SDialog>
   );
 };
 
-export default Overlay;
+export default Dialog;

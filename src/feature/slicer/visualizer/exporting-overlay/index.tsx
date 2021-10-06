@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import Overlay, { HasVisible } from '../../../../component/overlay';
+import Dialog, { HasVisible } from '../../../../component/dialog';
 import Spinner from '../../../../component/spinner';
 
 const SExportingOverlayContent = styled.div`
@@ -21,12 +21,12 @@ const SExportingOverlayContent = styled.div`
 `;
 
 const ExportingOverlay: FC<HasVisible> = ({ visible }) => (
-  <Overlay visible={visible}>
+  <Dialog visible={visible}>
     <SExportingOverlayContent>
       <Spinner />
       <span>Exporting...</span>
     </SExportingOverlayContent>
-  </Overlay>
+  </Dialog>
 );
 
 export default ExportingOverlay;
