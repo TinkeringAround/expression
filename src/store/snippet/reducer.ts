@@ -43,7 +43,7 @@ export const deleteSnippetRecipe = (_: null, { id }: DeleteSnippetPayload) => {
   const snippetIndex = snippets.findIndex(snippet => snippet.id === id);
   snippets.splice(snippetIndex, 1);
 
-  update({ snippets });
+  update({ snippets: Array.from(snippets) });
 };
 
 export const reorderSnippetRecipe = (_: null, { source, destination }: ReorderSnippetPayload) => {
