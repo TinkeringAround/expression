@@ -18,7 +18,8 @@ import {
   updatePhraserCollectionTitleRecipe,
   updatePhraserSongPartNameRecipe,
   updatePhraserSongPartRhymeRecipe,
-  updatePhraserSongTitleRecipe
+  updatePhraserSongTitleRecipe,
+  setKaraokeModeRecipe
 } from './reducer';
 import { toSnapshot } from '../../lib/util';
 
@@ -63,6 +64,28 @@ describe('phraser reducer', () => {
       expect(notificationsUpdateMock).toHaveBeenCalledWith({
         notifications: [{ type: 'error', content: 'error' }]
       });
+    });
+  });
+
+  describe('setKaraokeModeRecipe', () => {
+    beforeEach(() => {
+      usePhraser.setState(initialPhraserState);
+    });
+
+    test('should leave/not enter karaoke mode when selected song is null', () => {
+      usePhraser.setState({ karaoke: true });
+
+      setKaraokeModeRecipe(null, { mode: true });
+
+      expect(usePhraser.getState().karaoke).toBeFalsy();
+    });
+
+    test('should leave/not enter karaoke mode when selected song is null', () => {
+      usePhraser.setState({ karaoke: false, selectedSong: getSongMock() });
+
+      setKaraokeModeRecipe(null, { mode: true });
+
+      expect(usePhraser.getState().karaoke).toBeTruthy();
     });
   });
 

@@ -14,6 +14,7 @@ import Header from './component/header';
 import Content from './component/content';
 import Slicer from './feature/slicer';
 import Phraser from './feature/phraser';
+import Modals from './component/modals';
 
 // Store
 import './store';
@@ -39,6 +40,7 @@ ReactDOM.render(
           <Redirect to={Features.DASHBOARD} />
         </Switch>
       </Content>
+      <Modals />
     </ThemeProvider>
   </BrowserRouter>,
   document.getElementById('root')

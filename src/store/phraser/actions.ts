@@ -21,6 +21,8 @@ export const updatePhraser = () => {
   dispatch(ACTION.updatePhraser, { phraser: { collections } });
 };
 
+export const setKaraokeMode = (mode: boolean) => trigger(ACTION.setKaraokeMode, { mode });
+
 export const addPhraserCollection = () => trigger(ACTION.addPhraserCollection);
 
 export const reorderPhraserCollection = (

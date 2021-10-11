@@ -222,6 +222,7 @@ export const getPhraserMock = (phraserState?: Partial<PhraserState>): PhraserSta
   return {
     collections: [getCollectionMock()],
     selectedSong: null,
+    karaoke: false,
     update,
     ...phraserState
   } as PhraserState;

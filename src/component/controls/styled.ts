@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { fadeIn } from '../../../animations';
+import { fadeIn } from '../../animations';
 
-export const SSlicerControls = styled.div`
+export const SControls = styled.div`
   position: relative;
 
   display: flex;

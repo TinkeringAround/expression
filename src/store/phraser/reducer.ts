@@ -16,7 +16,8 @@ import {
   Rhyme,
   UpdatePhraserSongPartRhymePayload,
   DeletePhraserSongPartRhymePayload,
-  PhraserLoadedPayload
+  PhraserLoadedPayload,
+  SetKaraokeModePayload
 } from './types';
 import { usePhraser } from './index';
 import { generateId } from '../../lib/util';
@@ -41,6 +42,12 @@ export const phraserLoadedRecipe = (_: null, { phraser, error }: PhraserLoadedPa
   if (phraser.collections) {
     update({ collections: phraser.collections });
   }
+};
+
+export const setKaraokeModeRecipe = (_: null, { mode }: SetKaraokeModePayload) => {
+  const { update, selectedSong } = usePhraser.getState();
+
+  update({ karaoke: !!selectedSong && mode });
 };
 
 export const addPhraserCollectionRecipe = (_: null) => {
@@ -336,6 +343,7 @@ export const movePhraserSongPartRhymeRecipe = (
 // ==============================================================
 // Phraser Management
 on(ACTION.phraserLoaded, phraserLoadedRecipe);
+on(ACTION.setKaraokeMode, setKaraokeModeRecipe);
 
 // Collection Management
 on(ACTION.addPhraserCollection, addPhraserCollectionRecipe);

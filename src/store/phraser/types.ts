@@ -81,6 +81,10 @@ export interface PhraserLoadedPayload extends HasError {
   };
 }
 
+export interface SetKaraokeModePayload {
+  mode: boolean;
+}
+
 export interface ReorderPhraserCollectionRecipe extends SourceDestination {}
 
 export interface DeletePhraserCollectionPayload extends HasCollectionId {}

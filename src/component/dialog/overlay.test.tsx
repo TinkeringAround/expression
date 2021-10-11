@@ -1,13 +1,15 @@
 import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+
+import Dialog from './index';
+
 import { AppMock } from '../../mock/components';
-import Overlay from './index';
 
 describe('Overlay', () => {
   const OverlayInApp = (visible: boolean = true) => (
     <AppMock>
-      <Overlay visible={visible}>Test</Overlay>
+      <Dialog visible={visible}>Test</Dialog>
     </AppMock>
   );
 

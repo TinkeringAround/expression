@@ -8,7 +8,7 @@ import { updateSlicerIsPlaying } from '../../../store/slicer/actions';
 
 import Control from '../../control';
 
-import { SSlicerControls } from './styled';
+import { SControls } from '../styled';
 
 const SlicerControls: FC = () => {
   const { file, selection, isPlaying, isExporting } = useSlicer();
@@ -101,14 +101,14 @@ const SlicerControls: FC = () => {
   }, [isPlaying]);
 
   return (
-    <SSlicerControls>
+    <SControls>
       <Control keyboard="ArrowLeft" withCtrl type="first" onClick={onFirst} disabled={disabled} />
       <Control keyboard="ArrowLeft" type="backward" onClick={onBackward} disabled={disabled} />
       <Control keyboard="Space" type={playPauseType} disabled={disabled} onClick={onPlayPause} />
       <Control keyboard="Space" withCtrl type="stop" disabled={disabled} onClick={onStop} />
       <Control keyboard="ArrowRight" type="foreward" onClick={onForward} disabled={disabled} />
       <Control keyboard="ArrowRight" withCtrl type="last" disabled={disabled} onClick={onLast} />
-    </SSlicerControls>
+    </SControls>
   );
 };
 

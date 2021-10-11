@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { anyFunction } from '../lib/util';
 
-export type AvailableKeys = 'Space' | 'Enter' | 'S' | 'E' | 'ArrowLeft' | 'ArrowRight';
+export type AvailableKeys = 'Space' | 'Enter' | 'S' | 'E' | 'F' | 'ArrowLeft' | 'ArrowRight';
 
 export function useKeyboard(
   shortcutKey: AvailableKeys,
