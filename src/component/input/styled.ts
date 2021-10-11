@@ -49,5 +49,11 @@ export const SInput = styled.div`
     &:focus {
       border: solid 2px ${({ theme: { yellow } }) => yellow};
     }
+    
+    &:disabled {
+      border: solid 2px transparent;
+      color: ${({ theme: { light } }) => light};
+      background: ${({ theme: { hexToRgbA, light } }) => hexToRgbA(light, '0.25')};
+    }
   }
 `;

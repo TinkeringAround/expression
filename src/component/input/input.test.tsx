@@ -4,9 +4,11 @@ import '@testing-library/jest-dom/extend-expect';
 
 import Input from './index';
 
+import { AppMock } from '../../mock/components';
+
 describe('Input', () => {
   test('it should render the input and apply props', () => {
-    render(<Input value="Test" readOnly />);
+    render(<AppMock><Input value='Test' readOnly /></AppMock>);
 
     const input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();

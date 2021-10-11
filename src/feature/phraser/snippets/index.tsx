@@ -50,10 +50,11 @@ const Snippets: FC = () => {
       {({ placeholder, innerRef, droppableProps }) => (
         <SSnippets ref={innerRef} {...droppableProps}>
           <h1>Snippets</h1>
-          <div className="controls">
+          <div className='controls'>
             <Input
               value={search}
-              placeholder="Enter Search..."
+              placeholder='Enter Search...'
+              disabled={snippets.length === 0}
               onChange={onSearch}
               reset={onReset}
             />
@@ -66,7 +67,7 @@ const Snippets: FC = () => {
               Create some when editing songs.
             </If>
           </p>
-          <div className="content">
+          <div className='content'>
             <For
               values={filteredSnippets}
               projector={(snippet, index) => (
@@ -74,8 +75,8 @@ const Snippets: FC = () => {
                   {({ innerRef, draggableProps, dragHandleProps }) => (
                     <SSnippet ref={innerRef} {...draggableProps} {...dragHandleProps}>
                       <Icon
-                        title="Delete Snippet"
-                        iconType="trash"
+                        title='Delete Snippet'
+                        iconType='trash'
                         onClick={() => onDelete(snippet.id)}
                       />
                       <p>
