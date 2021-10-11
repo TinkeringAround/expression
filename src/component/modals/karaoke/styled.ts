@@ -49,14 +49,19 @@ export const SKaraoke = styled.div`
   .icon-cross {
     position: fixed;
     top: 2rem;
-    right: 2rem;
+    right: 2.5rem;
 
-    font-size: 2.5rem;
+    padding: 1rem;
 
-    transition: color 0.15s ease-in-out;
+    font-size: 1.5rem;
+    background: ${({ theme: { light } }) => light};
+    border-radius: 3px;
+
+    transition: background 0.15s ease-in-out;
+    box-sizing: border-box;
 
     &:hover {
-      color: ${({ theme: { orange } }) => orange};
+      background: ${({ theme: { white } }) => white};
     }
   }
 
