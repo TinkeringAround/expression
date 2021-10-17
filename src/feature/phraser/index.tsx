@@ -21,6 +21,7 @@ import Templates, { TEMPLATES } from './templates';
 import SongParts from './song-parts';
 import Changes from './changes';
 import Snippets, { SNIPPETS } from './snippets';
+import Library from './library';
 
 const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
   const { selectedSong } = usePhraser();
@@ -87,6 +88,7 @@ const Phraser: FC<HasTestDrop> = ({ testDrop }) => {
           tabs={[
             { name: 'Templates', component: <Templates /> },
             { name: 'Snippets', component: <Snippets /> },
+            { name: 'Library', component: <Library /> },
             { name: 'Changes', component: <Changes /> },
             { name: 'Notifications', component: <Notifications />, count: notifications.length }
           ]}
