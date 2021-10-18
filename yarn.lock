@@ -5045,6 +5045,11 @@ dictionary-en@3.1.0:
   resolved "https://registry.yarnpkg.com/dictionary-en/-/dictionary-en-3.1.0.tgz#2883598f02c9ccfb8acf7aa513797b50eeec77d2"
   integrity sha512-dNjhoQagh7GX3YUBdbzehy/+wR2GLhkdpkxF8wMEGIXxMrH6aqzMn/8CHP5xnF85qbv288gCt4XtPQEVCOmTeA==
 
+dictionary-fr@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/dictionary-fr/-/dictionary-fr-2.6.0.tgz#be3a232daf88837ac50d6a0808420b9515b2c903"
+  integrity sha512-JgD3jqbP/kqypvdHUPd7hyIO93ymPH07iJwLyzPM8zpMuS6B5CbLtL3D0eXGVb17pRVq+j3za9+/znGXkkXG2g==
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.npmjs.org/diff-sequences/-/diff-sequences-26.6.2.tgz"
