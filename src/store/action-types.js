@@ -44,7 +44,10 @@ const ACTION = Object.freeze({
   updateSnippets: '[SNIPPETS] Update Snippets',
   addSnippet: '[SNIPPET] Add Snippet',
   deleteSnippet: '[SNIPPET] Delete Snippet',
-  reorderSnippet: '[SNIPPET] Reorder Snippet'
+  reorderSnippet: '[SNIPPET] Reorder Snippet',
+
+  getSuggestion: '[SUGGESTIONS] Get Suggestion',
+  addSuggestion: '[SUGGESTIONS] Add Suggestion',
 });
 
 module.exports = {

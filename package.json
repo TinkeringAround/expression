@@ -15,8 +15,12 @@
   "homepage": "./",
   "private": true,
   "dependencies": {
+    "dictionary-de": "2.0.4",
+    "dictionary-en": "3.1.0",
+    "dictionary-fr": "^2.6.0",
     "electron-is-dev": "2.0.0",
     "node-wav": "0.0.2",
+    "nspell": "2.1.5",
     "re-resizable": "6.9.1",
     "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",

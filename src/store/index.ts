@@ -13,3 +13,7 @@ import './notification/reducer';
 // Snippet
 import './snippet/index';
 import './snippet/reducer';
+
+// Library
+import './library/index';
+import './library/reducer';
