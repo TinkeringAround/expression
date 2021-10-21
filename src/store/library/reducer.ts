@@ -1,7 +1,5 @@
 import { ACTION } from '../action-types';
-import {
-  AddSuggestionPayload
-} from './types';
+import { AddSuggestionPayload } from './types';
 import { useLibrary } from './index';
 
 const { on } = window.electron;
