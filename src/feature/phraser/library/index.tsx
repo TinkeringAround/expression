@@ -1,22 +1,22 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
+import { useLibrary } from '../../../store/library';
 import { useDebounce } from '../../../hook/useDebounce';
 import { getSuggestion } from '../../../store/library/actions';
+import { LANGUAGES, WordSuggestions } from '../../../store/library/types';
 
 import For from '../../../component/for';
+import If from '../../../component/if';
 import Input from '../../../component/input';
 
 import { SLibrary, SLibrarySuggestion } from './styled';
-import { useLibrary } from '../../../store/library';
-
-export const SNIPPETS = 'snippets';
 
 const Library: FC = () => {
-  const {library} = useLibrary();
+  const { library } = useLibrary();
   const [search, setSearch] = useState<string>('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<WordSuggestions>({});
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search.toLowerCase(), 200);
 
   const onSearch = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,38 +31,42 @@ const Library: FC = () => {
 
   useEffect(() => {
     getSuggestion(debouncedSearch);
-  }, [debouncedSearch, setSuggestions]);
+  }, [debouncedSearch]);
 
   useEffect(() => {
+    if (debouncedSearch === '') {
+      setSuggestions({});
+      return;
+    }
+
     const suggestionsForSearch = library[debouncedSearch];
     if (suggestionsForSearch) {
-      setSuggestions(suggestionsForSearch)
+      setSuggestions(suggestionsForSearch);
     }
-  }, [library, debouncedSearch, setSuggestions])
+  }, [library, debouncedSearch, setSuggestions]);
 
   return (
     <SLibrary>
       <h1>Library</h1>
-      <div className='controls'>
-        <Input
-          value={search}
-          placeholder='Enter Search...'
-          onChange={onSearch}
-          reset={onReset}
-        />
+      <div className="controls">
+        <Input value={search} placeholder="Enter Search..." onChange={onSearch} reset={onReset} />
       </div>
-      <p>
-        Search for words to use in your songs.
-      </p>
-      <div className='content'>
+      <p>Search words to use in your songs.</p>
+      <div className="content">
         <For
-          values={suggestions}
-          projector={(snippet, index) => (
-            <SLibrarySuggestion key={`library-entry-${index}`}>
-              <p>
-                Test
-              </p>
-            </SLibrarySuggestion>
+          values={Object.keys(suggestions)}
+          projector={lang => (
+            <If key={`lib-${lang}`} condition={suggestions[lang].length > 0}>
+              <SLibrarySuggestion>
+                <h2>{LANGUAGES[lang]}</h2>
+                <For
+                  values={suggestions[lang]}
+                  projector={(suggestion, index) => (
+                    <span key={`lib-${lang}-${index}`}>{suggestion}</span>
+                  )}
+                />
+              </SLibrarySuggestion>
+            </If>
           )}
         />
       </div>

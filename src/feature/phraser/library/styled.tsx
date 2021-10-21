@@ -1,39 +1,43 @@
 import styled from 'styled-components';
-import { SGridTabItemTemplate, SGridTabTemplate } from '../../../component/grid/grid-tabs/styled';
+import { SGridTabTemplate } from '../../../component/grid/grid-tabs/styled';
 
 export const SLibrary = styled(SGridTabTemplate)``;
 
-export const SLibrarySuggestion = styled(SGridTabItemTemplate)`
+export const SLibrarySuggestion = styled.div`
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  width: 80%;
+  width: 70%;
   padding: 1.25rem 1.25rem;
 
-  &:hover,
-  :active {
-    .icon {
-      opacity: 1;
+  background: ${({ theme: { light } }) => light};
+  border-radius: 3px;
 
-      color: ${({ theme: { black } }) => black};
-    }
+  h2 {
+    margin: 0;
+
+    font-size: 1rem;
   }
-  
-  p {
+
+  span {
+    display: block;
+
     width: 100%;
-    margin: 0.25rem 0 0;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.25rem;
 
-    font-size: 0.8rem;
-    text-align: start;
-    color: ${({ theme: { second } }) => second};
+    font-size: 0.9rem;
+    border-radius: 3px;
 
-    span {
-      display: block;
+    box-sizing: border-box;
+    transition: color 0.15s ease-in-out, background 0.15s ease-in-out;
 
-      &:not(:first-of-type) {
-        margin-top: 0.5rem;
-      }
+    &:first-of-type {
+      margin-top: 0.5rem;
+    }
+
+    &:hover {
+      background: ${({ theme: { yellow } }) => yellow};
+      color: ${({ theme: { white } }) => white};
     }
   }
 
