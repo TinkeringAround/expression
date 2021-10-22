@@ -6,7 +6,9 @@ import { noScrollbar } from '../../../scrollbar';
 export const SGridTabs = styled.aside<{ expanded: boolean }>`
   position: relative;
 
-  width: ${({ expanded }) => (expanded ? '350px' : '2rem')};
+  width: ${({ expanded }) => (expanded ? '25%' : '2rem')};
+  max-width: 425px;
+  min-width: 2rem;
   height: 100%;
 
   background: ${({ theme: { light } }) => light};
