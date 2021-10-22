@@ -1,4 +1,3 @@
-import { flatten } from '../util';
 import { Cores } from './cores';
 import { Syllables } from './syllables';
 import { HighlightedLineBlock, HighlightingType } from './types';
@@ -38,35 +37,33 @@ export namespace Highlighting {
     return lines.map((line, lineIndex) => {
       const words = line.split(' ').reverse();
 
-      return flatten(
-        words
-          .map((word, wordIndex) => {
-            const cores = Cores.fromWord(word);
-            const syllables = Syllables.fromWord(word).reverse();
-            const chars = word.split('');
+      return words
+        .map((word, wordIndex) => {
+          const cores = Cores.fromWord(word);
+          const syllables = Syllables.fromWord(word).reverse();
+          const chars = word.split('');
 
-            if (cores.length === 0) {
-              return [...chars.map(c => ({ text: c })), SPACE];
-            }
+          if (cores.length === 0) {
+            return [...chars.map(c => ({ text: c })), SPACE];
+          }
 
-            const tmp = flatten(
-              syllables
-                .map(syl => {
-                  const sylChars = syl.split('');
-                  if (matches[lineIndex] > 0) {
-                    matches[lineIndex] -= 1;
-                    return [...sylChars.map(c => ({ text: c, ...WITH_COLOR }))];
-                  }
+          const tmp = syllables
+            .map(syl => {
+              const sylChars = syl.split('');
+              if (matches[lineIndex] > 0) {
+                matches[lineIndex] -= 1;
+                return [...sylChars.map(c => ({ text: c, ...WITH_COLOR }))];
+              }
 
-                  return [...sylChars.map(c => ({ text: c }))];
-                })
-                .reverse()
-            );
+              return [...sylChars.map(c => ({ text: c }))];
+            })
+            .reverse()
+            .flat(1);
 
-            return wordIndex === 0 ? [...tmp] : [...tmp, SPACE];
-          })
-          .reverse()
-      );
+          return wordIndex === 0 ? [...tmp] : [...tmp, SPACE];
+        })
+        .reverse()
+        .flat(1);
     });
   };
 

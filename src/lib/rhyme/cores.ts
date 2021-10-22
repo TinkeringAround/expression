@@ -1,5 +1,4 @@
 import { Words } from './words';
-import { flatten } from '../util';
 
 export namespace Cores {
   const MATCHES: { [key: string]: string[] } = {
@@ -48,14 +47,14 @@ export namespace Cores {
 
     // compare last line to no other
     for (let lineIndex = 0; lineIndex < lines.length - 1; lineIndex += 1) {
-      const reversedCores = flatten(fromLine(lines[lineIndex])).reverse();
+      const reversedCores = fromLine(lines[lineIndex]).flat(1).reverse();
 
       for (
         let compareLineIndex = lineIndex + 1;
         compareLineIndex < lines.length;
         compareLineIndex += 1
       ) {
-        const reversedCompareCores = flatten(fromLine(lines[compareLineIndex])).reverse();
+        const reversedCompareCores = fromLine(lines[compareLineIndex]).flat(1).reverse();
 
         reversedCores.some((core, index) => {
           const coreCompare = reversedCompareCores[index];

@@ -8,8 +8,7 @@ import {
   toValidFloat,
   floatsDiffer,
   generateId,
-  toSnapshot,
-  flatten
+  toSnapshot
 } from './index';
 
 describe('Utils', () => {
@@ -117,15 +116,5 @@ describe('Utils', () => {
 
     expect(snapShot).toBeTruthy();
     expect(snapShot.title).toBe('Test');
-  });
-
-  test('flatten', () => {
-    const array = [
-      ['eins', 'zwei'],
-      ['drei', 'vier']
-    ];
-
-    const flattenArray = flatten(array);
-    expect(flattenArray).toEqual(['eins', 'zwei', 'drei', 'vier']);
   });
 });

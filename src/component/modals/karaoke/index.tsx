@@ -2,7 +2,6 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import { usePhraser } from '../../../store/phraser';
 import { setKaraokeMode } from '../../../store/phraser/actions';
-import { flatten } from '../../../lib/util';
 
 import Icon from '../../icon';
 
@@ -21,7 +20,7 @@ const Karaoke: FC = () => {
   useEffect(() => {
     if (selectedSong) {
       const combinedLines: string[] = selectedSong.parts.reduce((lines, { rhymes }) => {
-        lines.push(...flatten<string>(rhymes.map(({ lines }) => lines)));
+        lines.push(...rhymes.map(({ lines }) => lines).flat(1));
         return lines;
       }, [] as string[]);
       setLines(combinedLines);
